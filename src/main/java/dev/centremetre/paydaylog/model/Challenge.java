@@ -22,4 +22,24 @@ public class Challenge
      */
     @Column(unique = true)
     private String challenge;
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public String getChallenge()
+    {
+        return challenge;
+    }
+
+    public void setChallenge(String challenge)
+    {
+        this.challenge = challenge;
+    }
 }

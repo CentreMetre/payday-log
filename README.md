@@ -13,6 +13,8 @@ Current features will include heist logging and daily challenge logging.
 - [ ] Models
 - [ ] Repositories
 - [ ] Service
+- [ ] Web
+- [ ] Exception Handling
 
 ## Frontend
 - [ ] Webpages

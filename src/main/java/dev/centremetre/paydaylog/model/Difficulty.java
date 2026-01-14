@@ -24,4 +24,25 @@ public class Difficulty
      */
     @Column(unique = true)
     private String difficulty;
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public String getDifficulty()
+    {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty)
+    {
+        this.difficulty = difficulty;
+    }
 }
+

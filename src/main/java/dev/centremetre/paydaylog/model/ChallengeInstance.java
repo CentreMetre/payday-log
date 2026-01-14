@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "challenges_completed")
-public class ChallengeCompleted
+public class ChallengeInstance
 {
     @Id
     private int id;
@@ -40,4 +40,54 @@ public class ChallengeCompleted
      * Optional notes.
      */
     private String notes;
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public Challenge getChallenge()
+    {
+        return challenge;
+    }
+
+    public void setChallenge(Challenge challenge)
+    {
+        this.challenge = challenge;
+    }
+
+    public boolean isCompleted()
+    {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed)
+    {
+        isCompleted = completed;
+    }
+
+    public LocalDateTime getCompletedAt()
+    {
+        return completedAt;
+    }
+
+    public void setCompletedAt(LocalDateTime completedAt)
+    {
+        this.completedAt = completedAt;
+    }
+
+    public String getNotes()
+    {
+        return notes;
+    }
+
+    public void setNotes(String notes)
+    {
+        this.notes = notes;
+    }
 }

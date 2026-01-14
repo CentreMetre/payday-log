@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "heists_completed")
-public class HeistCompleted
+public class CompletedHeist
 {
     @Id
     private int id;
@@ -75,4 +75,104 @@ public class HeistCompleted
      */
     @Column(name = "notes", nullable = true)
     private String notes;
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public int getXpAmount()
+    {
+        return xpAmount;
+    }
+
+    public void setXpAmount(int xpAmount)
+    {
+        this.xpAmount = xpAmount;
+    }
+
+    public boolean isAccurateXpInput()
+    {
+        return isAccurateXpInput;
+    }
+
+    public void setAccurateXpInput(boolean accurateXpInput)
+    {
+        isAccurateXpInput = accurateXpInput;
+    }
+
+    public Heist getHeist()
+    {
+        return heist;
+    }
+
+    public void setHeist(Heist heist)
+    {
+        this.heist = heist;
+    }
+
+    public LocalDateTime getCompletedAt()
+    {
+        return completedAt;
+    }
+
+    public void setCompletedAt(LocalDateTime completedAt)
+    {
+        this.completedAt = completedAt;
+    }
+
+    public boolean isHeistSuccess()
+    {
+        return heistSuccess;
+    }
+
+    public void setHeistSuccess(boolean heistSuccess)
+    {
+        this.heistSuccess = heistSuccess;
+    }
+
+    public int getHeistFinishState()
+    {
+        return heistFinishState;
+    }
+
+    public void setHeistFinishState(int heistFinishState)
+    {
+        this.heistFinishState = heistFinishState;
+    }
+
+    public boolean isMajorityStatePlayedStealth()
+    {
+        return isMajorityStatePlayedStealth;
+    }
+
+    public void setMajorityStatePlayedStealth(boolean majorityStatePlayedStealth)
+    {
+        isMajorityStatePlayedStealth = majorityStatePlayedStealth;
+    }
+
+    public Difficulty getDifficulty()
+    {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty)
+    {
+        this.difficulty = difficulty;
+    }
+
+    public String getNotes()
+    {
+        return notes;
+    }
+
+    public void setNotes(String notes)
+    {
+        this.notes = notes;
+    }
 }
