@@ -1,5 +1,6 @@
 package dev.centremetre.paydaylog.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -19,5 +20,6 @@ public class Challenge
     /**
      * The challenge text as shown in game.
      */
+    @Column(unique = true)
     private String challenge;
 }
