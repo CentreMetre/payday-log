@@ -21,32 +21,32 @@ public class HeistCompleted
      * The amount of XP gained on finishing the heist.
      */
     @Column(name = "xp_amount")
-    int xpAmount;
+    private int xpAmount;
 
     /**
      * Whether the XP amount entered was exact/accurate, in case of the number not being seen.
      */
     @Column(name = "accurate_xp_input")
-    boolean isAccurateXpInput;
+    private boolean isAccurateXpInput;
 
     /**
      * The heist that was played.
      */
     @ManyToOne(optional = false)
     @JoinColumn(name = "heist", nullable = false)
-    Heist heist;
+    private Heist heist;
 
     /**
      * The date and time the heist was finished at.
      */
     @Column(name = "completed_at")
-    LocalDateTime completedAt;
+    private LocalDateTime completedAt;
 
     /**
      * If the heist succeeded or failed.
      */
     @Column(name = "heist_success")
-    boolean heistSuccess;
+    private boolean heistSuccess;
 
     /**
      * What state the heist/alarm was in at escape.
@@ -55,24 +55,24 @@ public class HeistCompleted
      * 2 = Loud
      */
     @Column(name = "heist_finish_state")
-    int heistFinishState;
+    private int heistFinishState;
 
     /**
      * Whether a majority of the heist was played in stealth. Upto user discretion.
      */
     @Column(name = "majority_state_played_stealth")
-    boolean isMajorityStatePlayedStealth;
+    private boolean isMajorityStatePlayedStealth;
 
     /**
      * The difficulty the heist was played in.
      */
     @ManyToOne(optional = false)
     @JoinColumn(name = "difficulty", nullable = false)
-    Difficulty difficulty;
+    private Difficulty difficulty;
 
     /**
      * Optional notes.
      */
     @Column(name = "notes", nullable = true)
-    String notes;
+    private String notes;
 }

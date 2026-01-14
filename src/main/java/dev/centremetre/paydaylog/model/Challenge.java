@@ -14,10 +14,10 @@ import jakarta.persistence.Table;
 public class Challenge
 {
     @Id
-    int id;
+    private int id;
 
     /**
      * The challenge text as shown in game.
      */
-    String challenge;
+    private String challenge;
 }

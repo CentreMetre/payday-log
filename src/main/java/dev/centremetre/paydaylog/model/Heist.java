@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 public class Heist
 {
     @Id
-    int id;
+    private int id;
 
-    String name;
+    private String name;
 }

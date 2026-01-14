@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 public class Difficulty
 {
     @Id
-    int id;
+    private int id;
 
     /**
      * A difficulty, kept as a string.
@@ -21,5 +21,5 @@ public class Difficulty
      * Hard
      * Very Hard
      */
-    String difficulty;
+    private String difficulty;
 }
