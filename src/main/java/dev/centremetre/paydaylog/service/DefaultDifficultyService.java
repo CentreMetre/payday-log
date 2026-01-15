@@ -2,7 +2,9 @@ package dev.centremetre.paydaylog.service;
 
 import dev.centremetre.paydaylog.model.Difficulty;
 import dev.centremetre.paydaylog.repository.DifficultyRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DefaultDifficultyService implements DifficultyService
 {
     private final DifficultyRepository difficultyRepository;

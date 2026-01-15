@@ -2,9 +2,11 @@ package dev.centremetre.paydaylog.service;
 
 import dev.centremetre.paydaylog.model.Challenge;
 import dev.centremetre.paydaylog.repository.ChallengeRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class DefaultChallengeService implements ChallengeService
 {
     private final ChallengeRepository challengeRepository;

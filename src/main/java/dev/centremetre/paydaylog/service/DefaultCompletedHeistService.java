@@ -5,9 +5,11 @@ import dev.centremetre.paydaylog.model.CompletedHeist;
 import dev.centremetre.paydaylog.model.Difficulty;
 import dev.centremetre.paydaylog.model.Heist;
 import dev.centremetre.paydaylog.repository.CompletedHeistRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class DefaultCompletedHeistService implements CompletedHeistService
 {
     private final CompletedHeistRepository completedHeistRepository;
