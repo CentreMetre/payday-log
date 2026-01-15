@@ -13,6 +13,7 @@ Current features will include heist logging and daily challenge logging.
 - [ ] Models
 - [ ] Repositories
 - [ ] Service
+  - [ ] Implement caching for heists (and maybe challenges)
 - [ ] Web Controllers
 - [ ] Exception Handling
 ### Notes
