@@ -2,21 +2,59 @@ package dev.centremetre.paydaylog.repository;
 
 import dev.centremetre.paydaylog.model.Challenge;
 import dev.centremetre.paydaylog.model.ChallengeInstance;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
 public interface ChallengeInstanceRepository extends JpaRepository<ChallengeInstance, Integer>
 {
-    List<ChallengeInstance> getChallengeCompletedByChallenge(Challenge challenge);
+    /**
+     * Find all {@link ChallengeInstance}s that have a specific challenge as its challenge.
+     * @param challenge The challenge to search for.
+     * @return A list of all challenge instances with the provided challenge.
+     */
+    List<ChallengeInstance> findByChallenge(Challenge challenge);
 
-    List<ChallengeInstance> getChallengeCompletedByCompleted(boolean completed);
+    /**
+     * Find all {@link ChallengeInstance}s that have their {@code isCompleted} set to the provided value.
+     * @param completed Whether or not the challenge was completed.
+     * @return A list of challenge instances with their {@code isCompleted} set to the provided value.
+     */
+    List<ChallengeInstance> findByCompleted(boolean completed);
 
-    List<ChallengeInstance> getChallengeCompletedByCompletedAt(LocalDateTime completedAt);
+    /**
+     * Find all {@link ChallengeInstance}s completed at a specific time, down to the millisecond.
+     * @param completedAt The {@link LocalDateTime} to look for.
+     * @return A list of all challenge instances with the given date time.
+     */
+    List<ChallengeInstance> findByCompletedAt(LocalDateTime completedAt);
 
-    List<ChallengeInstance> getChallengeCompletedByCompletedAtBefore(LocalDateTime completedAtBefore);
-    List<ChallengeInstance> getChallengeCompletedByCompletedAtAfter(LocalDateTime completedAtAfter);
+    /**
+     *
+     * @param startDateTime The {@link LocalDateTime} of time to search from.
+     * @param endDateTime The {@link LocalDateTime} of time to search to.
+     * @return A list of all challenge instances between the given time.
+     */
+    List<ChallengeInstance> findByCompletedAtBetween(LocalDateTime startDateTime, LocalDateTime endDateTime);
+    
+    List<ChallengeInstance> findByCompletedAtBefore(LocalDateTime completedAtBefore);
+    List<ChallengeInstance> findByCompletedAtAfter(LocalDateTime completedAtAfter);
+
+    /**
+     * Get {@link ChallengeInstance}s that where completed between two times, regardless of date.
+     * @param start The start of the period to retrieve.
+     * @param end The end of the period to retrieve.
+     * @return A list of challenge instances that match the parameters.
+     */
+    @Query(value = "SELECT * FROM Challenge WHERE CAST(completed_at as TIME(3)) > :start and CAST(completed_at as TIME(3)) < :end",
+            nativeQuery = true) // TODO: Look into making more performant.
+    List<ChallengeInstance> getByCompletedAtTimeBetween(@Param("start") LocalTime start, @Param("end") LocalTime end);
 }
