@@ -1,5 +1,6 @@
 package dev.centremetre.paydaylog.service;
 
+import dev.centremetre.paydaylog.dto.CompletedHeistCreateDto;
 import dev.centremetre.paydaylog.model.CompletedHeist;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface CompletedHeistService
      * @param completedHeist The {@link CompletedHeist} to enter into the
      * @return The completed heist that was entered into the DB in a {@link CompletedHeist} instance.
      */
-    CompletedHeist createCompletedHeist(CompletedHeist completedHeist);
+    CompletedHeist createCompletedHeist(CompletedHeistCreateDto completedHeist);
 
     List<CompletedHeist> getAll();
 

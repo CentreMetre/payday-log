@@ -31,4 +31,11 @@ public interface HeistService
      * @return The created heist row.
      */
     Heist createHeist(String name);
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    Heist getHeistFromId(int id);
 }
