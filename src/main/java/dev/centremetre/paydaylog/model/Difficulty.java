@@ -1,9 +1,7 @@
 package dev.centremetre.paydaylog.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a difficulty of a game.
@@ -13,6 +11,7 @@ import jakarta.persistence.Table;
 public class Difficulty
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     /**
@@ -23,6 +22,7 @@ public class Difficulty
      * Very Hard
      */
     @Column(unique = true)
+    @NotNull
     private String difficulty;
 
     public int getId()

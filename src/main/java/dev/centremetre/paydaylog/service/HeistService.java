@@ -24,4 +24,11 @@ public interface HeistService
      * @return A list of all the heist names.
      */
     List<String> getAllHeistNames();
+
+    /**
+     * Create a new heist if a new one was released (HA, maybe in a year).
+     * @param name The name of the heist.
+     * @return The created heist row.
+     */
+    Heist createHeist(String name);
 }

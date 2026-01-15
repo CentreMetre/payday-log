@@ -1,6 +1,7 @@
 package dev.centremetre.paydaylog.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -15,18 +16,21 @@ import java.time.LocalDateTime;
 public class CompletedHeist
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     /**
      * The amount of XP gained on finishing the heist.
      */
-    @Column(name = "xp_amount")
+    @Column(name = "xp_amount", nullable = false)
+    @NotNull
     private int xpAmount;
 
     /**
      * Whether the XP amount entered was exact/accurate, in case of the number not being seen.
      */
-    @Column(name = "accurate_xp_input")
+    @Column(name = "accurate_xp_input", nullable = false)
+    @NotNull
     private boolean isAccurateXpInput;
 
     /**
@@ -34,18 +38,21 @@ public class CompletedHeist
      */
     @ManyToOne(optional = false)
     @JoinColumn(name = "heist", nullable = false)
+    @NotNull
     private Heist heist;
 
     /**
      * The date and time the heist was finished at.
      */
-    @Column(name = "completed_at")
+    @Column(name = "completed_at", nullable = false)
+    @NotNull
     private LocalDateTime completedAt;
 
     /**
      * If the heist succeeded or failed.
      */
-    @Column(name = "heist_success")
+    @Column(name = "heist_success", nullable = false)
+    @NotNull
     private boolean heistSuccess;
 
     /**
@@ -54,13 +61,15 @@ public class CompletedHeist
      * 1 = Alarm raised, pre assault
      * 2 = Loud
      */
-    @Column(name = "heist_finish_state")
+    @Column(name = "heist_finish_state", nullable = false)
+    @NotNull
     private int heistFinishState;
 
     /**
      * Whether a majority of the heist was played in stealth. Upto user discretion.
      */
-    @Column(name = "majority_state_played_stealth")
+    @Column(name = "majority_state_played_stealth", nullable = false)
+    @NotNull
     private boolean isMajorityStatePlayedStealth;
 
     /**
@@ -68,6 +77,7 @@ public class CompletedHeist
      */
     @ManyToOne(optional = false)
     @JoinColumn(name = "difficulty", nullable = false)
+    @NotNull
     private Difficulty difficulty;
 
     /**

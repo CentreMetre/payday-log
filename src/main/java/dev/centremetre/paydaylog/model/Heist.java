@@ -1,9 +1,7 @@
 package dev.centremetre.paydaylog.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a heist in a game that can be played.
@@ -15,9 +13,11 @@ import jakarta.persistence.Table;
 public class Heist
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
+    @NotNull
     private String name;
 
     public int getId()

@@ -13,8 +13,14 @@ Current features will include heist logging and daily challenge logging.
 - [ ] Models
 - [ ] Repositories
 - [ ] Service
-- [ ] Web
+- [ ] Web Controllers
 - [ ] Exception Handling
+### Notes
+@NotNull used for null validation at controller level using @Valid e.g. <br>
+@PostMapping("/users")<br>
+public ResponseEntity<User> createUser(@Valid @RequestBody User user) {<br>
+return ResponseEntity.ok(userRepository.save(user));<br>
+}<br>
 
 ## Frontend
 - [ ] Webpages

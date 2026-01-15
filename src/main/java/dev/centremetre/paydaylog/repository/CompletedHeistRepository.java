@@ -3,6 +3,7 @@ package dev.centremetre.paydaylog.repository;
 import dev.centremetre.paydaylog.model.Difficulty;
 import dev.centremetre.paydaylog.model.Heist;
 import dev.centremetre.paydaylog.model.CompletedHeist;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -47,4 +48,13 @@ public interface CompletedHeistRepository extends JpaRepository<CompletedHeist, 
 
     // Retrieve by difficulty
     List<CompletedHeist> findByDifficulty(Difficulty difficulty);
+
+    /**
+     * Retrieve the latest completed heists. Done by sorting by ID.
+     * @return The latest completed heist in a {@link CompletedHeist} instance.
+     */
+    CompletedHeist findTopByOrderByIdDesc();
+
+    @Query(value = "SELECT * FROM CompletedHeist ORDER BY id DESC LIMIT 10", nativeQuery = true)
+    List<CompletedHeist> getTenLatestCompletedHeists();
 }

@@ -1,6 +1,7 @@
 package dev.centremetre.paydaylog.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 public class ChallengeInstance
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     /**
@@ -22,12 +24,14 @@ public class ChallengeInstance
      */
     @ManyToOne(optional = false)
     @JoinColumn(name = "challenge", nullable = false)
+    @NotNull
     private Challenge challenge;
 
     /**
      * Whether the challenge was completed.
      */
     @Column(name = "completed", nullable = false)
+    @NotNull
     private boolean isCompleted;
 
     /**
@@ -39,6 +43,7 @@ public class ChallengeInstance
     /**
      * Optional notes.
      */
+    @Column(name = "notes", nullable = true)
     private String notes;
 
     public int getId()

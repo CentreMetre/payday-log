@@ -52,4 +52,14 @@ public class DefaultHeistService implements HeistService
 
         return names;
     }
+
+    @Override
+    public Heist createHeist(String name)
+    {
+        Heist newHeist = new Heist();
+
+        newHeist.setName(name);
+
+        return heistRepository.save(newHeist);
+    }
 }

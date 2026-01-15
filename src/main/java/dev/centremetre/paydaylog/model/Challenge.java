@@ -1,9 +1,7 @@
 package dev.centremetre.paydaylog.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents an in game challenge.
@@ -15,12 +13,14 @@ import jakarta.persistence.Table;
 public class Challenge
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     /**
      * The challenge text as shown in game.
      */
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
+    @NotNull
     private String challenge;
 
     public int getId()
