@@ -58,8 +58,10 @@ public class CompletedHeist
     /**
      * What state the heist/alarm was in at escape.
      * 0 = Stealth
-     * 1 = Alarm raised, pre assault
-     * 2 = Loud
+     * 1 = Alarm raised, pre assault negotiation
+     * 2 = Alarm raised, assault incoming
+     * 3 = Loud
+     * TODO: See if xp gain is different for pre assault negotiation, assault incoming, and between-assault negotiation
      */
     @Column(name = "heist_finish_state", nullable = false)
     @NotNull
