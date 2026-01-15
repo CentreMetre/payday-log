@@ -62,4 +62,10 @@ public class DefaultHeistService implements HeistService
 
         return heistRepository.save(newHeist);
     }
+
+    @Override
+    public Heist getHeistFromId(int id)
+    {
+        return heistRepository.findById(id).get(); //TODO: Check it exists.
+    }
 }
