@@ -1,9 +1,11 @@
 package dev.centremetre.paydaylog.service;
 
 import dev.centremetre.paydaylog.model.Challenge;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface ChallengeService
 {
     Challenge getChallengeById(int id);
