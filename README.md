@@ -16,11 +16,14 @@ Current features will include heist logging and daily challenge logging.
 - [ ] Web Controllers
 - [ ] Exception Handling
 ### Notes
-@NotNull used for null validation at controller level using @Valid e.g. <br>
-@PostMapping("/users")<br>
-public ResponseEntity<User> createUser(@Valid @RequestBody User user) {<br>
-return ResponseEntity.ok(userRepository.save(user));<br>
-}<br>
 
+@NotNull used for null validation at controller level using @Valid e.g. <br>
+```
+@PostMapping("/users")
+public ResponseEntity<User> createUser(@Valid @RequestBody User user)
+{
+    return ResponseEntity.ok(userRepository.save(user));
+}
+```
 ## Frontend
 - [ ] Webpages
