@@ -1,5 +1,6 @@
 package dev.centremetre.paydaylog.service;
 
+import dev.centremetre.paydaylog.dto.ChallengeCreateDto;
 import dev.centremetre.paydaylog.model.Challenge;
 import dev.centremetre.paydaylog.repository.ChallengeRepository;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,12 @@ public class DefaultChallengeService implements ChallengeService
     public DefaultChallengeService(ChallengeRepository challengeRepository)
     {
         this.challengeRepository = challengeRepository;
+    }
+
+    @Override
+    public List<Challenge> getAllChallenges()
+    {
+        return challengeRepository.findAll();
     }
 
     @Override
@@ -47,10 +54,10 @@ public class DefaultChallengeService implements ChallengeService
     }
 
     @Override
-    public Challenge createNewChallenge(String challengeText)
+    public Challenge createNewChallenge(ChallengeCreateDto challengeDto)
     {
         Challenge challenge = new Challenge();
-        challenge.setChallenge(challengeText);
+        challenge.setChallenge(challengeDto.getChallenge());
         return challengeRepository.save(challenge);
     }
 }

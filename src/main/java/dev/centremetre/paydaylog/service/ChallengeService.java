@@ -1,5 +1,6 @@
 package dev.centremetre.paydaylog.service;
 
+import dev.centremetre.paydaylog.dto.ChallengeCreateDto;
 import dev.centremetre.paydaylog.model.Challenge;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,8 @@ import java.util.List;
 @Service
 public interface ChallengeService
 {
+    List<Challenge> getAllChallenges();
+
     Challenge getChallengeById(int id);
 
     /**
@@ -40,5 +43,5 @@ public interface ChallengeService
      */
     List<Challenge> searchForChallengesByContainsSearch(String contains);
 
-    Challenge createNewChallenge(String challengeText);
+    Challenge createNewChallenge(ChallengeCreateDto challengeText);
 }
