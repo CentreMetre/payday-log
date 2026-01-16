@@ -14,8 +14,6 @@ public interface CompletedHeistService
      */
     CompletedHeist createCompletedHeist(CompletedHeistCreateDto completedHeist);
 
-    List<CompletedHeist> getAll();
-
     /**
      * Get the latest completed heist.
      * @return The latest completed heist.
