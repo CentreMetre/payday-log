@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//TODO/NOTE: Use @Valid where needed. Look at readme notes for more info.
 @RestController
 @RequestMapping("/api/heists")
 public class HeistApiController
