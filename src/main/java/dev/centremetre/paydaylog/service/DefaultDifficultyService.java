@@ -4,6 +4,8 @@ import dev.centremetre.paydaylog.model.Difficulty;
 import dev.centremetre.paydaylog.repository.DifficultyRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DefaultDifficultyService implements DifficultyService
 {
@@ -12,6 +14,12 @@ public class DefaultDifficultyService implements DifficultyService
     public DefaultDifficultyService(DifficultyRepository difficultyRepository)
     {
         this.difficultyRepository = difficultyRepository;
+    }
+
+    @Override
+    public List<Difficulty> getAllDifficulties()
+    {
+        return difficultyRepository.findAll();
     }
 
     @Override
