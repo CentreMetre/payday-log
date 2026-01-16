@@ -11,11 +11,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/completed-heists")
-public class CompletedHeistController
+public class CompletedHeistApiController
 {
     private final CompletedHeistService completedHeistService;
 
-    public CompletedHeistController(CompletedHeistService completedHeistService)
+    public CompletedHeistApiController(CompletedHeistService completedHeistService)
     {
         this.completedHeistService = completedHeistService;
     }
