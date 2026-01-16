@@ -1,5 +1,8 @@
 package dev.centremetre.paydaylog.dto;
 
+import dev.centremetre.paydaylog.model.Challenge;
+import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -8,13 +11,16 @@ import java.time.LocalDateTime;
  */
 public class ChallengeInstanceCreateDto implements Serializable
 {
-    private int challengeId;
+    @NotNull(message = "A challenge needs to exist on a challenge instance to record what challenge is being stored.")
+    private int challengeId; // NOTE: not challenge instance id
+
     private boolean isCompleted;
 
     /**
      * Can be nullable for if the challenge isn't completed yet, instead it's just an entry of the challenge.
      */
     private LocalDateTime completedAt;
+
     private String notes;
 
     public int getChallengeId()
@@ -25,6 +31,16 @@ public class ChallengeInstanceCreateDto implements Serializable
     public void setChallengeId(int challengeId)
     {
         this.challengeId = challengeId;
+    }
+
+    public boolean isCompleted()
+    {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed)
+    {
+        isCompleted = completed;
     }
 
     public boolean getIsCompleted()

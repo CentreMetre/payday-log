@@ -27,6 +27,7 @@ public class DefaultChallengeInstanceService implements ChallengeInstanceService
     @Override
     public ChallengeInstance createChallengeInstance(ChallengeInstanceCreateDto challengeInstanceCreateDto)
     {
+        // TODO: Add validation for challenges already added today to make sure duplicate isn't added.
         ChallengeInstance challengeInstance = new ChallengeInstance();
 
         Challenge challenge = challengeService.getChallengeById(challengeInstance.getId());
@@ -34,6 +35,7 @@ public class DefaultChallengeInstanceService implements ChallengeInstanceService
         challengeInstance.setChallenge(challenge);
         challengeInstance.setCompleted(challengeInstanceCreateDto.getIsCompleted());
         challengeInstance.setCompletedAt(challengeInstanceCreateDto.getCompletedAt());
+        // TODO: change so if null or empty it gets a default string of something like "Notes intentionally empty".
         challengeInstance.setNotes(challengeInstanceCreateDto.getNotes());
 
         return challengeInstanceRepository.save(challengeInstance);
