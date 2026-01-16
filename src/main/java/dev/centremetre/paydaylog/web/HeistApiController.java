@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller for heists. Used to retrieve a heist or add a new heist when one gets added to the game in a year.
+ */
 //TODO/NOTE: Use @Valid where needed. Look at readme notes for more info.
 @RestController
 @RequestMapping("/api/heists")
@@ -31,7 +34,7 @@ public class HeistApiController
     }
 
     /**
-     * JSON body should look like this.
+     * JSON request body should look like this.
      * {
      *     heistName: "Heist Name"
      * }
