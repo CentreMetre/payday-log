@@ -1,10 +1,14 @@
 package dev.centremetre.paydaylog.web;
 
+import dev.centremetre.paydaylog.dto.HeistCreateDto;
 import dev.centremetre.paydaylog.model.Heist;
 import dev.centremetre.paydaylog.service.CompletedHeistService;
 import dev.centremetre.paydaylog.service.HeistService;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -13,12 +17,10 @@ import java.util.List;
 public class HeistApiController
 {
     private final HeistService heistService;
-    private final CompletedHeistService completedHeistService;
 
     public HeistApiController(HeistService heistService, CompletedHeistService completedHeistService)
     {
         this.heistService = heistService;
-        this.completedHeistService = completedHeistService;
     }
 
     /**
@@ -29,5 +31,11 @@ public class HeistApiController
     public ResponseEntity<List<Heist>> getAllHeists()
     {
         return ResponseEntity.ok(heistService.getAllHeists());
+    }
+
+    @PostMapping
+    public ResponseEntity<Heist> createNewHeist(@RequestBody HeistCreateDto heistName)
+    {
+        return ResponseEntity.ok(heistService.createHeist(heistName.getHeistName()));
     }
 }
