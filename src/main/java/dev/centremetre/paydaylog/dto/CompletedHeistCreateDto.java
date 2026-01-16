@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
  */
 public class CompletedHeistCreateDto // implements Serializable // Serialisable not needed
 {
+
+    // @NotNull no needed on primitives.
+    // TODO: Change to not use primitives,but Integer and Boolean for better error message returning.
     private int xpAmount;
     private boolean isAccurateXpInput;
     private int heistId;
