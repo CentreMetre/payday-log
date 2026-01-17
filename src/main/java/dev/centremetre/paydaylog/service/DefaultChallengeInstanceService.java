@@ -27,7 +27,9 @@ public class DefaultChallengeInstanceService implements ChallengeInstanceService
     @Override
     public ChallengeInstance createChallengeInstance(ChallengeInstanceCreateDto challengeInstanceCreateDto)
     {
-        // TODO: Add validation for challenges already added today to make sure duplicate isn't added.
+        // TODO: Add validation for challenge instances already added today to make sure duplicate isn't added.
+        // TODO: Add validation for amount challenges instances so theres no more than 3, but with an override for
+        //  after midnight but before 1 in summer time.
         ChallengeInstance challengeInstance = new ChallengeInstance();
 
         Challenge challenge = challengeService.getChallengeById(challengeInstance.getId());
@@ -35,11 +37,18 @@ public class DefaultChallengeInstanceService implements ChallengeInstanceService
         challengeInstance.setChallenge(challenge);
         challengeInstance.setCompleted(challengeInstanceCreateDto.getIsCompleted());
         challengeInstance.setCompletedAt(challengeInstanceCreateDto.getCompletedAt());
-        // TODO: change so if null or empty it gets a default string of something like "Notes intentionally empty".
+        // TODO: change so if null or empty it gets a default string of something like "Notes intentionally empty.".
         challengeInstance.setNotes(challengeInstanceCreateDto.getNotes());
 
         return challengeInstanceRepository.save(challengeInstance);
     }
+
+    @Override
+    public List<ChallengeInstance> getByChallengeId(int id)
+    {
+        return challengeInstanceRepository.findByChallenge_Id(id);
+    }
+
 
     @Override
     public List<ChallengeInstance> getChallengesCompletedOn(LocalDate date)
@@ -51,13 +60,13 @@ public class DefaultChallengeInstanceService implements ChallengeInstanceService
     }
 
     @Override
-    public List<ChallengeInstance> getChallengesCompletedBetween(LocalDateTime startDateTime, LocalDateTime endDateTime)
+    public List<ChallengeInstance> getChallengesCompletedBetweenDates(LocalDate startDate, LocalDate endDate)
     {
-        return challengeInstanceRepository.findByCompletedAtBetween(startDateTime, endDateTime);
+        return challengeInstanceRepository.getByCompletedAtBetweenDates(startDate, endDate);
     }
 
     @Override
-    public List<ChallengeInstance> getChallengesCompletedBetweenTime(LocalTime startTime, LocalTime endTime)
+    public List<ChallengeInstance> getChallengesCompletedBetweenTimes(LocalTime startTime, LocalTime endTime)
     {
         return challengeInstanceRepository.getByCompletedAtTimeBetween(startTime, endTime);
     }

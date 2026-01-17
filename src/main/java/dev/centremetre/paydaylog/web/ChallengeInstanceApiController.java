@@ -39,4 +39,17 @@ public class ChallengeInstanceApiController
     {
         return ResponseEntity.ok(challengeInstanceService.getChallengesCompletedOn(date));
     }
+
+    @GetMapping("/date-range")
+    public ResponseEntity<List<ChallengeInstance>> getChallengeInstancesOfDateRange(@RequestParam LocalDate startDate,
+                                                                                    @RequestParam LocalDate endDate)
+    {
+        return ResponseEntity.ok(challengeInstanceService.getChallengesCompletedBetweenDates(startDate, endDate));
+    }
+
+    @GetMapping("/id")
+    public ResponseEntity<List<ChallengeInstance>> getChallengeInstancesOfChallengeId(@RequestParam int challengeId)
+    {
+        return ResponseEntity.ok(challengeInstanceService.getByChallengeId(challengeId));
+    }
 }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class ChallengeInstanceCreateDto implements Serializable
 {
     @NotNull(message = "A challenge needs to exist on a challenge instance to record what challenge is being stored.")
-    private int challengeId; // NOTE: not challenge instance id
+    private int challengeId; // NOTE: not challenge instance id. Is int so cant be null anyaway. TODO: change to integer
 
     private boolean isCompleted;
 
