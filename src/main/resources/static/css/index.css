@@ -1,0 +1,23 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+}
+
+.challenge-panel {
+    height: 100%;
+    width: 50%;
+    outline: 1px solid #0b0c0c;
+    display: flex;
+    flex-direction: column;
+}
+
+.heist-panel {
+    height: 100%;
+    width: 50%;
+    outline: 1px solid #0b0c0c;
+    display: flex;
+    flex-direction: column;
+}
