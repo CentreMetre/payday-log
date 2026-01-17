@@ -47,11 +47,11 @@ public class DefaultCompletedHeistService implements CompletedHeistService
         return completedHeistRepository.save(completedHeist);
     }
 
-    @Override
-    public List<CompletedHeist> getAll()
-    {
-        return completedHeistRepository.findAll();
-    }
+//    @Override
+//    public List<CompletedHeist> getAll()
+//    {
+//        return completedHeistRepository.findAll();
+//    }
 
     @Override
     public CompletedHeist getLatestCompletedHeist()
