@@ -6,16 +6,77 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-    <div class="heist-panel">
+<!--    <a>Insert Game Data</a>-->
+    <div class="panel" id="heist-panel">
         <h1>Heist Complete Input</h1>
         <div class="form-panel">
-            <p>Text</p>
+            <form class="heist-instance-create-form">
+                <div>
+                    <label for="heist-instance-name-input">
+                        Heist Name
+                    </label>
+                    <input id="heist-instance-name-input">
+                </div>
+                <div>
+                    <label for="heist-instance-xp-amount-input">
+                        XP Amount
+                    </label>
+                    <input id="heist-instance-xp-amount-input" style="width: 4ch">
+                </div>
+                <div>
+                    <label for="heist-instance-accurate-xp-amount-input">
+                        Accur. XP Amount?
+                    </label>
+                    <input id="heist-instance-accurate-xp-amount-input" type="checkbox">
+                </div>
+                <div>
+                    <label for="heist-instance-completed-at-input">
+                        Date & Time Completed
+                    </label>
+<!--                TODO: Add support for milliseconds, probably via JS/TS and using text input instead of this input-->
+                    <input id="heist-instance-completed-at-input" type="datetime-local">
+                </div>
+                <div>
+                    <label for="heist-instance-successful-input">
+                        Heist Successful?
+                    </label>
+                    <input id="heist-instance-successful-input" type="checkbox">
+                </div>
+                <div>
+                    <label>
+                        Heist Finish State
+                    </label>
+                    <p>TBD</p>
+                </div>
+                <div>
+                    <label for="heist-instance-majority-played-stealth-input">
+                        Majority Played Stealth?
+                    </label>
+                    <input id="heist-instance-majority-played-stealth-input" type="checkbox">
+                </div>
+                <div>
+                    <label for="heist-instance-difficulty-select">Difficulty</label>
+                </div>
+                <div>
+                    <select id="heist-instance-difficulty-select">
+                        <!--Values are hard coded to the ID values in the DB-->
+                        <option value="1">Normal</option>
+                        <option value="2">Hard</option>
+                        <option value="3">Very Hard</option>
+                        <option value="4">Overkill</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="heist-instance-notes-input">Notes</label>
+                    <textarea id="heist-instance-notes-input" type="text"></textarea>
+                </div>
+            </form>
         </div>
         <div class="data-panel">
-            <p>Text</p>
+            <p>Data Output</p>
         </div>
     </div>
-    <div class="challenge-panel">
+    <div class="panel">
         <h1>Challenge Input</h1>
         <div class="form-panel">
             <form>

@@ -6,18 +6,16 @@ body {
     display: flex;
 }
 
-.challenge-panel {
+.panel {
     height: 100%;
     width: 50%;
-    outline: 1px solid #0b0c0c;
+    /*outline: 1px solid #0b0c0c;*/
     display: flex;
     flex-direction: column;
 }
 
-.heist-panel {
-    height: 100%;
-    width: 50%;
-    outline: 1px solid #0b0c0c;
-    display: flex;
-    flex-direction: column;
+label {
+    display: block;
+    margin-bottom: 0.25rem;
 }
+
