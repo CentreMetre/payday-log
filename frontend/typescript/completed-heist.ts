@@ -1,18 +1,21 @@
 /**
  * Flat version of a completed heist from the backend.
  */
-type CompletedHeist = {
+export type CompletedHeist = {
     id: number;
     xpAmount: number;
     accurateXpAmount: boolean;
-    // Heist
+
+    // Flattened Heist
     heistId: number;
     heistName: string;
 
+    completedAt: Date;
     heistSuccess: boolean;
     heistFinishState: number;
     majorityStatePlayedStealth: boolean;
-    // Difficulty
+
+    // Flattened Difficulty
     difficultyId: number;
     difficultyName: string;
 
