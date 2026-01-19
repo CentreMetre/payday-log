@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/completed-challenges")
+@RequestMapping("/api/challenge-instance")
 public class ChallengeInstanceApiController
 {
     private final ChallengeInstanceService challengeInstanceService;
