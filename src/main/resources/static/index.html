@@ -11,53 +11,54 @@
         <h1>Heist Complete Input</h1>
         <div class="form-panel">
             <form class="heist-instance-create-form">
-                <div>
+                <button id="heist-instance-new-heist-button" type="button">New Heist</button>
+                <div class="form-input-group">
                     <label for="heist-instance-name-input">
                         Heist Name
                     </label>
                     <input id="heist-instance-name-input">
                 </div>
-                <div>
+                <div class="form-input-group">
                     <label for="heist-instance-xp-amount-input">
                         XP Amount
                     </label>
                     <input id="heist-instance-xp-amount-input" style="width: 4ch">
                 </div>
-                <div>
+                <div class="form-input-group">
                     <label for="heist-instance-accurate-xp-amount-input">
                         Accur. XP Amount?
                     </label>
                     <input id="heist-instance-accurate-xp-amount-input" type="checkbox">
                 </div>
-                <div>
+                <div class="form-input-group">
                     <label for="heist-instance-completed-at-input">
                         Date & Time Completed
                     </label>
-<!--                TODO: Add support for milliseconds, probably via JS/TS and using text input instead of this input-->
+<!--                TODO: Add support for milliseconds via JS/TS, and using text input instead of this input or hide the milliseconds all together or have a date time input box and a textbox/text to the left for ms.-->
                     <input id="heist-instance-completed-at-input" type="datetime-local">
                 </div>
-                <div>
+                <div class="form-input-group">
                     <label for="heist-instance-successful-input">
                         Heist Successful?
                     </label>
                     <input id="heist-instance-successful-input" type="checkbox">
                 </div>
-                <div>
+                <div class="form-input-group">
                     <label>
                         Heist Finish State
                     </label>
                     <p>TBD</p>
                 </div>
-                <div>
+                <div class="form-input-group">
                     <label for="heist-instance-majority-played-stealth-input">
                         Majority Played Stealth?
                     </label>
                     <input id="heist-instance-majority-played-stealth-input" type="checkbox">
                 </div>
-                <div>
+                <div class="form-input-group">
                     <label for="heist-instance-difficulty-select">Difficulty</label>
                 </div>
-                <div>
+                <div class="form-input-group">
                     <select id="heist-instance-difficulty-select">
                         <!--Values are hard coded to the ID values in the DB-->
                         <option value="1">Normal</option>
@@ -66,10 +67,13 @@
                         <option value="4">Overkill</option>
                     </select>
                 </div>
-                <div>
+                <div class="form-input-group">
                     <label for="heist-instance-notes-input">Notes</label>
                     <textarea id="heist-instance-notes-input" type="text"></textarea>
                 </div>
+                <button id="heist-instance-submit-button" type="button">
+                    Submit
+                </button>
             </form>
         </div>
         <div class="data-panel">
