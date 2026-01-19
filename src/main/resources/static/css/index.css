@@ -22,3 +22,19 @@ label {
 input, select, textarea {
     border: 1px solid black;
 }
+
+#heist-instance-xp-amount-input {
+    width: 4ch;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.no-spinner[type=number] {
+    -moz-appearance: textfield;
+}
