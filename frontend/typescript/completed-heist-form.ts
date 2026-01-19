@@ -38,6 +38,9 @@ const newHeistInstanceButtonEl: HTMLButtonElement =
 const heistNameInputEl: HTMLInputElement =
     document.getElementById("heist-instance-name-input") as HTMLInputElement;
 
+const heistIdInputEl: HTMLInputElement =
+    document.getElementById("heist-instance-heist-id-input") as HTMLInputElement;
+
 const xpAmountInputEl: HTMLInputElement =
     document.getElementById("heist-instance-xp-amount-input") as HTMLInputElement;
 
@@ -78,17 +81,17 @@ function resetFormWithDefaults(defaults: CompletedHeist) {
 }
 
 type CompletedHeistSubmit = Omit<CompletedHeist, 'id' | 'heistName' | 'difficultyName'>
-
+// TODO: Decide whether to have IDs be strings or numbers, on frontend and in transit (should be strings in frontend probably, but in transit ???)
 function submitForm() {
     const heistCompletedData: CompletedHeistSubmit = {
         xpAmount: Number(xpAmountInputEl.value),
         accurateXpAmount: accurateXpInputEl.checked,
-        heistId: 0,
+        heistId: Number(heistIdInputEl.value),
         completedAt: new Date(),
         heistSuccess: true,
         heistFinishState: 3,
         majorityStatePlayedStealth: false,
-        difficultyId: 4,
+        difficultyId: Number(difficultySelectEl.value),
         notes: ""
     }
     // const response = await fetch(`/api/heists/create`, {
