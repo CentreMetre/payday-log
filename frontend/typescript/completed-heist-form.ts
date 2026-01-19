@@ -1,10 +1,25 @@
-const defaults = {
+type HeistInstanceDefaults = {
+    xpAmount: string;
+    accurateXpAmount: boolean;
+    heist: string;
+    completedAt: Date;
+    heistSuccess: boolean;
+    heistFinishState: number;
+    majorityStatePlayedStealth: boolean;
+    difficulty: number;
+    notes: string;
+}
+
+const defaults: HeistInstanceDefaults = {
+    xpAmount: "",
     accurateXpAmount: true,
+    heist: "",
     completedAt: new Date(),
     heistSuccess: true,
     heistFinishState: 3,
     majorityStatePlayedStealth: false,
-    difficulty: 4
+    difficulty: 4,
+    notes: ""
 }
 
 // type heistDefaults = {
@@ -43,8 +58,21 @@ const notesInputEl: HTMLTextAreaElement =
 const submitButtonEl: HTMLButtonElement =
     document.getElementById("heist-instance-submit-button") as HTMLButtonElement;
 
-newHeistInstanceButtonEl.addEventListener('click', resetFormWithDefaults);
+newHeistInstanceButtonEl.addEventListener('click', () => resetFormWithDefaults(defaults));
 
-function resetFormWithDefaults() {
-    xpAmountInputEl.value = "";
+// submitButtonEl.addEventListener('click', submitForm)
+
+function resetFormWithDefaults(defaults: HeistInstanceDefaults) {
+    heistNameInputEl.value = defaults.heist;
+    xpAmountInputEl.value = defaults.xpAmount;
+    accurateXpInputEl.checked = defaults.accurateXpAmount;
+    completedAtInputEl.valueAsDate = defaults.completedAt;
+    successfulInputEl.checked = defaults.heistSuccess;
+    majorityStealthInputEl.checked = defaults.majorityStatePlayedStealth;
+    difficultySelectEl.value = defaults.difficulty.toString();
+    notesInputEl.value = defaults.notes;
 }
+
+// function submitForm() {
+//     const response = await fetch(`/api/chall`)
+// }
