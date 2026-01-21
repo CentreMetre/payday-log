@@ -28,7 +28,7 @@ input, select, textarea {
     margin-bottom: 1rem;
 }
 
-.heist-instance-new-heist-button {
+#heist-instance-new-heist-button {
     margin-bottom: 1rem;
 }
 
