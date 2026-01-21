@@ -2,6 +2,10 @@ html, body {
     height: 100%;
 }
 
+html {
+    font-family: "inter", sans-serif;
+}
+
 body {
     display: flex;
 }
@@ -21,6 +25,11 @@ label {
 
 input, select, textarea {
     border: 1px solid black;
+    margin-bottom: 1rem;
+}
+
+.heist-instance-new-heist-button {
+    margin-bottom: 1rem;
 }
 
 input:disabled,
