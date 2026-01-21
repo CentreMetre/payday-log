@@ -23,6 +23,19 @@ input, select, textarea {
     border: 1px solid black;
 }
 
+input:disabled,
+textarea:disabled,
+button:disabled,
+select:disabled,
+input[type="checkbox"]:disabled {
+    background-color: lightgrey;  /* light grey background */
+    color: black;            /* darker text colour */
+    border: 1px solid black; /* optional border change */
+    cursor: not-allowed;       /* shows a not-allowed cursor */
+    opacity: 0.5;                /* ensures opacity doesn’t look too faint */
+
+}
+
 #heist-instance-xp-amount-input {
     width: 4ch;
 }
