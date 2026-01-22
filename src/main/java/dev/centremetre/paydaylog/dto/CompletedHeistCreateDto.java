@@ -15,12 +15,21 @@ public class CompletedHeistCreateDto // implements Serializable // Serialisable 
     // TODO: Change to not use primitives,but Integer and Boolean for better error message returning.
     private int xpAmount;
     private boolean isAccurateXpInput;
+    /**
+     * ID used since that should be sent by client, to reduce size.
+     */
     private int heistId;
     @NotNull
     private LocalDateTime completedAt;
     private boolean heistSuccess;
-    private int heistFinishState;
+    /**
+     * ID used since that should be sent by client, to reduce size.
+     */
+    private int heistFinishStateId;
     private boolean isMajorityStatePlayedStealth;
+    /**
+     * ID used since that should be sent by client, to reduce size.
+     */
     private int difficultyId;
     private String notes;
 
@@ -74,14 +83,14 @@ public class CompletedHeistCreateDto // implements Serializable // Serialisable 
         this.heistSuccess = heistSuccess;
     }
 
-    public int getHeistFinishState()
+    public int getHeistFinishStateId()
     {
-        return heistFinishState;
+        return heistFinishStateId;
     }
 
-    public void setHeistFinishState(int heistFinishState)
+    public void setHeistFinishStateId(int heistFinishStateId)
     {
-        this.heistFinishState = heistFinishState;
+        this.heistFinishStateId = heistFinishStateId;
     }
 
     public boolean getIsMajorityStatePlayedStealth()

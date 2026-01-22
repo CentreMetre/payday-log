@@ -57,15 +57,11 @@ public class CompletedHeist
 
     /**
      * What state the heist/alarm was in at escape.
-     * 0 = Stealth
-     * 1 = Alarm raised, pre assault negotiation
-     * 2 = Alarm raised, assault incoming
-     * 3 = Loud
      * TODO: See if xp gain is different for pre assault negotiation, assault incoming, and between-assault negotiation
+     * Converter functionality provided by  {@link HeistStateConverter}, with autoApply set to true.
      */
-    @Column(name = "heist_finish_state", nullable = false)
-    @NotNull
-    private int heistFinishState;
+    @Column(name = "heist_finish_state", nullable = false, columnDefinition = "TINYINT") // TINYINT to save space.
+    private HeistState heistFinishState;
 
     /**
      * Whether a majority of the heist was played in stealth. Upto user discretion.
@@ -78,7 +74,7 @@ public class CompletedHeist
      * The difficulty the heist was played in.
      */
     @ManyToOne(optional = false)
-    @JoinColumn(name = "difficulty", nullable = false)
+    @JoinColumn(name = "difficulty", nullable = false, columnDefinition = "TINYINT") // TINYINT to save space.
     @NotNull
     private Difficulty difficulty;
 
@@ -148,12 +144,12 @@ public class CompletedHeist
         this.heistSuccess = heistSuccess;
     }
 
-    public int getHeistFinishState()
+    public HeistState getHeistFinishState()
     {
         return heistFinishState;
     }
 
-    public void setHeistFinishState(int heistFinishState)
+    public void setHeistFinishState(HeistState heistFinishState)
     {
         this.heistFinishState = heistFinishState;
     }

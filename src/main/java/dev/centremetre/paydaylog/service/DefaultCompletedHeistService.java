@@ -4,6 +4,7 @@ import dev.centremetre.paydaylog.dto.CompletedHeistCreateDto;
 import dev.centremetre.paydaylog.model.CompletedHeist;
 import dev.centremetre.paydaylog.model.Difficulty;
 import dev.centremetre.paydaylog.model.Heist;
+import dev.centremetre.paydaylog.model.HeistState;
 import dev.centremetre.paydaylog.repository.CompletedHeistRepository;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,8 @@ public class DefaultCompletedHeistService implements CompletedHeistService
 
         Difficulty difficulty = difficultyService.getDifficultyById(completedHeistDto.getDifficultyId());
 
+        HeistState finishState = HeistState.fromId(completedHeistDto.getHeistFinishStateId());
+
         CompletedHeist completedHeist = new CompletedHeist();
 
         completedHeist.setXpAmount(completedHeistDto.getXpAmount());
@@ -39,7 +42,7 @@ public class DefaultCompletedHeistService implements CompletedHeistService
         completedHeist.setHeist(heist);
         completedHeist.setCompletedAt(completedHeistDto.getCompletedAt());
         completedHeist.setHeistSuccess(completedHeistDto.getHeistSuccess());
-        completedHeist.setHeistFinishState(completedHeistDto.getHeistFinishState());
+        completedHeist.setHeistFinishState(finishState);
         completedHeist.setMajorityStatePlayedStealth(completedHeistDto.getIsMajorityStatePlayedStealth());
         completedHeist.setDifficulty(difficulty);
         completedHeist.setNotes(completedHeistDto.getNotes());
