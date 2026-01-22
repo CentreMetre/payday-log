@@ -19,7 +19,7 @@ public class CompletedHeistCreateDto // implements Serializable // Serialisable 
     @NotNull
     private LocalDateTime completedAt;
     private boolean heistSuccess;
-    private int heistFinishState;
+    private int heistFinishStateId;
     private boolean isMajorityStatePlayedStealth;
     private int difficultyId;
     private String notes;
@@ -74,14 +74,14 @@ public class CompletedHeistCreateDto // implements Serializable // Serialisable 
         this.heistSuccess = heistSuccess;
     }
 
-    public int getHeistFinishState()
+    public int getHeistFinishStateId()
     {
-        return heistFinishState;
+        return heistFinishStateId;
     }
 
-    public void setHeistFinishState(int heistFinishState)
+    public void setHeistFinishStateId(int heistFinishStateId)
     {
-        this.heistFinishState = heistFinishState;
+        this.heistFinishStateId = heistFinishStateId;
     }
 
     public boolean getIsMajorityStatePlayedStealth()
