@@ -72,9 +72,14 @@ const notesInputEl: HTMLTextAreaElement =
 const submitButtonEl: HTMLButtonElement =
     document.getElementById("heist-instance-submit-button") as HTMLButtonElement;
 
-newHeistInstanceButtonEl.addEventListener('click', () => resetFormWithDefaults(formDefaults));
+newHeistInstanceButtonEl.addEventListener('click', () => newForm());
 
 submitButtonEl.addEventListener('click', submitForm)
+
+function newForm() {
+    resetFormWithDefaults(formDefaults);
+    formStateDisabled(false);
+}
 
 function resetFormWithDefaults(defaults: HeistFormDefaults) {
     heistNameInputEl.value = defaults.heistName;
@@ -137,12 +142,11 @@ async function populateHeistList() {
         optionEl.value = heist.name;
         heistsDatalistEl.append(optionEl)
     }
-    // heistsDatalistEl.add
 }
 
-changeFormState(true);
+formStateDisabled(true);
 
-function changeFormState(isDisabled: boolean): void {
+function formStateDisabled(isDisabled: boolean): void {
     heistNameInputEl.disabled = isDisabled;
     xpAmountInputEl.disabled = isDisabled;
     accurateXpInputEl.disabled = isDisabled;
@@ -153,3 +157,4 @@ function changeFormState(isDisabled: boolean): void {
     notesInputEl.disabled = isDisabled;
     submitButtonEl.disabled = isDisabled;
 }
+
