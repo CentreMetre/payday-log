@@ -28,3 +28,6 @@ public ResponseEntity<User> createUser(@Valid @RequestBody User user)
 ```
 ## Frontend
 - [ ] Webpages
+- [ ] Completed Heist
+
+- [ ] Verify data input against other input, e.g. XP, challenge name.
