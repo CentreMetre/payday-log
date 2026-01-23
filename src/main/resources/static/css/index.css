@@ -1,5 +1,5 @@
 html, body {
-    height: 100%;
+    /*height: 100%;*/
 }
 
 html {
@@ -12,10 +12,12 @@ body {
 
 .panel {
     height: 100%;
-    width: 50%;
+    /*width: 50%;*/
     /*outline: 1px solid #0b0c0c;*/
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
+
 }
 
 label {
@@ -71,4 +73,13 @@ input[type="checkbox"]:disabled {
 .no-picker::-webkit-calendar-picker-indicator {
     display: none;
     -webkit-appearance: none;
+}
+
+.heist-instance-create-form {
+    display: flex;
+    flex-direction: row;
+}
+
+.form-input-group {
+    margin: 1rem;
 }
