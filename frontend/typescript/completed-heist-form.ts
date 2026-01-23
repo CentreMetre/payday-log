@@ -121,16 +121,18 @@ function resetFormWithDefaults(defaults: HeistFormDefaults) {
     notesInputEl.value = defaults.notes;
 }
 
-type CompletedHeistSubmit = Omit<CompletedHeist, 'id' | 'heistName' | 'difficultyName'>
+type CompletedHeistSubmit = Omit<CompletedHeist, 'id' | 'heistName' | 'difficultyName' | 'completedAt'> & {
+    completedAt: string;
+}
 // TODO: Decide whether to have IDs be strings or numbers, on frontend and in transit (should be strings in frontend probably, but in transit ???)
 function submitForm() {
     const heistCompletedData: CompletedHeistSubmit = {
         xpAmount: xpAmountInputEl.value,
         accurateXpAmount: accurateXpInputEl.checked,
         heistId: heistIdInputEl.value,
-        completedAt: new Date(completedAtInputEl.value),
+        completedAt: completedAtInputEl.value,
         heistSuccess: successfulInputEl.checked,
-        heistFinishState: "6",
+        heistFinishState: finishStateSelectEl.value,
         majorityStatePlayedStealth: majorityStealthInputEl.checked,
         difficultyId: difficultySelectEl.value,
         notes: notesInputEl.value
@@ -138,6 +140,8 @@ function submitForm() {
     // const response = await fetch(`/api/heists/create`, {
     //     method: 'POST',
     // })
+
+    console.log(heistCompletedData)
 
     formStateDisabled(true);
 }
@@ -186,6 +190,6 @@ function formStateDisabled(isDisabled: boolean): void {
     majorityStealthInputEl.disabled = isDisabled;
     difficultySelectEl.disabled = isDisabled;
     notesInputEl.disabled = isDisabled;
-    submitButtonEl.disabled = isDisabled;
+    // submitButtonEl.disabled = isDisabled;
 }
 
