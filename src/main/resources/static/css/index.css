@@ -28,6 +28,13 @@ input, select, textarea {
     margin-bottom: 1rem;
 }
 
+input,
+textarea,
+select,
+button {
+    font-family: inherit;
+}
+
 #heist-instance-new-heist-button {
     margin-bottom: 1rem;
 }
@@ -59,4 +66,9 @@ input[type="checkbox"]:disabled {
 /* Firefox */
 .no-spinner[type=number] {
     -moz-appearance: textfield;
+}
+
+.no-picker::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
 }
