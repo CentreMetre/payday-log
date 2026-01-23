@@ -21,6 +21,16 @@
                     </datalist>
                 </div>
                 <div class="form-input-group">
+                    <label for="heist-instance-difficulty-select">Difficulty</label>
+                    <select id="heist-instance-difficulty-select">
+                        <!--Values are hard coded to the ID values in the DB-->
+                        <option value="1">Normal</option>
+                        <option value="2">Hard</option>
+                        <option value="3">Very Hard</option>
+                        <option value="4">Overkill</option>
+                    </select>
+                </div>
+                <div class="form-input-group">
                     <label for="heist-instance-xp-amount-input">
                         XP Amount
                     </label>
@@ -67,18 +77,6 @@
                     <input id="heist-instance-majority-played-stealth-input" type="checkbox">
                 </div>
                 <div class="form-input-group">
-                    <label for="heist-instance-difficulty-select">Difficulty</label>
-                </div>
-                <div class="form-input-group">
-                    <select id="heist-instance-difficulty-select">
-                        <!--Values are hard coded to the ID values in the DB-->
-                        <option value="1">Normal</option>
-                        <option value="2">Hard</option>
-                        <option value="3">Very Hard</option>
-                        <option value="4">Overkill</option>
-                    </select>
-                </div>
-                <div class="form-input-group">
                     <label for="heist-instance-notes-input">Notes</label>
                     <textarea id="heist-instance-notes-input" type="text"></textarea>
                 </div>
@@ -91,17 +89,17 @@
             <p>Data Output</p>
         </div>
     </div>
-    <div class="panel">
-        <h1>Challenge Input</h1>
-        <div class="form-panel">
-            <form>
+<!--    <div class="panel">-->
+<!--        <h1>Challenge Input</h1>-->
+<!--        <div class="form-panel">-->
+<!--            <form>-->
 
-            </form>
-            <p>Text</p>
-        </div>
-        <div class="data-panel">
-            <p>Text</p>
-        </div>
+<!--            </form>-->
+<!--            <p>Text</p>-->
+<!--        </div>-->
+<!--        <div class="data-panel">-->
+<!--            <p>Text</p>-->
+<!--        </div>-->
     </div>
 <script src="js/completed-heist-form.js" type="module">
 
