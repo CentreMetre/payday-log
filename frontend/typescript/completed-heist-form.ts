@@ -15,14 +15,14 @@ import type { Heist } from "./heist";
 // }
 
 type HeistFormDefaults = Omit<CompletedHeist, 'id' | 'heistId' | 'difficultyName' | 'completedAt'> & {
-    completedAt: string;
+    completedAt: () => string;
 }
 
 const formDefaults: HeistFormDefaults = {
     xpAmount: "",
     accurateXpAmount: true,
     heistName: "",
-    completedAt: CreateNewDateStringForForm(),
+    completedAt: CreateNewDateStringForForm,
     heistSuccess: true,
     heistFinishState: "3",
     majorityStatePlayedStealth: false,
