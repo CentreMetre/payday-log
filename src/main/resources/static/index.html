@@ -48,7 +48,17 @@
                     <label>
                         Heist Finish State
                     </label>
-                    <p>TBD</p>
+                    <select id="heist-instance-finish-state-select">
+                    <!--Values are hard coded to the ID values in the DB-->
+                    <option value="0">Stealth</option>
+                    <option value="1">Alarm</option>
+                    <option value="2">First Response Incoming</option>
+                    <option value="3">Negotiate To Delay Assault</option>
+                    <option value="4">Assault Incoming</option>
+                    <option value="5">Police Assault</option>
+                    <option value="6">Final Charge</option>
+                    <option value="7">FBI Assault</option>
+                </select>
                 </div>
                 <div class="form-input-group">
                     <label for="heist-instance-majority-played-stealth-input">

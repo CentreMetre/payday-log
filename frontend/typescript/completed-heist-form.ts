@@ -24,7 +24,7 @@ const formDefaults: HeistFormDefaults = {
     heistName: "",
     completedAt: CreateNewDateStringForForm,
     heistSuccess: true,
-    heistFinishState: "3",
+    heistFinishState: "6",
     majorityStatePlayedStealth: false,
     difficultyId: "4", //Difficulty ID
     notes: ""
@@ -59,6 +59,9 @@ const completedAtInputEl: HTMLInputElement =
 
 const successfulInputEl: HTMLInputElement =
     document.getElementById("heist-instance-successful-input") as HTMLInputElement;
+
+const finishStateSelectEl: HTMLSelectElement =
+    document.getElementById("heist-instance-finish-state-select") as HTMLSelectElement;
 
 const majorityStealthInputEl: HTMLInputElement =
     document.getElementById("heist-instance-majority-played-stealth-input") as HTMLInputElement;
@@ -112,6 +115,7 @@ function resetFormWithDefaults(defaults: HeistFormDefaults) {
     accurateXpInputEl.checked = defaults.accurateXpAmount;
     completedAtInputEl.value = defaults.completedAt();
     successfulInputEl.checked = defaults.heistSuccess;
+    finishStateSelectEl.value = defaults.heistFinishState;
     majorityStealthInputEl.checked = defaults.majorityStatePlayedStealth;
     difficultySelectEl.value = defaults.difficultyId;
     notesInputEl.value = defaults.notes;
@@ -126,7 +130,7 @@ function submitForm() {
         heistId: heistIdInputEl.value,
         completedAt: new Date(completedAtInputEl.value),
         heistSuccess: successfulInputEl.checked,
-        heistFinishState: "-1",
+        heistFinishState: "6",
         majorityStatePlayedStealth: majorityStealthInputEl.checked,
         difficultyId: difficultySelectEl.value,
         notes: notesInputEl.value
