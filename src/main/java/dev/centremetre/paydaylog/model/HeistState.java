@@ -23,12 +23,12 @@ public enum HeistState
     FBI_ASSAULT(7, "FBI Assault");
 
     private final int id;
-    private final String phase;
+    private final String state;
 
-    HeistState(int id, String phase)
+    HeistState(int id, String state)
     {
         this.id = id;
-        this.phase = phase;
+        this.state = state;
     }
 
     public int getId()
@@ -36,9 +36,9 @@ public enum HeistState
         return id;
     }
 
-    public String getPhase()
+    public String getState()
     {
-        return phase;
+        return state;
     }
 
     public static HeistState fromId(int id)
