@@ -1,6 +1,7 @@
 package dev.centremetre.paydaylog.service;
 
 import dev.centremetre.paydaylog.model.Heist;
+import dev.centremetre.paydaylog.dto.HeistStateDto;
 
 import java.util.List;
 
@@ -38,4 +39,10 @@ public interface HeistService
      * @return
      */
     Heist getHeistFromId(int id);
+
+    /**
+     *
+     * @return A list of heist states converted into the {@link HeistStateDto} class.
+     */
+    List<HeistStateDto> getHeistStates();
 }

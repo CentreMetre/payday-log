@@ -1,6 +1,8 @@
 package dev.centremetre.paydaylog.service;
 
+import dev.centremetre.paydaylog.dto.HeistStateDto;
 import dev.centremetre.paydaylog.model.Heist;
+import dev.centremetre.paydaylog.model.HeistState;
 import dev.centremetre.paydaylog.repository.CompletedHeistRepository;
 import dev.centremetre.paydaylog.repository.HeistRepository;
 import org.springframework.stereotype.Service;
@@ -67,5 +69,19 @@ public class DefaultHeistService implements HeistService
     public Heist getHeistFromId(int id)
     {
         return heistRepository.findById(id).get(); //TODO: Check it exists.
+    }
+
+    @Override
+    public List<HeistStateDto> getHeistStates()
+    {
+        List<HeistStateDto> heistStates = new ArrayList<>();
+        for (HeistState state : dev.centremetre.paydaylog.model.HeistState.values())
+        {
+            HeistStateDto dto = new HeistStateDto();
+            dto.setId(state.getId());
+            dto.setState(state.getState());
+            heistStates.add(dto);
+        }
+        return heistStates;
     }
 }

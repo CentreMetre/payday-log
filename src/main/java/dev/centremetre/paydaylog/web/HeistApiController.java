@@ -2,6 +2,7 @@ package dev.centremetre.paydaylog.web;
 
 import dev.centremetre.paydaylog.dto.HeistCreateDto;
 import dev.centremetre.paydaylog.model.Heist;
+import dev.centremetre.paydaylog.dto.HeistStateDto;
 import dev.centremetre.paydaylog.service.HeistService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +46,11 @@ public class HeistApiController
     public ResponseEntity<Heist> createNewHeist(@RequestBody HeistCreateDto heistName)
     {
         return ResponseEntity.ok(heistService.createHeist(heistName.getHeistName()));
+    }
+
+    @GetMapping("/states")
+    public ResponseEntity<List<HeistStateDto>> getHeistStates()
+    {
+        return ResponseEntity.ok(heistService.getHeistStates());
     }
 }
