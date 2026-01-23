@@ -76,16 +76,41 @@ newHeistInstanceButtonEl.addEventListener('click', () => newForm());
 
 submitButtonEl.addEventListener('click', submitForm)
 
+const heistCompleteElements: (HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)[] = [
+    heistNameInputEl,
+    xpAmountInputEl,
+    accurateXpInputEl,
+    completedAtInputEl,
+    successfulInputEl,
+    majorityStealthInputEl,
+    difficultySelectEl,
+    notesInputEl
+];
+
 function newForm() {
+    clearHeistCompletedForm()
     resetFormWithDefaults(formDefaults);
     formStateDisabled(false);
+}
+
+function clearHeistCompletedForm() {
+    for (const element of heistCompleteElements) {
+        // Reset value if it exists
+        if ('defaultValue' in element) {
+            element.value = element.defaultValue;
+        }
+        // Reset checked if it exists
+        if ('defaultChecked' in element) {
+            element.checked = element.defaultChecked;
+        }
+    }
 }
 
 function resetFormWithDefaults(defaults: HeistFormDefaults) {
     heistNameInputEl.value = defaults.heistName;
     xpAmountInputEl.value = defaults.xpAmount.toString();
     accurateXpInputEl.checked = defaults.accurateXpAmount;
-    completedAtInputEl.value = defaults.completedAt;
+    completedAtInputEl.value = defaults.completedAt();
     successfulInputEl.checked = defaults.heistSuccess;
     majorityStealthInputEl.checked = defaults.majorityStatePlayedStealth;
     difficultySelectEl.value = defaults.difficultyId;
@@ -109,6 +134,8 @@ function submitForm() {
     // const response = await fetch(`/api/heists/create`, {
     //     method: 'POST',
     // })
+
+    formStateDisabled(true);
 }
 
 function CreateNewDateStringForForm(): string {
