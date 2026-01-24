@@ -1,0 +1,50 @@
+thead {
+    background: hsl(0, 0%, 90%);
+}
+
+th {
+    border-left: 1px solid hsl(0, 0%, 16%);
+    border-bottom: 1px solid hsl(0, 0%, 16%);
+    border-right: 1px solid hsl(0, 0%, 16%);
+
+    padding: 1rem;
+}
+
+table {
+    font-family: "inter", sans-serif;
+    border-collapse: collapse;
+    /*width: 100%;*/
+}
+
+.table-div {
+    /*width: 50%;*/
+}
+
+.row-id {
+    font-weight: bold;
+
+    border-bottom: 1px solid hsl(0, 0%, 16%);
+    border-right: 1px solid hsl(0, 0%, 16%);
+}
+
+tr:nth-child(even) {
+    background: hsl(210, 100%, 96.08%)
+}
+
+table th:first-of-type,
+table td:first-of-type {
+    border-left: 0;
+}
+
+table th:last-of-type,
+table td:last-of-type {
+    border-right: 0;
+}
+
+td input[type=checkbox] {
+    color: #0c2d4a;
+}
+
+.table-cell-boolean {
+    text-align: center;
+}
