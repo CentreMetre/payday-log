@@ -14,7 +14,7 @@ import type { Heist } from "./heist";
 //     notes: string;
 // }
 
-type HeistFormDefaults = Omit<CompletedHeist, 'id' | 'heistId' | 'difficultyName' | 'completedAt' | 'xpAmount'> & {
+type HeistFormDefaults = Omit<CompletedHeist, 'id' | 'heistId' | 'difficultyName' | 'completedAt' | 'xpAmount' | 'heistFinishStateName'> & {
     completedAt: () => string;
     xpAmount: string; //string to allow default to be "", will be converted back to number later at submission
 }
@@ -142,7 +142,7 @@ function resetFormWithDefaults(defaults: HeistFormDefaults) {
     notesInputEl.value = defaults.notes;
 }
 
-type CompletedHeistSubmit = Omit<CompletedHeist, 'id' | 'heistName' | 'difficultyName' | 'completedAt'> & {
+type CompletedHeistSubmit = Omit<CompletedHeist, 'id' | 'heistName' | 'difficultyName' | 'completedAt' | 'heistFinishStateName'> & {
     completedAt: string;
 }
 // TODO: Decide whether to have IDs be strings or numbers, on frontend and in transit (should be strings in frontend probably, but in transit ???)

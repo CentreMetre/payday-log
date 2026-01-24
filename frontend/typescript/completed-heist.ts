@@ -2,7 +2,7 @@
  * Flat version of a completed heist from the backend.
  */
 export type CompletedHeist = { // TODO: Decide on string or number for ID
-    id: string;
+    id: number;
     xpAmount: number;
     accurateXpAmount: boolean;
 
@@ -12,7 +12,11 @@ export type CompletedHeist = { // TODO: Decide on string or number for ID
 
     completedAt: Date;
     heistSuccess: boolean;
+
+    // Flattened finish state
     heistFinishStateId: number;
+    heistFinishStateName: string;
+
     majorityStatePlayedStealth: boolean;
 
     // Flattened Difficulty
@@ -21,4 +25,3 @@ export type CompletedHeist = { // TODO: Decide on string or number for ID
 
     notes: string;
 }
-
