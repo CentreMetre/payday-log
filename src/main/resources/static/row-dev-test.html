@@ -8,13 +8,13 @@
 </head>
 <body>
     <div class="table-div">
-        <table class="table heist-table">
+        <table class="heist-table" hidden>
             <thead>
-                <tr class="table-header-row">
-                    <th class="header-id">ID</th>
+                <tr>
+                    <th>ID</th>
                     <th>Heist Name</th>
                     <th>XP Amount</th>
-                    <th class="table-header-cell-accurate-xp">Accurate XP?</th>
+                    <th>Accurate XP?</th>
                     <th>Completed At</th>
                     <th>Difficulty</th>
                     <th>Heist Success?</th>
@@ -23,31 +23,40 @@
                     <th>Notes</th>
                 </tr>
             </thead>
+        </table>
+    </div>
+    <button id="get-latest-button">Get Latest</button>
+    <script src="js/completed-heist-rows.js" type="module">
+
+    </script>
+</body>
+
+</html>
+
+<!--
+
             <tr>
                 <td class="row-id">1</td>
                 <td>No Rest For The Wicked</td>
                 <td>1,234</td>
-                <td class="table-cell-boolean">✔<!--<input type="checkbox" checked disabled>--></td>
-                <td>2026-01-23 09:27:01.369</td>
-                <td>Overkill</td>
                 <td class="table-cell-boolean">✔</td>
-                <td>Final Assault</td>
-                <td class="table-cell-boolean">✖</td>
-                <td>Last standing</td>
-            </tr>
-            <tr>
-                <td class="row-id">2</td>
-                <td>Road Rage</td>
-                <td>1,234</td>
-                <td class="table-cell-boolean">✔<!--<input type="checkbox" checked disabled>--></td>
-                <td>2026-01-23 09:27:01.369</td>
-                <td>Overkill</td>
-                <td class="table-cell-boolean">✔</td>
-                <td>Final Assault</td>
-                <td class="table-cell-boolean">✖</td>
-                <td>Last standing</td>
-            </tr>
-        </table>
-    </div>
-</body>
-</html>
+<td>2026-01-23 09:27:01.369</td>
+<td>Overkill</td>
+<td class="table-cell-boolean">✔</td>
+<td>Final Assault</td>
+<td class="table-cell-boolean">✖</td>
+<td>Last standing</td>
+</tr>
+<tr>
+    <td class="row-id">2</td>
+    <td>Road Rage</td>
+    <td>1,234</td>
+    <td class="table-cell-boolean">✔</td>
+    <td>2026-01-23 09:27:01.369</td>
+    <td>Overkill</td>
+    <td class="table-cell-boolean">✔</td>
+    <td>Final Assault</td>
+    <td class="table-cell-boolean">✖</td>
+    <td>Last standing</td>
+</tr>
+-->
