@@ -3,20 +3,20 @@
  */
 export type CompletedHeist = { // TODO: Decide on string or number for ID
     id: string;
-    xpAmount: string;
+    xpAmount: number;
     accurateXpAmount: boolean;
 
     // Flattened Heist
-    heistId: string;
+    heistId: number;
     heistName: string;
 
     completedAt: Date;
     heistSuccess: boolean;
-    heistFinishState: string;
+    heistFinishStateId: number;
     majorityStatePlayedStealth: boolean;
 
     // Flattened Difficulty
-    difficultyId: string;
+    difficultyId: number;
     difficultyName: string;
 
     notes: string;

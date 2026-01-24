@@ -14,8 +14,9 @@ import type { Heist } from "./heist";
 //     notes: string;
 // }
 
-type HeistFormDefaults = Omit<CompletedHeist, 'id' | 'heistId' | 'difficultyName' | 'completedAt'> & {
+type HeistFormDefaults = Omit<CompletedHeist, 'id' | 'heistId' | 'difficultyName' | 'completedAt' | 'xpAmount'> & {
     completedAt: () => string;
+    xpAmount: string; //string to allow default to be "", will be converted back to number later at submission
 }
 
 const formDefaults: HeistFormDefaults = {
@@ -24,15 +25,33 @@ const formDefaults: HeistFormDefaults = {
     heistName: "",
     completedAt: CreateNewDateStringForForm,
     heistSuccess: true,
-    heistFinishState: "6",
+    heistFinishStateId: 6,
     majorityStatePlayedStealth: false,
-    difficultyId: "4", //Difficulty ID
+    difficultyId: 4, //Difficulty ID
     notes: ""
+}
+
+
+const devFormDefaults: HeistFormDefaults = {
+    xpAmount: "",
+    accurateXpAmount: true,
+    heistName: "Road Rage",
+    completedAt: CreateNewDateStringForForm,
+    heistSuccess: true,
+    heistFinishStateId: 6,
+    majorityStatePlayedStealth: false,
+    difficultyId: 4, //Difficulty ID
+    notes: "Hi"
 }
 
 // type heistDefaults = {
 //
 // }
+
+/**
+ * Used to keep a relation between a heist name and its ID since HTML Datalist items can't.
+ */
+const heistNameToId: Map<string, number> = new Map();
 
 const heistInstanceCreateFormEl: HTMLFormElement = document.getElementById("heist-instance-create-form") as HTMLFormElement // Have to have `as HTMLFormElement` or it won't work
 
@@ -41,9 +60,6 @@ const newHeistInstanceButtonEl: HTMLButtonElement =
 
 const heistNameInputEl: HTMLInputElement =
     document.getElementById("heist-instance-heist-name-input") as HTMLInputElement;
-
-const heistIdInputEl: HTMLInputElement =
-    document.getElementById("heist-instance-heist-id-input") as HTMLInputElement;
 
 const heistsDatalistEl: HTMLDataListElement =
     document.getElementById("heist-instance-heist-data-list") as HTMLDataListElement;
@@ -74,6 +90,11 @@ const notesInputEl: HTMLTextAreaElement =
 
 const submitButtonEl: HTMLButtonElement =
     document.getElementById("heist-instance-submit-button") as HTMLButtonElement;
+
+const formMessage: HTMLParagraphElement =
+    document.getElementById("heist-instance-form-message") as HTMLParagraphElement;
+
+populateHeistList()
 
 newHeistInstanceButtonEl.addEventListener('click', () => newForm());
 
@@ -111,13 +132,13 @@ function clearHeistCompletedForm() {
 
 function resetFormWithDefaults(defaults: HeistFormDefaults) {
     heistNameInputEl.value = defaults.heistName;
-    xpAmountInputEl.value = defaults.xpAmount.toString();
+    xpAmountInputEl.value = defaults.xpAmount;
     accurateXpInputEl.checked = defaults.accurateXpAmount;
     completedAtInputEl.value = defaults.completedAt();
     successfulInputEl.checked = defaults.heistSuccess;
-    finishStateSelectEl.value = defaults.heistFinishState;
+    finishStateSelectEl.value = defaults.heistFinishStateId.toString();
     majorityStealthInputEl.checked = defaults.majorityStatePlayedStealth;
-    difficultySelectEl.value = defaults.difficultyId;
+    difficultySelectEl.value = defaults.difficultyId.toString();
     notesInputEl.value = defaults.notes;
 }
 
@@ -126,15 +147,22 @@ type CompletedHeistSubmit = Omit<CompletedHeist, 'id' | 'heistName' | 'difficult
 }
 // TODO: Decide whether to have IDs be strings or numbers, on frontend and in transit (should be strings in frontend probably, but in transit ???)
 function submitForm() {
+    const heistId = heistNameToId.get(heistNameInputEl.value);
+    console.debug(heistId)
+    if (heistId === undefined)
+    {
+        formMessage.textContent = `Heist ID not found for ${heistNameInputEl.value}`
+        return;
+    }
     const heistCompletedData: CompletedHeistSubmit = {
-        xpAmount: xpAmountInputEl.value,
+        xpAmount: parseInt(xpAmountInputEl.value),
         accurateXpAmount: accurateXpInputEl.checked,
-        heistId: heistIdInputEl.value,
+        heistId: heistId,
         completedAt: completedAtInputEl.value,
         heistSuccess: successfulInputEl.checked,
-        heistFinishState: finishStateSelectEl.value,
+        heistFinishStateId: parseInt(finishStateSelectEl.value),
         majorityStatePlayedStealth: majorityStealthInputEl.checked,
-        difficultyId: difficultySelectEl.value,
+        difficultyId: parseInt(difficultySelectEl.value),
         notes: notesInputEl.value
     }
     // const response = await fetch(`/api/heists/create`, {
@@ -144,6 +172,14 @@ function submitForm() {
     console.log(heistCompletedData)
 
     formStateDisabled(true);
+
+    fetch("/api/completed-heists/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(heistCompletedData)
+    })
 }
 
 function CreateNewDateStringForForm(): string {
@@ -167,15 +203,15 @@ function CreateNewDateStringForForm(): string {
     );
 }
 
-populateHeistList()
-
 async function populateHeistList() {
     const response = await fetch("/api/heists");
     const heists: Heist[] = await response.json();
     for (const heist of heists) {
         const optionEl = document.createElement("option");
         optionEl.value = heist.name;
-        heistsDatalistEl.append(optionEl)
+        heistsDatalistEl.append(optionEl);
+
+        heistNameToId.set(heist.name, heist.id);
     }
 }
 
@@ -192,4 +228,3 @@ function formStateDisabled(isDisabled: boolean): void {
     notesInputEl.disabled = isDisabled;
     // submitButtonEl.disabled = isDisabled;
 }
-
