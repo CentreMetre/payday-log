@@ -198,3 +198,5 @@ buildNumber.properties
 frontend/node_modules/
 
 *.js
+
+*.db
