@@ -1,0 +1,16 @@
+.card {
+    border-radius: 5px;
+    border: 1px solid #8e8c8c;
+}
+
+.final-assault {
+    background: hsla(27, 100%, 50%, 0.75);
+}
+
+.fbi-assault {
+    background: hsla(230, 100%, 50%, 0.75);
+}
+
+.card-title, .card-subtitle {
+    margin: 5px;
+}
