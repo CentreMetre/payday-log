@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
  * Used to return a {@link dev.centremetre.paydaylog.model.CompletedHeist}
  * to the client without unnecessary data like IDs (keeps the completed heist ID).
  */
-public class CompletedHeistResponseOmitObjectIdsDto
+public class CompletedHeistResponseOmitObjectIdsDto // TODO: switch to only sending IDs and then on frontend map them
 {
     private int id;
 
