@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,21 @@ public class ChallengeInstanceRepositoryTest
     LocalDateTime completedAt;
     String notes;
 
+    /**
+     * Util method to quickly create a new challenge instance.
+     * @return A challenge instance object with all fields (except ID) filled to the data in the class fields.
+     */
+    ChallengeInstance createFilledOutInstance()
+    {
+        ChallengeInstance newInstance = new ChallengeInstance();
+        newInstance.setChallenge(challenge);
+        newInstance.setCompleted(isCompleted);
+        newInstance.setCompletedAt(completedAt);
+        newInstance.setNotes(notes);
+
+        return newInstance;
+    }
+
     @BeforeEach
     void setup()
     {
@@ -43,7 +59,10 @@ public class ChallengeInstanceRepositoryTest
 
         // Challenge Instance default data. Not saved to DB so it can be edited for a test.
         isCompleted = true;
-        completedAt = LocalDateTime.now();
+        // .truncatedTo(ChronoUnit.MILLIS); Needed to remove nanoseconds for findByCompletedAt tests because it compares
+        // the LocalDateTime object with nanoseconds to the column value with only ms.
+        // Database only stores upto ms anyway so this is fine.
+        completedAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
         notes = "Test notes";
         newInstance = new ChallengeInstance();
         newInstance.setChallenge(challenge);
@@ -164,20 +183,64 @@ public class ChallengeInstanceRepositoryTest
         assertThat(instances.size()).isEqualTo(0);
     }
 
-//    void testSaving
-
-    /**
-     * Util method to quickly create a new challenge instance.
-     * @return A challenge instance object with all fields (except ID) filled to the data in the class fields.
-     */
-    ChallengeInstance createFilledOutInstance()
+    @Test
+    void testSavingAndFindByCompleteAtZeroExist()
     {
-        ChallengeInstance newInstance = new ChallengeInstance();
-        newInstance.setChallenge(challenge);
-        newInstance.setCompleted(isCompleted);
-        newInstance.setCompletedAt(completedAt);
-        newInstance.setNotes(notes);
+        //Change time so that it's not the same as completedAt class field.
+        newInstance.setCompletedAt(LocalDateTime.now().minusHours(1));
+        instanceRepository.save(newInstance);
 
-        return newInstance;
+        List<ChallengeInstance> instances = instanceRepository.findByCompletedAt(completedAt);
+
+        assertThat(instances.size()).isEqualTo(0);
     }
+
+    @Test
+    void testSavingAndFindByCompleteAtOneExists()
+    {
+        instanceRepository.save(newInstance);
+
+        List<ChallengeInstance> instances = instanceRepository.findByCompletedAt(completedAt);
+
+        assertThat(instances.size()).isEqualTo(1);
+    }
+
+    @Test
+    void testSavingAndFindByCompleteAtTwoExists()
+    {
+        instanceRepository.save(newInstance);
+
+        instanceRepository.save(createFilledOutInstance());
+
+        List<ChallengeInstance> instances = instanceRepository.findByCompletedAt(completedAt);
+
+        assertThat(instances.size()).isEqualTo(2);
+    }
+
+    @Test
+    void testSavingAndFindByCompleteAtBoundaryCaseMinusOneMs()
+    {
+        LocalDateTime testTime = completedAt.minus(1,ChronoUnit.MILLIS);
+
+        instanceRepository.save(newInstance);
+
+        List<ChallengeInstance> instances = instanceRepository.findByCompletedAt(testTime);
+
+        assertThat(instances.size()).isEqualTo(0);
+    }
+
+    @Test
+    void testSavingAndFindByCompleteAtBoundaryCaseAddOneMs()
+    {
+        LocalDateTime completedAtMinusOneMs = completedAt.plus(1, ChronoUnit.MILLIS);
+
+        instanceRepository.save(newInstance);
+
+        List<ChallengeInstance> instances = instanceRepository.findByCompletedAt(completedAtMinusOneMs);
+
+        assertThat(instances.size()).isEqualTo(0);
+    }
+
+    //TODO: Implement: getByCompletedAtBetweenDates, findByCompletedAtBefore, findByCompletedAtAfter, getByCompletedAtTimeBetween
+
 }
