@@ -25,7 +25,7 @@ public class DefaultHeistService implements HeistService
     @Override
     public Heist getHeistFromName(String name)
     {
-        Optional<Heist> heist = heistRepository.getByName(name);
+        Optional<Heist> heist = heistRepository.findByName(name);
 
         if (heist.isEmpty())
         {
