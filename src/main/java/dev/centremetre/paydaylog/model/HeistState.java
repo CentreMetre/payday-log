@@ -14,6 +14,7 @@ package dev.centremetre.paydaylog.model;
 public enum HeistState
 {
     STEALTH(0, "Stealth"),
+//    SEARCHING(1, "Searching"), // TODO: Decide: Searching isnt a state, but a modified stealth state, maybe just add in notes?
     ALARM(1, "Alarm"),
     FIRST_RESPONSE_INCOMING(2, "First Response Incoming"),
     NEGOTIATE_TO_DELAY_ASSAULT(3, "Negotiate To Delay Assault"),
