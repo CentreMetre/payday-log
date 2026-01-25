@@ -1,4 +1,4 @@
-import type {CompletedHeist} from "./completed-heist";
+import type {CompletedHeist} from "./models/completed-heist";
 
 const tableHeader = `
     <thead>

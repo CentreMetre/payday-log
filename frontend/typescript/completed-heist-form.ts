@@ -1,5 +1,5 @@
-import type { CompletedHeist } from "./completed-heist";
-import type { Heist } from "./heist";
+import type { CompletedHeist } from "./models/completed-heist";
+import type { Heist } from "./models/heist";
 
 // type CompletedHeist = {
 //     xpAmount: string;
