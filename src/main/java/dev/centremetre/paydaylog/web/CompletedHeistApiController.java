@@ -1,6 +1,7 @@
 package dev.centremetre.paydaylog.web;
 
 import dev.centremetre.paydaylog.dto.CompletedHeistCreateDto;
+import dev.centremetre.paydaylog.dto.CompletedHeistResponseOmitObjectIdsDto;
 import dev.centremetre.paydaylog.model.CompletedHeist;
 import dev.centremetre.paydaylog.service.CompletedHeistService;
 import jakarta.validation.Valid;
@@ -38,9 +39,27 @@ public class CompletedHeistApiController
      * @return A ResponseEntity with the status ok and containing the latest completed heist.
      */
     @GetMapping("/latest")
-    public ResponseEntity<CompletedHeist> getLatestCompletedHeist()
+    public ResponseEntity<CompletedHeistResponseOmitObjectIdsDto> getLatestCompletedHeist()
     {
-        return ResponseEntity.ok(completedHeistService.getLatestCompletedHeist());
+        CompletedHeist heist = completedHeistService.getLatestCompletedHeist();
+
+        CompletedHeistResponseOmitObjectIdsDto heistNoObjectIds = new CompletedHeistResponseOmitObjectIdsDto();
+
+        heistNoObjectIds.setId(heist.getId());
+        heistNoObjectIds.setHeistName(heist.getHeist().getName());
+        heistNoObjectIds.setXpAmount(heist.getXpAmount());
+        heistNoObjectIds.setAccurateXpAmount(heist.isAccurateXpInput());
+        heistNoObjectIds.setCompletedAt(heist.getCompletedAt());
+        heistNoObjectIds.setHeistSuccess(heist.isHeistSuccess());
+        heistNoObjectIds.setHeistFinishStateName(heist.getHeistFinishState().getState());
+        heistNoObjectIds.setMajorityStatePlayedStealth(
+                heist.isMajorityStatePlayedStealth()
+        );
+        heistNoObjectIds.setDifficultyName(heist.getDifficulty().getDifficulty());
+        heistNoObjectIds.setNotes(heist.getNotes());
+
+
+        return ResponseEntity.ok(heistNoObjectIds);
     }
 
     /**
