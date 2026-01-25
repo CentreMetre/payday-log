@@ -32,7 +32,7 @@ public class DefaultChallengeService implements ChallengeService
     @Override
     public Challenge getChallengeByChallenge(String challenge)
     {
-        return challengeRepository.findChallengeByChallenge(challenge).get(); //TODO: Check it exists.
+        return challengeRepository.findByChallenge(challenge).get(); //TODO: Check it exists.
     }
 
     @Override

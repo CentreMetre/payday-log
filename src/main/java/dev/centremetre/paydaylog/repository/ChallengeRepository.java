@@ -13,7 +13,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Integer>
 {
     Challenge findChallengeById(int id);
 
-    Optional<Challenge> findChallengeByChallenge(@NotNull String challenge);
+    Optional<Challenge> findByChallenge(@NotNull String challenge);
 
     /**
      * Retrieves challenges with the prefix provided. Letter case not important.
