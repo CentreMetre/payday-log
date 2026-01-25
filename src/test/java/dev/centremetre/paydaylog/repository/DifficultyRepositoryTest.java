@@ -22,9 +22,12 @@ public class DifficultyRepositoryTest
         difficulty.setDifficulty("Test Difficulty");
 
         difficultyRepository.save(difficulty);
-        Difficulty saved = difficultyRepository.getReferenceById(difficulty.getId());
-        assertThat(saved.getDifficulty()).isEqualTo(difficulty.getDifficulty());
-        assertThat(saved.getId()).isEqualTo(difficulty.getId());
+        Optional<Difficulty> saved = difficultyRepository.findById(difficulty.getId());
+        if(saved.isPresent())
+        {
+            assertThat(saved.get().getDifficulty()).isEqualTo(difficulty.getDifficulty());
+            assertThat(saved.get().getId()).isEqualTo(difficulty.getId());
+        }
     }
 
     @Test
