@@ -47,20 +47,23 @@ public interface ChallengeInstanceRepository extends JpaRepository<ChallengeInst
      *
      * @param startDateTime The {@link LocalDateTime} of time to search from.
      * @param endDateTime The {@link LocalDateTime} of time to search to.
+     *                    Inclusive according to JPA behaviour for keyword Between.
      * @return A list of all challenge instances between the given time.
      */
     List<ChallengeInstance> findByCompletedAtBetween(LocalDateTime startDateTime, LocalDateTime endDateTime);
 
     /**
      * Find all {@link ChallengeInstance} that are between two dates.
-     * @param start The start date to search from, inclusive/not inclusive TBD. //TODO: change depending on
+     * @param start The start date to search from, inclusive.
      * @param end The end date to search to, inclusive.
-     * @return A List of {@link ChallengeInstance} with the completedAt value being between the two provided dates.
+     * @return A List of {@link ChallengeInstance} with the completedAt value being between the two provided dates,
+     * inclusive.
      */
     @Query(
-            value = "SELECT * FROM challenge_instances WHERE CAST(completed_at as DATE) > :start and CAST(completed_at as DATE) < :end",
+            value = "SELECT * FROM challenge_instances" +
+                    "WHERE CAST(completed_at as DATE) >= :start" +
+                    "AND CAST(completed_at as DATE) <= :end",
             nativeQuery = true) //TODO: look at improving for performance. Cast cant index.
-    //TODO: make end inclusive (maybe.
     List<ChallengeInstance> getByCompletedAtBetweenDates(@Param("start") LocalDate start, @Param("end") LocalDate end);
 
     List<ChallengeInstance> findByCompletedAtBefore(LocalDateTime completedAtBefore);
@@ -68,12 +71,13 @@ public interface ChallengeInstanceRepository extends JpaRepository<ChallengeInst
 
     /**
      * Get {@link ChallengeInstance}s that where completed between two times, regardless of date.
-     * @param start The start of the period to retrieve.
-     * @param end The end of the period to retrieve.
+     * @param start The start of the period to retrieve, inclusive.
+     * @param end The end of the period to retrieve, inclusive.
      * @return A list of challenge instances that match the parameters.
      */
     //TODO: Fix so end can be smaller than start for over midnight.
-    @Query(value = "SELECT * FROM challenge_instances WHERE CAST(completed_at as TIME(3)) > :start and CAST(completed_at as TIME(3)) < :end",
+    @Query(value = "SELECT * FROM challenge_instances WHERE CAST(completed_at as TIME(3)) >= :start" +
+            "AND CAST(completed_at as TIME(3)) <= :end",
             nativeQuery = true) // TODO: Look into making more performant.
     List<ChallengeInstance> getByCompletedAtTimeBetween(@Param("start") LocalTime start, @Param("end") LocalTime end);
 
