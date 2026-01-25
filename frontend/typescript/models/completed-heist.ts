@@ -1,7 +1,7 @@
 /**
  * Flat version of a completed heist from the backend.
  */
-export type CompletedHeist = { // TODO: Decide on string or number for ID
+export type CompletedHeist = {
     id: number;
     xpAmount: number;
     accurateXpAmount: boolean;
