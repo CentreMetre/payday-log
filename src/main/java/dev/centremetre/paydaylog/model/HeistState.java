@@ -4,12 +4,12 @@ package dev.centremetre.paydaylog.model;
  * An enum for the states a heist can be in.
  * 0 = Stealth
  * 1 = Alarm
- * 1 = First Response Incoming
- * 2 = Negotiate to delay assault
- * 3 = Assault Incoming
- * 4 = Police Assault
- * 5 = Final Charge
- * 6 = FBI Assault
+ * 2 = First Response Incoming
+ * 3 = Negotiate to delay assault
+ * 4 = Assault Incoming
+ * 5 = Police Assault
+ * 6 = Final Charge
+ * 7 = FBI Assault
  */
 public enum HeistState
 {
