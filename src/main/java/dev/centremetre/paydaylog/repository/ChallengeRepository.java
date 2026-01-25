@@ -11,8 +11,6 @@ import java.util.Optional;
 @Repository
 public interface ChallengeRepository extends JpaRepository<Challenge, Integer>
 {
-    Challenge findChallengeById(int id);
-
     Optional<Challenge> findByChallenge(@NotNull String challenge);
 
     /**
@@ -30,5 +28,4 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Integer>
      * @return A list of {@link Challenge} that contains with the given string.
      */
     List<Challenge> findByChallengeContainsIgnoreCase(String challenge);
-
 }

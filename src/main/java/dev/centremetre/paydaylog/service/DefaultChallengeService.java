@@ -3,9 +3,11 @@ package dev.centremetre.paydaylog.service;
 import dev.centremetre.paydaylog.dto.ChallengeCreateDto;
 import dev.centremetre.paydaylog.model.Challenge;
 import dev.centremetre.paydaylog.repository.ChallengeRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DefaultChallengeService implements ChallengeService
@@ -26,7 +28,13 @@ public class DefaultChallengeService implements ChallengeService
     @Override
     public Challenge getChallengeById(int id)
     {
-        return challengeRepository.findChallengeById(id);
+        Optional<Challenge> challengeOptional = challengeRepository.findById(id);
+
+        if (challengeOptional.isPresent())
+        {
+            return challengeOptional.get();
+        }
+        throw new EntityNotFoundException("Challenge with and ID of " + id + " doesn't exist.");
     }
 
     @Override
