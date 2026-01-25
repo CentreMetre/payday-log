@@ -1,6 +1,7 @@
 package dev.centremetre.paydaylog.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
  * an optional date and time it was completed at, and optional notes.
  */
 @Entity
-@Table(name = "challenges_completed")
+@Table(name = "challenges_instances")
 public class ChallengeInstance
 {
     @Id
@@ -29,10 +30,11 @@ public class ChallengeInstance
 
     /**
      * Whether the challenge was completed.
+     * If this is set to true, {@link #completedAt} cannot be null. This is enforced by {@link #isCompletedAtValid}.
      */
     @Column(name = "completed", nullable = false)
     @NotNull
-    private boolean isCompleted;
+    private boolean completed;
 
     /**
      * The date and time the challenge was completed at.
@@ -68,12 +70,12 @@ public class ChallengeInstance
 
     public boolean isCompleted()
     {
-        return isCompleted;
+        return completed;
     }
 
     public void setCompleted(boolean completed)
     {
-        isCompleted = completed;
+        this.completed = completed;
     }
 
     public LocalDateTime getCompletedAt()
@@ -94,5 +96,11 @@ public class ChallengeInstance
     public void setNotes(String notes)
     {
         this.notes = notes;
+    }
+
+    // Constraint to make it so completedAt cannot be null if isCompleted is true.
+    @AssertTrue(message = "completedAt must be set when challenge is completed")
+    private boolean isCompletedAtValid() {
+        return !completed || completedAt != null;
     }
 }

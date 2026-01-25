@@ -2,7 +2,6 @@ package dev.centremetre.paydaylog.repository;
 
 import dev.centremetre.paydaylog.model.Challenge;
 import dev.centremetre.paydaylog.model.ChallengeInstance;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -59,7 +58,7 @@ public interface ChallengeInstanceRepository extends JpaRepository<ChallengeInst
      * @return A List of {@link ChallengeInstance} with the completedAt value being between the two provided dates.
      */
     @Query(
-            value = "SELECT * FROM Challenge WHERE CAST(completed_at as DATE) > :start and CAST(completed_at as DATE) < :end",
+            value = "SELECT * FROM challenge_instances WHERE CAST(completed_at as DATE) > :start and CAST(completed_at as DATE) < :end",
             nativeQuery = true) //TODO: look at improving for performance. Cast cant index.
     //TODO: make end inclusive (maybe.
     List<ChallengeInstance> getByCompletedAtBetweenDates(@Param("start") LocalDate start, @Param("end") LocalDate end);
@@ -74,7 +73,7 @@ public interface ChallengeInstanceRepository extends JpaRepository<ChallengeInst
      * @return A list of challenge instances that match the parameters.
      */
     //TODO: Fix so end can be smaller than start for over midnight.
-    @Query(value = "SELECT * FROM Challenge WHERE CAST(completed_at as TIME(3)) > :start and CAST(completed_at as TIME(3)) < :end",
+    @Query(value = "SELECT * FROM challenge_instances WHERE CAST(completed_at as TIME(3)) > :start and CAST(completed_at as TIME(3)) < :end",
             nativeQuery = true) // TODO: Look into making more performant.
     List<ChallengeInstance> getByCompletedAtTimeBetween(@Param("start") LocalTime start, @Param("end") LocalTime end);
 
