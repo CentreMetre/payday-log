@@ -115,18 +115,18 @@ public class CompletedHeistTest
     @Test
     void testSaveAndRetrieveHeistCompareFields()
     {
-        completedRepository.save(defaultInstance);
-        CompletedHeist saved = completedRepository.findById(1).get();
+        CompletedHeist saved = completedRepository.save(defaultInstance);
+        CompletedHeist savedRetrieved = completedRepository.findById(saved.getId()).get();
 
 
-        assertThat(saved.getXpAmount()).isEqualTo(defaultInstance.getXpAmount());
-        assertThat(saved.isAccurateXpInput()).isEqualTo(defaultInstance.isAccurateXpInput());
-        assertThat(saved.getHeist()).isEqualTo(defaultInstance.getHeist()); // assumes Heist has proper equals()
-        assertThat(saved.getCompletedAt()).isEqualTo(defaultInstance.getCompletedAt());
-        assertThat(saved.isHeistSuccess()).isEqualTo(defaultInstance.isHeistSuccess());
-        assertThat(saved.getHeistFinishState()).isEqualTo(defaultInstance.getHeistFinishState());
-        assertThat(saved.isMajorityStatePlayedStealth()).isEqualTo(defaultInstance.isMajorityStatePlayedStealth());
-        assertThat(saved.getDifficulty()).isEqualTo(defaultInstance.getDifficulty()); // assumes Difficulty has equals()
-        assertThat(saved.getNotes()).isEqualTo(defaultInstance.getNotes());
+        assertThat(savedRetrieved.getXpAmount()).isEqualTo(defaultInstance.getXpAmount());
+        assertThat(savedRetrieved.isAccurateXpInput()).isEqualTo(defaultInstance.isAccurateXpInput());
+        assertThat(savedRetrieved.getHeist()).isEqualTo(defaultInstance.getHeist()); // assumes Heist has proper equals()
+        assertThat(savedRetrieved.getCompletedAt()).isEqualTo(defaultInstance.getCompletedAt());
+        assertThat(savedRetrieved.isHeistSuccess()).isEqualTo(defaultInstance.isHeistSuccess());
+        assertThat(savedRetrieved.getHeistFinishState()).isEqualTo(defaultInstance.getHeistFinishState());
+        assertThat(savedRetrieved.isMajorityStatePlayedStealth()).isEqualTo(defaultInstance.isMajorityStatePlayedStealth());
+        assertThat(savedRetrieved.getDifficulty()).isEqualTo(defaultInstance.getDifficulty()); // assumes Difficulty has equals()
+        assertThat(savedRetrieved.getNotes()).isEqualTo(defaultInstance.getNotes());
     }
 }
