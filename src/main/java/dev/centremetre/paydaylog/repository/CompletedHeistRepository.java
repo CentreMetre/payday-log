@@ -56,6 +56,6 @@ public interface CompletedHeistRepository extends JpaRepository<CompletedHeist, 
      */
     CompletedHeist findTopByOrderByIdDesc();
 
-    @Query(value = "SELECT * FROM CompletedHeist ORDER BY id DESC LIMIT 10", nativeQuery = true)
+    @Query(value = "SELECT * FROM heists_completed ORDER BY id DESC LIMIT 10", nativeQuery = true)
     List<CompletedHeist> getTenLatestCompletedHeists();
 }
