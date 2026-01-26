@@ -1,8 +1,10 @@
 package dev.centremetre.paydaylog.repository;
 
 import dev.centremetre.paydaylog.model.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -22,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  Related: https://github.com/spring-projects/spring-boot/issues/35253
  */
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS) // Needed for before all so i can run it non static.
 public class CompletedHeistRepositoryTest
 {
     @Autowired
@@ -45,9 +48,10 @@ public class CompletedHeistRepositoryTest
     Difficulty difficulty;
     String notes;
 
-    @BeforeEach
+    @BeforeAll
     void setUpTableData()
     {
+        // These need to be here so that they don't get added before every test and end up filling it to above 128, the limit for tiny int.
         // Set difficulties table
         Difficulty normal = new Difficulty();
         normal.setDifficulty("Normal");
@@ -97,6 +101,11 @@ public class CompletedHeistRepositoryTest
         Heist heistTouchTheSky = new Heist();
         heistTouchTheSky.setName("Touch The Sky");
         heistRepository.save(heistTouchTheSky);
+    }
+
+    @BeforeEach
+    void setUp()
+    {
 
         //Create default completed heist
         xpAmount = 2000;
@@ -237,8 +246,45 @@ public class CompletedHeistRepositoryTest
 
 
     ////
-    // findByXpAmountGreaterThan
+    // getTenLatestCompletedHeists
     ////
 
+    @Test
+    void saveAndRetrieveGetTenLatestCompletedHeistsInBoundsNine()
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            CompletedHeist newInstance = createNewDefaultInstance();
+            completedRepository.save(newInstance);
+        }
 
+        List<CompletedHeist> retrieved = completedRepository.getTenLatestCompletedHeists();
+        assertThat(retrieved.size()).isEqualTo(9);
+    }
+
+    @Test
+    void saveAndRetrieveGetTenLatestCompletedHeistsOnBoundsTen()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            CompletedHeist newInstance = createNewDefaultInstance();
+            completedRepository.save(newInstance);
+        }
+
+        List<CompletedHeist> retrieved = completedRepository.getTenLatestCompletedHeists();
+        assertThat(retrieved.size()).isEqualTo(10);
+    }
+
+    @Test
+    void saveAndRetrieveGetTenLatestCompletedHeistsOutOfBoundsEleven()
+    {
+        for (int i = 0; i < 11; i++)
+        {
+            CompletedHeist newInstance = createNewDefaultInstance();
+            completedRepository.save(newInstance);
+        }
+
+        List<CompletedHeist> retrieved = completedRepository.getTenLatestCompletedHeists();
+        assertThat(retrieved.size()).isEqualTo(10);
+    }
 }
