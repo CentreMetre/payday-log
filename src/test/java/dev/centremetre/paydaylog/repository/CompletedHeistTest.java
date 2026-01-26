@@ -1,9 +1,6 @@
 package dev.centremetre.paydaylog.repository;
 
-import dev.centremetre.paydaylog.model.CompletedHeist;
-import dev.centremetre.paydaylog.model.Difficulty;
-import dev.centremetre.paydaylog.model.Heist;
-import dev.centremetre.paydaylog.model.HeistState;
+import dev.centremetre.paydaylog.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +9,8 @@ import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabas
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -118,12 +117,31 @@ public class CompletedHeistTest
         defaultInstance.setNotes(notes);
     }
 
+    /**
+     * Util function to create populated CompletedHeist.
+     * @return {@link CompletedHeist} object with populated fields.
+     */
+    CompletedHeist createNewDefaultInstance()
+    {
+        CompletedHeist newInstance = new CompletedHeist();
+        newInstance.setXpAmount(xpAmount);
+        newInstance.setAccurateXpInput(accurateXpInput);
+        newInstance.setHeist(heist);
+        newInstance.setCompletedAt(completedAt);
+        newInstance.setHeistSuccess(heistSuccess);
+        newInstance.setHeistFinishState(heistFinishState);
+        newInstance.setMajorityStatePlayedStealth(majorityStatePlayedStealth);
+        newInstance.setDifficulty(difficulty);
+        newInstance.setNotes(notes);
+
+        return newInstance;
+    }
+
     @Test
-    void testSaveAndRetrieveHeistCompareFields()
+    void testSaveAndRetrieveCompletedHeistCompareFields()
     {
         CompletedHeist saved = completedRepository.save(defaultInstance);
         CompletedHeist savedRetrieved = completedRepository.findById(saved.getId()).get();
-
 
         assertThat(savedRetrieved.getXpAmount()).isEqualTo(defaultInstance.getXpAmount());
         assertThat(savedRetrieved.isAccurateXpInput()).isEqualTo(defaultInstance.isAccurateXpInput());
@@ -134,6 +152,20 @@ public class CompletedHeistTest
         assertThat(savedRetrieved.isMajorityStatePlayedStealth()).isEqualTo(defaultInstance.isMajorityStatePlayedStealth());
         assertThat(savedRetrieved.getDifficulty()).isEqualTo(defaultInstance.getDifficulty()); // assumes Difficulty has equals()
         assertThat(savedRetrieved.getNotes()).isEqualTo(defaultInstance.getNotes());
+    }
+
+    @Test
+    void testSaveAndRetrieveCompletedHeistAllPossibleFinishState()
+    {
+        List<CompletedHeist> instances = new ArrayList<>();
+
+        for (HeistState state : HeistState.values())
+        {
+            CompletedHeist newInstance = createNewDefaultInstance();
+            newInstance.setHeistFinishState(state);
+            completedRepository.save(newInstance);
+            assertThat(completedRepository.findById(newInstance.getId()).get().getHeistFinishState()).isEqualTo(state);
+        }
     }
 }
 
