@@ -17,7 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 /*
- Needed to use persistent file db for test to work, doesnt work for in mem db.
+ Needed to use persistent file db for test to work, doesn't work for test provided db.
+ Related: https://github.com/spring-projects/spring-boot/issues/35253
  */
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class CompletedHeistTest
@@ -135,3 +136,18 @@ public class CompletedHeistTest
         assertThat(savedRetrieved.getNotes()).isEqualTo(defaultInstance.getNotes());
     }
 }
+
+/**
+ * sql for testing in h2 console.
+
+insert into heists (name) values ('Road Rage');
+insert into difficulties (difficulty) values ('Overkill');
+
+select * from heists;
+select * from difficulties;
+
+INSERT INTO heists_completed (completed_at, heist_finish_state, heist_success, accurate_xp_input, majority_state_played_stealth, notes, xp_amount, difficulty, heist)
+values                       (CURRENT_TIMESTAMP(3), 6,          TRUE,          TRUE,              FALSE,                         'test', 2000,     1,          1);
+select * from HEISTS_COMPLETED;
+
+ */
