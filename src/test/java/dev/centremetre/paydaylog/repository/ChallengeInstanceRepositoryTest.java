@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -239,6 +241,87 @@ public class ChallengeInstanceRepositoryTest
         List<ChallengeInstance> instances = instanceRepository.findByCompletedAt(completedAtMinusOneMs);
 
         assertThat(instances.size()).isEqualTo(0);
+    }
+
+    @Test
+    void getByCompletedAtBetweenDates()
+    {
+
+    }
+
+
+    @Test
+    void getByCompletedAtTimeBetween()
+    {
+        LocalDate date = LocalDate.now();
+
+        ChallengeInstance c1 = createFilledOutInstance();
+        LocalTime c1T = LocalTime.of(10, 0);
+        c1.setCompletedAt(LocalDateTime.of(date, c1T));
+
+        date = date.plusDays(1); // Used to simulate different days and test feature works properly across days.
+
+        ChallengeInstance c2 = createFilledOutInstance();
+        LocalTime c2T = LocalTime.of(10, 11);
+        c2.setCompletedAt(LocalDateTime.of(date, c2T));
+
+        date = date.plusDays(1);
+
+        ChallengeInstance c3 = createFilledOutInstance();
+        LocalTime c3T = LocalTime.of(11, 9);
+        c3.setCompletedAt(LocalDateTime.of(date, c3T));
+
+        date = date.plusDays(1);
+
+        ChallengeInstance c4 = createFilledOutInstance();
+        LocalTime c4T = LocalTime.of(11, 30);
+        c4.setCompletedAt(LocalDateTime.of(date, c4T));
+
+        date = date.plusDays(1);
+
+        ChallengeInstance c5 = createFilledOutInstance();
+        LocalTime c5T = LocalTime.of(12, 4);
+        c5.setCompletedAt(LocalDateTime.of(date, c5T));
+
+        date = date.plusDays(1);
+
+        ChallengeInstance c6 = createFilledOutInstance();
+        LocalTime c6T = LocalTime.of(14, 37);
+        c6.setCompletedAt(LocalDateTime.of(date, c6T));
+
+        date = date.plusDays(1);
+
+        ChallengeInstance c7 = createFilledOutInstance();
+        LocalTime c7T = LocalTime.of(18, 14);
+        c7.setCompletedAt(LocalDateTime.of(date, c7T));
+
+        date = date.plusDays(1);
+
+        ChallengeInstance c8 = createFilledOutInstance();
+        LocalTime c8T = LocalTime.of(20, 33);
+        c8.setCompletedAt(LocalDateTime.of(date, c8T));
+
+        instanceRepository.save(c1);
+        instanceRepository.save(c2);
+        instanceRepository.save(c3);
+        instanceRepository.save(c4);
+        instanceRepository.save(c5);
+        instanceRepository.save(c6);
+        instanceRepository.save(c7);
+        instanceRepository.save(c8);
+
+        assertThat(instanceRepository.getByCompletedAtTimeBetween(
+                LocalTime.of(0, 0), LocalTime.of(23,59)).size())
+                .isEqualTo(8);
+
+        // Boundary test on both sides to test inclusivity.
+        assertThat(instanceRepository.getByCompletedAtTimeBetween(
+                LocalTime.of(10, 0), LocalTime.of(20,33)).size())
+                .isEqualTo(8);
+
+        assertThat(instanceRepository.getByCompletedAtTimeBetween(
+                LocalTime.of(11, 0), LocalTime.of(17,0)).size())
+                .isEqualTo(4);
     }
 
     //TODO: Implement: getByCompletedAtBetweenDates, findByCompletedAtBefore, findByCompletedAtAfter, getByCompletedAtTimeBetween
