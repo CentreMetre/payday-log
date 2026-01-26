@@ -4,10 +4,12 @@ import dev.centremetre.paydaylog.model.Difficulty;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 public class DifficultyRepositoryTest
@@ -44,5 +46,23 @@ public class DifficultyRepositoryTest
         {
             assertThat(retrieved.get().getDifficulty()).isEqualTo(name);
         }
+    }
+
+    @Test
+    void testSavingAndViolatingUniqueConstraint()
+    {
+        String name = "Normal";
+
+        Difficulty difficulty1 = new Difficulty();
+        difficulty1.setDifficulty(name);
+
+        Difficulty difficulty2 = new Difficulty();
+        difficulty2.setDifficulty(name);
+
+        difficultyRepository.saveAndFlush(difficulty1);
+
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            difficultyRepository.saveAndFlush(difficulty2);
+        });
     }
 }
