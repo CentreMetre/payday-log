@@ -1,7 +1,6 @@
 package dev.centremetre.paydaylog.repository;
 
 import dev.centremetre.paydaylog.model.*;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,6 +12,7 @@ import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabas
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  Related: https://github.com/spring-projects/spring-boot/issues/35253
  */
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class CompletedHeistTest
+public class CompletedHeistRepositoryTest
 {
     @Autowired
     CompletedHeistRepository completedRepository;
@@ -182,19 +182,63 @@ public class CompletedHeistTest
         completedRepository.save(defaultInstance);
         assertThat(completedRepository.findById(defaultInstance.getId()).get().getDifficulty()).isEqualTo(defaultInstance.getDifficulty());
     }
+
+    ///////////////////////////////////////////
+    // CompletedHeistRepository Repo Methods //
+    ///////////////////////////////////////////
+
+
+    ////
+    // findByXpAmount
+    ////
+    @Test
+    void testSaveAndRetrieveCompletedHeistFindByXpAmountZeroExist()
+    {
+        completedRepository.save(defaultInstance);
+
+        List<CompletedHeist> retrieved = completedRepository.findByXpAmount(1000);
+
+        assertThat(retrieved.size()).isEqualTo(0);
+    }
+
+    @Test
+    void testSaveAndRetrieveCompletedHeistFindByXpAmountOneExist()
+    {
+        completedRepository.save(defaultInstance);
+
+        CompletedHeist instance2 = createNewDefaultInstance();
+        instance2.setXpAmount(1000);
+        completedRepository.save(instance2);
+
+        CompletedHeist instance3 = createNewDefaultInstance();
+        completedRepository.save(instance3);
+
+        List<CompletedHeist> retrieved = completedRepository.findByXpAmount(1000);
+
+        assertThat(retrieved.size()).isEqualTo(1);
+    }
+
+    @Test
+    void testSaveAndRetrieveCompletedHeistFindByXpAmountTwoExist()
+    {
+        completedRepository.save(defaultInstance);
+
+        CompletedHeist instance2 = createNewDefaultInstance();
+        instance2.setXpAmount(1000);
+        completedRepository.save(instance2);
+
+        CompletedHeist instance3 = createNewDefaultInstance();
+        completedRepository.save(instance3);
+
+        List<CompletedHeist> retrieved = completedRepository.findByXpAmount(2000);
+
+        assertThat(retrieved.size()).isEqualTo(2);
+    }
+
+
+    ////
+    // findByXpAmountGreaterThan
+    ////
+
+
 }
-
-/**
- * sql for testing in h2 console.
-
-insert into heists (name) values ('Road Rage');
-insert into difficulties (difficulty) values ('Overkill');
-
-select * from heists;
-select * from difficulties;
-
-INSERT INTO heists_completed (completed_at, heist_finish_state, heist_success, accurate_xp_input, majority_state_played_stealth, notes, xp_amount, difficulty, heist)
-values                       (CURRENT_TIMESTAMP(3), 6,          TRUE,          TRUE,              FALSE,                         'test', 2000,     1,          1);
-select * from HEISTS_COMPLETED;
-
- */
