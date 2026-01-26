@@ -1,18 +1,18 @@
 package dev.centremetre.paydaylog.repository;
 
 import dev.centremetre.paydaylog.model.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -147,23 +147,40 @@ public class CompletedHeistTest
 
         assertThat(savedRetrieved.getXpAmount()).isEqualTo(defaultInstance.getXpAmount());
         assertThat(savedRetrieved.isAccurateXpInput()).isEqualTo(defaultInstance.isAccurateXpInput());
-        assertThat(savedRetrieved.getHeist()).isEqualTo(defaultInstance.getHeist()); // assumes Heist has proper equals()
+        assertThat(savedRetrieved.getHeist()).isEqualTo(defaultInstance.getHeist());
         assertThat(savedRetrieved.getCompletedAt()).isEqualTo(defaultInstance.getCompletedAt());
         assertThat(savedRetrieved.isHeistSuccess()).isEqualTo(defaultInstance.isHeistSuccess());
         assertThat(savedRetrieved.getHeistFinishState()).isEqualTo(defaultInstance.getHeistFinishState());
         assertThat(savedRetrieved.isMajorityStatePlayedStealth()).isEqualTo(defaultInstance.isMajorityStatePlayedStealth());
-        assertThat(savedRetrieved.getDifficulty()).isEqualTo(defaultInstance.getDifficulty()); // assumes Difficulty has equals()
+        assertThat(savedRetrieved.getDifficulty()).isEqualTo(defaultInstance.getDifficulty());
         assertThat(savedRetrieved.getNotes()).isEqualTo(defaultInstance.getNotes());
     }
 
     @ParameterizedTest
     @EnumSource(HeistState.class)  // automatically runs for every enum value
     void testSaveAndRetrieveCompletedHeistAllPossibleFinishState(HeistState state) {
-        CompletedHeist instance = createNewDefaultInstance();
-        instance.setHeistFinishState(state);
-        completedRepository.save(instance);
-        assertThat(completedRepository.findById(instance.getId()).get().getHeistFinishState())
+        
+        defaultInstance.setHeistFinishState(state);
+        completedRepository.save(defaultInstance);
+        assertThat(completedRepository.findById(defaultInstance.getId()).get().getHeistFinishState())
                 .isEqualTo(state);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Normal", "Hard", "Very Hard", "Overkill"})// The 4 difficulties, that are stored in setup
+    void testSaveAndRetrieveCompletedHeistAllPossibleDifficulties(String difficultyName)
+    {
+//        for (Difficulty difficulty : difficultyRepository.findAll())
+//        {
+//            System.out.println(difficulty.getId());
+//            System.out.println(difficulty.getDifficulty());
+//            System.out.println(" ");
+//        }
+
+        Difficulty difficulty = difficultyRepository.findByDifficulty(difficultyName).get();
+        defaultInstance.setDifficulty(difficulty);
+        completedRepository.save(defaultInstance);
+        assertThat(completedRepository.findById(defaultInstance.getId()).get().getDifficulty()).isEqualTo(defaultInstance.getDifficulty());
     }
 }
 
