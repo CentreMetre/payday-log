@@ -3,6 +3,8 @@ package dev.centremetre.paydaylog.repository;
 import dev.centremetre.paydaylog.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
@@ -154,18 +156,14 @@ public class CompletedHeistTest
         assertThat(savedRetrieved.getNotes()).isEqualTo(defaultInstance.getNotes());
     }
 
-    @Test
-    void testSaveAndRetrieveCompletedHeistAllPossibleFinishState()
-    {
-        List<CompletedHeist> instances = new ArrayList<>();
-
-        for (HeistState state : HeistState.values())
-        {
-            CompletedHeist newInstance = createNewDefaultInstance();
-            newInstance.setHeistFinishState(state);
-            completedRepository.save(newInstance);
-            assertThat(completedRepository.findById(newInstance.getId()).get().getHeistFinishState()).isEqualTo(state);
-        }
+    @ParameterizedTest
+    @EnumSource(HeistState.class)  // automatically runs for every enum value
+    void testSaveAndRetrieveCompletedHeistAllPossibleFinishState(HeistState state) {
+        CompletedHeist instance = createNewDefaultInstance();
+        instance.setHeistFinishState(state);
+        completedRepository.save(instance);
+        assertThat(completedRepository.findById(instance.getId()).get().getHeistFinishState())
+                .isEqualTo(state);
     }
 }
 
