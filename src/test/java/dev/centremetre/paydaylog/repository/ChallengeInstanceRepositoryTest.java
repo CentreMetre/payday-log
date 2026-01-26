@@ -324,6 +324,6 @@ public class ChallengeInstanceRepositoryTest
                 .isEqualTo(4);
     }
 
-    //TODO: Implement: getByCompletedAtBetweenDates, findByCompletedAtBefore, findByCompletedAtAfter, getByCompletedAtTimeBetween
+    //TODO: Implement: findByCompletedAtAfter
 
 }
