@@ -44,7 +44,7 @@ public class CompletedHeist
     /**
      * The date and time the heist was finished at.
      */
-    @Column(name = "completed_at", nullable = false)
+    @Column(name = "completed_at", nullable = false, columnDefinition = "TIMESTAMP(3)")
     @NotNull
     private LocalDateTime completedAt;
 
