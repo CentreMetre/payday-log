@@ -60,8 +60,8 @@ public interface ChallengeInstanceRepository extends JpaRepository<ChallengeInst
      * inclusive.
      */
     @Query(
-            value = "SELECT * FROM challenge_instances" +
-                    "WHERE CAST(completed_at as DATE) >= :start" +
+            value = "SELECT * FROM challenges_instances " +
+                    "WHERE CAST(completed_at as DATE) >= :start " +
                     "AND CAST(completed_at as DATE) <= :end",
             nativeQuery = true) //TODO: look at improving for performance. Cast cant index.
     List<ChallengeInstance> getByCompletedAtBetweenDates(@Param("start") LocalDate start, @Param("end") LocalDate end);
@@ -76,7 +76,8 @@ public interface ChallengeInstanceRepository extends JpaRepository<ChallengeInst
      * @return A list of challenge instances that match the parameters.
      */
     //TODO: Fix so end can be smaller than start for over midnight.
-    @Query(value = "SELECT * FROM challenge_instances WHERE CAST(completed_at as TIME(3)) >= :start" +
+    @Query(value = "SELECT * FROM challenges_instances " +
+            "WHERE CAST(completed_at as TIME(3)) >= :start " +
             "AND CAST(completed_at as TIME(3)) <= :end",
             nativeQuery = true) // TODO: Look into making more performant.
     List<ChallengeInstance> getByCompletedAtTimeBetween(@Param("start") LocalTime start, @Param("end") LocalTime end);
