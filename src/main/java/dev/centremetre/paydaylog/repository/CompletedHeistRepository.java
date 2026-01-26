@@ -3,6 +3,7 @@ package dev.centremetre.paydaylog.repository;
 import dev.centremetre.paydaylog.model.Difficulty;
 import dev.centremetre.paydaylog.model.Heist;
 import dev.centremetre.paydaylog.model.CompletedHeist;
+import dev.centremetre.paydaylog.model.HeistState;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -41,7 +42,7 @@ public interface CompletedHeistRepository extends JpaRepository<CompletedHeist, 
     List<CompletedHeist> findByHeistSuccess(boolean heistSuccess);
 
     // Retrieve by heistFinishState
-    List<CompletedHeist> findByHeistFinishState(int heistFinishState);
+    List<CompletedHeist> findByHeistFinishState(HeistState heistFinishState);
 
     // Retrieve by majorityStatePlayedStealth
     List<CompletedHeist> findByMajorityStatePlayedStealth(boolean majorityStatePlayedStealth);
