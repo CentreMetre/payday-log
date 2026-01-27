@@ -52,20 +52,6 @@ public interface ChallengeInstanceRepository extends JpaRepository<ChallengeInst
      */
     List<ChallengeInstance> findByCompletedAtBetween(LocalDateTime startDateTime, LocalDateTime endDateTime);
 
-    /**
-     * Find all {@link ChallengeInstance} that are between two dates.
-     * @param start The start date to search from, inclusive.
-     * @param end The end date to search to, inclusive.
-     * @return A List of {@link ChallengeInstance} with the completedAt value being between the two provided dates,
-     * inclusive.
-     */
-    @Query(
-            value = "SELECT * FROM challenges_instances " +
-                    "WHERE CAST(completed_at as DATE) >= :start " +
-                    "AND CAST(completed_at as DATE) <= :end",
-            nativeQuery = true) //TODO: look at improving for performance. Cast cant index.
-    List<ChallengeInstance> getByCompletedAtBetweenDates(@Param("start") LocalDate start, @Param("end") LocalDate end);
-
     List<ChallengeInstance> findByCompletedAtBefore(LocalDateTime completedAtBefore);
     List<ChallengeInstance> findByCompletedAtAfter(LocalDateTime completedAtAfter);
 

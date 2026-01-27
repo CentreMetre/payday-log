@@ -244,13 +244,6 @@ public class ChallengeInstanceRepositoryTest
     }
 
     @Test
-    void getByCompletedAtBetweenDates()
-    {
-
-    }
-
-
-    @Test
     void getByCompletedAtTimeBetween()
     {
         LocalDate date = LocalDate.now();
@@ -323,7 +316,5 @@ public class ChallengeInstanceRepositoryTest
                 LocalTime.of(11, 0), LocalTime.of(17,0)).size())
                 .isEqualTo(4);
     }
-
-    //TODO: Implement: findByCompletedAtAfter
 
 }
