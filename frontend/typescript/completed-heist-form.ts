@@ -45,10 +45,6 @@ const devFormDefaults: HeistFormDefaults = {
     notes: "Hi"
 }
 
-// type heistDefaults = {
-//
-// }
-
 /**
  * Used to keep a relation between a heist name and its ID since HTML Datalist items can't.
  */

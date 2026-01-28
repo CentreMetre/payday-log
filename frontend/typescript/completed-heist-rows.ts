@@ -1,4 +1,5 @@
-import type { CompletedHeist } from "./models/completed-heist";
+import type { CompletedHeist, completedHeistRowShape } from "./models/completed-heist";
+
 
 const tableHeader = `
     <thead>
@@ -20,19 +21,14 @@ const tableHeader = `
 const table: HTMLTableElement = document.createElement("table");
 table.insertAdjacentHTML('afterbegin', tableHeader);
 
-type rowShape = Omit<CompletedHeist, 'heistFinishStateId' | 'heistId' | 'difficultyId' | 'completedAt'> & {
-    completedAt: string; // Since the completedAt is sent in JSON as "2026-01-23T23:17:30.183",
-    // it needs to be a string type here, not a date type.
-    // Converting it to a date would make it a human-readable Date string, but I want it as an ISO string.
 
-}
 
 const getLatestCompletedHeistButtonEl: HTMLButtonElement =
     document.getElementById("get-latest-button") as HTMLButtonElement;
 
 // getLatestCompletedHeistButtonEl.addEventListener("click", async () => appendRowToTable(await fetchLatestRow()))
 
-export function appendRowToTable(rowData: rowShape) {
+export function appendRowToTable(rowData: completedHeistRowShape) {
     const row = document.createElement('tr')
 
     const idTdEl = td();
@@ -81,7 +77,7 @@ export function appendRowToTable(rowData: rowShape) {
 
     table.append(row)
 
-    document.body.append(table)
+    // document.body.append(table)
 }
 
 /**
@@ -112,7 +108,7 @@ function createBooleanCell(value: boolean): HTMLTableCellElement {
     return element;
 }
 
-export async function fetchLatestRow(): Promise<rowShape> {
+export async function fetchLatestRow(): Promise<completedHeistRowShape> {
     const response = await fetch("/api/completed-heists/latest")
     return await response.json()
 }
