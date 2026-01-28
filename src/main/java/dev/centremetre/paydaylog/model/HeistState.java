@@ -4,16 +4,17 @@ package dev.centremetre.paydaylog.model;
  * An enum for the states a heist can be in.
  * 0 = Stealth
  * 1 = Alarm
- * 1 = First Response Incoming
- * 2 = Negotiate to delay assault
- * 3 = Assault Incoming
- * 4 = Police Assault
- * 5 = Final Charge
- * 6 = FBI Assault
+ * 2 = First Response Incoming
+ * 3 = Negotiate to delay assault
+ * 4 = Assault Incoming
+ * 5 = Police Assault
+ * 6 = Final Charge
+ * 7 = FBI Assault
  */
 public enum HeistState
 {
     STEALTH(0, "Stealth"),
+//    SEARCHING(1, "Searching"), // TODO: Decide: Searching isnt a state, but a modified stealth state, maybe just add in notes?
     ALARM(1, "Alarm"),
     FIRST_RESPONSE_INCOMING(2, "First Response Incoming"),
     NEGOTIATE_TO_DELAY_ASSAULT(3, "Negotiate To Delay Assault"),

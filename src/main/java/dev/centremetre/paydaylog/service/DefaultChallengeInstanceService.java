@@ -62,7 +62,10 @@ public class DefaultChallengeInstanceService implements ChallengeInstanceService
     @Override
     public List<ChallengeInstance> getChallengesCompletedBetweenDates(LocalDate startDate, LocalDate endDate)
     {
-        return challengeInstanceRepository.getByCompletedAtBetweenDates(startDate, endDate);
+        LocalDateTime startDateTime = LocalDateTime.of(startDate, LocalTime.MIDNIGHT);
+        LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.MAX);
+
+        return challengeInstanceRepository.findByCompletedAtBetween(startDateTime, endDateTime);
     }
 
     @Override

@@ -37,14 +37,14 @@ public class CompletedHeist
      * The heist that was played.
      */
     @ManyToOne(optional = false)
-    @JoinColumn(name = "heist", nullable = false)
+    @JoinColumn(name = "heist", nullable = false, columnDefinition = "TINYINT")
     @NotNull
     private Heist heist;
 
     /**
      * The date and time the heist was finished at.
      */
-    @Column(name = "completed_at", nullable = false)
+    @Column(name = "completed_at", nullable = false, columnDefinition = "TIMESTAMP(3)")
     @NotNull
     private LocalDateTime completedAt;
 
