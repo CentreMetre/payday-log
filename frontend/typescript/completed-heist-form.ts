@@ -1,6 +1,6 @@
 import type { CompletedHeist } from "./models/completed-heist";
 import type { Heist } from "./models/heist";
-import { setupRowDisplay, appendRowToTable } from "./completed-heist-rows.js";
+import { CompletedHeistTable } from "./completed-heist-table.js";
 
 // type CompletedHeist = {
 //     xpAmount: string;
@@ -180,8 +180,6 @@ async function submitForm() {
 
     const body = await response.json();
 
-    appendRowToTable(body);
-
 }
 
 function CreateNewDateStringForForm(): string {
@@ -231,4 +229,9 @@ function formStateDisabled(isDisabled: boolean): void {
     // submitButtonEl.disabled = isDisabled;
 }
 
-setupRowDisplay(document.getElementById("completed-heist-output-table") as HTMLDivElement)
+const tableContainerDivEl: HTMLDivElement =
+    document.getElementById("completed-heist-output-table-outer") as HTMLDivElement;
+
+const tableMaster = new CompletedHeistTable();
+tableContainerDivEl.append(tableMaster.getTable())
+tableMaster.setLatest()
