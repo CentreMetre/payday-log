@@ -1,5 +1,6 @@
 import type { CompletedHeist } from "./models/completed-heist";
 import type { Heist } from "./models/heist";
+import { setupRowDisplay, appendRowToTable } from "./completed-heist-rows.js";
 
 // type CompletedHeist = {
 //     xpAmount: string;
@@ -146,7 +147,7 @@ type CompletedHeistSubmit = Omit<CompletedHeist, 'id' | 'heistName' | 'difficult
     completedAt: string;
 }
 // TODO: Decide whether to have IDs be strings or numbers, on frontend and in transit (should be strings in frontend probably, but in transit ???)
-function submitForm() {
+async function submitForm() {
     const heistId = heistNameToId.get(heistNameInputEl.value);
     console.debug(heistId)
     if (heistId === undefined)
@@ -173,13 +174,18 @@ function submitForm() {
 
     formStateDisabled(true);
 
-    fetch("/api/completed-heists/create", {
+    const response = await fetch("/api/completed-heists/create", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(heistCompletedData)
     })
+
+    const body = await response.json();
+
+    appendRowToTable(body);
+
 }
 
 function CreateNewDateStringForForm(): string {
@@ -228,3 +234,5 @@ function formStateDisabled(isDisabled: boolean): void {
     notesInputEl.disabled = isDisabled;
     // submitButtonEl.disabled = isDisabled;
 }
+
+setupRowDisplay(document.getElementById("completed-heist-output-table") as HTMLDivElement)

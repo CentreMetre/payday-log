@@ -1,4 +1,4 @@
-import type {CompletedHeist} from "./models/completed-heist";
+import type { CompletedHeist } from "./models/completed-heist";
 
 const tableHeader = `
     <thead>
@@ -30,10 +30,10 @@ type rowShape = Omit<CompletedHeist, 'heistFinishStateId' | 'heistId' | 'difficu
 const getLatestCompletedHeistButtonEl: HTMLButtonElement =
     document.getElementById("get-latest-button") as HTMLButtonElement;
 
-getLatestCompletedHeistButtonEl.addEventListener("click", async () => appendRowToTable(await fetchLatestRow()))
+// getLatestCompletedHeistButtonEl.addEventListener("click", async () => appendRowToTable(await fetchLatestRow()))
 
-function appendRowToTable(rowData: rowShape) {
-    const row= document.createElement('tr')
+export function appendRowToTable(rowData: rowShape) {
+    const row = document.createElement('tr')
 
     const idTdEl = td();
     idTdEl.textContent = rowData.id.toString();
@@ -112,7 +112,15 @@ function createBooleanCell(value: boolean): HTMLTableCellElement {
     return element;
 }
 
-async function fetchLatestRow(): Promise<rowShape> {
+export async function fetchLatestRow(): Promise<rowShape> {
     const response = await fetch("/api/completed-heists/latest")
     return await response.json()
+}
+
+/**
+ * Create a table in an element.
+ * @param divEl The element to put the table in.
+ */
+export function setupRowDisplay(divEl: HTMLDivElement) {
+    divEl.append(table)
 }
