@@ -27,10 +27,24 @@ public class CompletedHeistApiController
      * @return The completed heist that was added to the DB.
      */
     @PostMapping("/create")
-    public ResponseEntity<CompletedHeist> createNewCompletedHeist(@Valid @RequestBody CompletedHeistCreateDto completedHeist)
+    public ResponseEntity<CompletedHeistResponseOmitObjectIdsDto> createNewCompletedHeist(@Valid @RequestBody CompletedHeistCreateDto completedHeist)
     {
-        return ResponseEntity.ok(completedHeistService.createCompletedHeist(completedHeist));
-    } // TODO: change to CompletedHeistResponseOmitObjectIdsDto so it can be used immediately after being made.
+        CompletedHeist completedHeistSaved = completedHeistService.createCompletedHeist(completedHeist);
+        CompletedHeistResponseOmitObjectIdsDto returnDto = new CompletedHeistResponseOmitObjectIdsDto();
+
+        returnDto.setId(completedHeistSaved.getId());
+        returnDto.setHeistName(completedHeistSaved.getHeist().getName());
+        returnDto.setXpAmount(completedHeistSaved.getXpAmount());
+        returnDto.setAccurateXpAmount(completedHeistSaved.isAccurateXpInput());
+        returnDto.setCompletedAt(completedHeistSaved.getCompletedAt());
+        returnDto.setHeistSuccess(completedHeistSaved.isHeistSuccess());
+        returnDto.setHeistFinishStateName(completedHeistSaved.getHeistFinishState().getState());
+        returnDto.setMajorityStatePlayedStealth(completedHeistSaved.isMajorityStatePlayedStealth());
+        returnDto.setDifficultyName(completedHeistSaved.getDifficulty().getDifficulty());
+        returnDto.setNotes(completedHeistSaved.getNotes());
+
+        return ResponseEntity.ok(returnDto);
+    }
 
     /**
      * Get the latest completed heist from the DB.
