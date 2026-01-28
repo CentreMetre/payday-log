@@ -30,7 +30,7 @@ public class CompletedHeistApiController
     public ResponseEntity<CompletedHeist> createNewCompletedHeist(@Valid @RequestBody CompletedHeistCreateDto completedHeist)
     {
         return ResponseEntity.ok(completedHeistService.createCompletedHeist(completedHeist));
-    }
+    } // TODO: change to CompletedHeistResponseOmitObjectIdsDto so it can be used immediately after being made.
 
     /**
      * Get the latest completed heist from the DB.
