@@ -1,6 +1,7 @@
-import type { CompletedHeist } from "./models/completed-heist";
+import type {CompletedHeist, CompletedHeistDefaultRowShape} from "./models/completed-heist";
 import type { Heist } from "./models/heist";
-import { CompletedHeistTable } from "./completed-heist-table.js";
+import { Table } from "./abstract-table";
+import { completedHeistDefaultRowShapeExample } from "./completed-heist-table";
 
 // type CompletedHeist = {
 //     xpAmount: string;
@@ -232,6 +233,10 @@ function formStateDisabled(isDisabled: boolean): void {
 const tableContainerDivEl: HTMLDivElement =
     document.getElementById("completed-heist-output-table-outer") as HTMLDivElement;
 
-const tableMaster = new CompletedHeistTable();
-tableContainerDivEl.append(tableMaster.getTable())
-tableMaster.setLatest()
+// const tableMaster = new CompletedHeistTable();
+// tableContainerDivEl.append(tableMaster.getTable())
+// tableMaster.setLatest()
+
+class CompletedHeistTable extends Table<CompletedHeistDefaultRowShape> {
+
+}
