@@ -37,46 +37,76 @@
 //     createRow(data: R): HTMLTableRowElement;
 // }
 
-/**
- * Used to provide the header labels to the table. Can also define column order.
- */
-type HeaderMapping<T> = Partial<Record<keyof T, string>>;
-
 export abstract class Table<R extends Object> {
 
     table: HTMLTableElement;
-    headers: Header[];
+    tableBody: HTMLTableSectionElement;
+    headers: Header<R>[];
 
-    constructor(exampleObject: R, displayNames?: Record<keyof R, string>) {
+    constructor(exampleObject: R, displayNamesAndOrder?: Record<keyof R, string>) {
         this.table = document.createElement("table")
+        this.tableBody = document.createElement("tbody");
 
-        this.headers = this.createHeadersFromType(exampleObject, displayNames);
+        this.headers = this.createHeadersFromType(exampleObject, displayNamesAndOrder);
+        this.setHeaderRow();
+
+        this.table.appendChild(this.tableBody);
+
+        this.loadCSS()
     }
 
     /**
      * Creates a list of Header objects to be used in a table for the header cell values and column types.
      * @param exampleObject An example of the object to be displaying. Can be an object with default values.
-     * @param displayNames A object with the same properties, but all string type for the header cell values.
+     * @param displayNamesAndOrder A object with the same properties, but all string type for the header cell values.
+     * Used by passing an object with the keys of R and the name preferred. E.g. for a heist:
+     * ```heistColumnOrder = { id: "ID", name: "Heist Name" }```.
+     *
      */
-    createHeadersFromType(exampleObject: R, displayNames?: Record<keyof R, string>): Header[] {
-        const headers: Header[] = [];
+    createHeadersFromType(
+        exampleObject: R, // Needed for runtime, since types don't exist in JS.
+        displayNamesAndOrder?: Record<keyof R, string>
+    ): Header<R>[] {
+        const keys = displayNamesAndOrder
+            ? (Object.keys(displayNamesAndOrder) as (keyof R)[])
+            : (Object.keys(exampleObject) as (keyof R)[]);
 
-        for (const key in exampleObject) {
-            if (Object.prototype.hasOwnProperty.call(exampleObject, key)) {
-                headers.push({
-                    key,
-                    value: displayNames?.[key] || key,
-                    type: typeof exampleObject[key],
-                })
-            }
-        }
-        return headers;
+        return keys.map(key => ({
+            key,
+            value: displayNamesAndOrder?.[key] ?? String(key),
+            type: typeof exampleObject[key],
+        }));
     }
 
-    appendRow(data: R): void {
-        const row = document.createElement("tr");
+    setHeaderRow() {
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
 
-        this.table.append(row);
+        for (const header of this.headers) {
+            const th = document.createElement("th")
+            th.textContent = header.value;
+            headerRow.appendChild(th);
+        }
+
+        thead.appendChild(headerRow);
+        this.table.appendChild(thead);
+    }
+
+    loadCSS() {
+        const link = document.createElement("link");
+        link.rel = "stylesheet"
+        link.href = "../css/rows.css"; // Relative path from JS folder.
+        link.type = 'text/css';
+        document.head.appendChild(link);
+    }
+
+    /**
+     * Appends one more row to the current rows.
+     * @param data Data to append as a row.
+     */
+    appendRow(data: R): void {
+        const row = this.createPopulatedRow(data)
+        this.tableBody.appendChild(row)
     }
 
     appendRows(data: R[]): void {
@@ -85,25 +115,66 @@ export abstract class Table<R extends Object> {
         }
     }
 
+
     createPopulatedRow(data: R): HTMLTableRowElement {
-        return new HTMLTableRowElement();
+        const row = document.createElement("tr");
+
+        for (const header of this.headers) {
+            const cell: HTMLTableCellElement = document.createElement("td");
+            const value = data[header.key]
+
+            let cellValue = "";
+
+            switch (header.type) {
+                case "boolean":
+                    cellValue = value ? "✔" : "✖";
+                    break;
+
+                case "number":
+                    cellValue = String(value);
+                    break;
+
+                default:
+                    cellValue = value != null ? String(value) : "";
+            }
+            cell.textContent = cellValue;
+            row.append(cell);
+        }
+
+        return row;
     }
 
-    getTable(): HTMLTableElement {
-        return this.table;
+    /**
+     * Deletes all current rows.
+     */
+    clearRows(): void {
+        while (this.tableBody.firstChild) {
+            this.tableBody.removeChild(this.tableBody.firstChild)
+        }
     }
 
+    /**
+     * Deletes all current rows and sets a single row to the data in data param.
+     * @param data The data to set the table to. Should be of shape {@link R}
+     */
+    setSingleRow(data: R): void {
+        this.clearRows()
+        this.appendRow(data)
+    }
+
+    /**
+     * Deletes all current rows and sets the rows to the data in data param.
+     * @param data The data to set the table to. Should be of shape {@link R}
+     */
     setRows(data: R[]): void {
+        this.clearRows()
+        this.appendRows(data)
     }
 
 }
 
-// type head
-
-// type headerValues<R extends Record<keyof R, string>
-
-type Header = {
-    key: string; // The name of the field.
+type Header<R> = {
+    key: keyof R; // The name of the field.
     value: string; // The name of the header cell
-    type: any; // The type of the field
+    type: string; // The type of the field, can be string since typesof are returned as strings.
 }
