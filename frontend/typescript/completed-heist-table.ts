@@ -1,5 +1,5 @@
-import type {CompletedHeistDefaultRowShape} from "./models/completed-heist";
-import type {Table} from "./abstract-table";
+import type {CompletedHeist, CompletedHeistDefaultRowShape} from "./models/completed-heist";
+import {Table} from "./abstract-table";
 
 const tableHeader = `
     <thead>
@@ -155,4 +155,8 @@ export const completedHeistDefaultRowShapeExample: CompletedHeistDefaultRowShape
     majorityStatePlayedStealth: false,
     notes: "",
     xpAmount: 0
+}
+
+class CompletedHeistTable extends Table<CompletedHeistDefaultRowShape> {
+
 }
