@@ -100,6 +100,10 @@ export abstract class Table<R extends Object> {
         document.head.appendChild(link);
     }
 
+    getTable(): HTMLTableElement {
+        return this.table;
+    }
+
     /**
      * Appends one more row to the current rows.
      * @param data Data to append as a row.

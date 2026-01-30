@@ -1,5 +1,5 @@
-import type {CompletedHeist, CompletedHeistDefaultRowShape} from "./models/completed-heist";
-import {Table} from "./abstract-table";
+import type {CompletedHeist, CompletedHeistDefaultRowShape} from "./models/completed-heist.js";
+import {Table} from "./abstract-table.js";
 
 const tableHeader = `
     <thead>
@@ -131,7 +131,7 @@ const defaultHeaders: Record<keyof CompletedHeistDefaultRowShape, string> = {
     notes: "Notes"
 }
 
-const completedHeistRecord: Record<keyof CompletedHeistDefaultRowShape, string> = {
+export const completedHeistDefaultHeaderNames: Record<keyof CompletedHeistDefaultRowShape, string> = {
     accurateXpAmount: "Accurate XP Amount?",
     completedAt: "Completed At",
     difficultyName: "Difficulty",
@@ -157,6 +157,7 @@ export const completedHeistDefaultRowShapeExample: CompletedHeistDefaultRowShape
     xpAmount: 0
 }
 
-class CompletedHeistTable extends Table<CompletedHeistDefaultRowShape> {
+export class CompletedHeistTable extends Table<CompletedHeistDefaultRowShape> {
 
 }
+
