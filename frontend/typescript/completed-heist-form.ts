@@ -239,3 +239,9 @@ const tableContainerDivEl: HTMLDivElement =
 const table = new CompletedHeistTable(completedHeistDefaultRowShapeExample, completedHeistDefaultHeaderNames);
 
 tableContainerDivEl.appendChild(table.getTable());
+
+const getLatestButton: HTMLButtonElement =
+    document.getElementById("completed-heist-get-latest") as HTMLButtonElement;
+
+getLatestButton.addEventListener('click', async () => {
+    table.appendRow(await table.fetchLatestRow())});

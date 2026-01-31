@@ -1,48 +1,27 @@
-// /**
-//  * @template R The shape of the data to make each row.
-//  */
-// export interface Table<R> {
-//
-//     table: HTMLTableElement;
-//     headers: string[];
-//     headerKeys: (keyof R)[];
-//
-//     /**
-//      * Get the table element stored in this class.
-//      */
-//     getTable(): HTMLTableElement;
-//
-//     /**
-//      * Deletes all current rows and sets the rows to the data in data param.
-//      * @param data The data to set the table to. Should be of shape {@link R}
-//      */
-//     setRows(data: R[]): void;
-//
-//     /**
-//      * Appends one more row to the current rows.
-//      * @param data Data to append as a row.
-//      */
-//     appendRow(data: R): void;
-//
-//     /**
-//      * Appends more rows to the current rows.
-//      * @param data List of data to append as rows.
-//      */
-//     appendRows(data: R[]): void;
-//
-//     /**
-//      * Create a row to then be appended/set in the table.
-//      * @param data The data to create a row for.
-//      */
-//     createRow(data: R): HTMLTableRowElement;
-// }
-
+/**
+ * @template R A type that the shape of a row should be. E.g.
+ * ```
+ * type Heist = {
+ *     id: number;
+ *     name: string;
+ * }
+ * ```
+ * Then `Heist` would be passed as the generic.
+ */
 export abstract class Table<R extends Object> {
 
     table: HTMLTableElement;
     tableBody: HTMLTableSectionElement;
     headers: Header<R>[];
 
+    /**
+     * Creates a list of Header objects to be used in a table for the header cell values and column types.
+     * @param exampleObject An instance of the type to be displaying. Can be an object with default values such as
+     * `0`, `""`, `false` or `true`. E.g. for a heist ```{ id: 0; name: ""; }```
+     * @param displayNamesAndOrder A object with the same properties, but all string type for the header cell values.
+     * Used by passing an object with the keys of R and the name preferred. E.g. for a heist:
+     * ```{ id: "ID", name: "Heist Name" }```, this makes the columns appear in the order of ID then Heist Name.
+     */
     constructor(exampleObject: R, displayNamesAndOrder?: Record<keyof R, string>) {
         this.table = document.createElement("table")
         this.tableBody = document.createElement("tbody");
@@ -55,14 +34,6 @@ export abstract class Table<R extends Object> {
         this.loadCSS()
     }
 
-    /**
-     * Creates a list of Header objects to be used in a table for the header cell values and column types.
-     * @param exampleObject An example of the object to be displaying. Can be an object with default values.
-     * @param displayNamesAndOrder A object with the same properties, but all string type for the header cell values.
-     * Used by passing an object with the keys of R and the name preferred. E.g. for a heist:
-     * ```heistColumnOrder = { id: "ID", name: "Heist Name" }```.
-     *
-     */
     createHeadersFromType(
         exampleObject: R, // Needed for runtime, since types don't exist in JS.
         displayNamesAndOrder?: Record<keyof R, string>
@@ -92,6 +63,9 @@ export abstract class Table<R extends Object> {
         this.table.appendChild(thead);
     }
 
+    /**
+     * Loads the CSS for tables into the html file for proper styling.
+     */
     loadCSS() {
         const link = document.createElement("link");
         link.rel = "stylesheet"
@@ -100,6 +74,9 @@ export abstract class Table<R extends Object> {
         document.head.appendChild(link);
     }
 
+    /**
+     * Returns the table element of this instance for putting onto a page.
+     */
     getTable(): HTMLTableElement {
         return this.table;
     }
@@ -119,7 +96,11 @@ export abstract class Table<R extends Object> {
         }
     }
 
-
+    /**
+     * Creates a row, populated with data, for displaying in the table.
+     * @param data The data in the shape of `R`, with values populated.
+     * @return A HTMLTableRowElement that can then be set on a table.
+     */
     createPopulatedRow(data: R): HTMLTableRowElement {
         const row = document.createElement("tr");
 
@@ -131,11 +112,13 @@ export abstract class Table<R extends Object> {
 
             switch (header.type) {
                 case "boolean":
+                    cell.classList.add("table-cell-boolean");
                     cellValue = value ? "✔" : "✖";
                     break;
 
                 case "number":
                     cellValue = String(value);
+                    cell.classList.add("table-cell-number");
                     break;
 
                 default:
