@@ -1,4 +1,4 @@
-import {isIsoDateWithMs} from "./util.js";
+import {isIsoDateWithMs, padIsoMilliseconds} from "./util.js";
 
 /**
  * @template R A type that the shape of a row should be. E.g.
@@ -116,6 +116,7 @@ export abstract class Table<R extends Object> {
                 case "boolean":
                     cell.classList.add("table-cell-boolean");
                     cellValue = value ? "✔" : "✖";
+                    cell.classList.add(value ? "table-cell-boolean-true" : "table-cell-boolean-false");
                     break;
 
                 case "number":
@@ -127,9 +128,10 @@ export abstract class Table<R extends Object> {
                     const strValue = String(value)
                     if (isIsoDateWithMs(strValue))
                     {
+                        const strValueDateTime = padIsoMilliseconds(strValue);
                         cell.classList.add("table-cell-datetime")
-                        const date = strValue.split("T")[0]
-                        const time = strValue.split("T")[1]
+                        const date = strValueDateTime.split("T")[0]
+                        const time = strValueDateTime.split("T")[1]
                         cellValue = `${date} ${time}`;
                     }
                     else {

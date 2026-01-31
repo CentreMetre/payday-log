@@ -63,14 +63,23 @@ td input[type=checkbox] {
     text-align: center;
 }
 
+.table-cell-boolean-true {
+    color: green;
+}
+
+.table-cell-boolean-false {
+    color: red;
+}
+
 .table-cell-number {
     text-align: right;
 }
 
 .table-cell-datetime {
     text-align: right;
-    width: 23ch;
+    /*width: 20ch;*/
+    padding-left: 2ch;
     white-space: nowrap;
-    font-family: monospace;
+    /*font-family: monospace;*/
 
 }
