@@ -226,7 +226,8 @@ function formStateDisabled(isDisabled: boolean): void {
     majorityStealthInputEl.disabled = isDisabled;
     difficultySelectEl.disabled = isDisabled;
     notesInputEl.disabled = isDisabled;
-    // submitButtonEl.disabled = isDisabled;
+    finishStateSelectEl.disabled = isDisabled;
+    submitButtonEl.disabled = isDisabled;
 }
 
 const tableContainerDivEl: HTMLDivElement =
