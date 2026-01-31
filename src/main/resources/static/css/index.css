@@ -17,7 +17,7 @@ body {
     /*outline: 1px solid #0b0c0c;*/
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
+    margin: 0 auto; /*Centres the panel in the screen*/
 
 }
 
