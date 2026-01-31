@@ -10,8 +10,8 @@
     <div class="panel" id="heist-panel">
         <h1>Heist Complete Input</h1>
         <div class="form-panel">
+            <button id="heist-instance-new-heist-button" type="button">New Heist</button>
             <form class="heist-instance-create-form">
-                <button id="heist-instance-new-heist-button" type="button">New Heist</button>
                 <div class="form-input-group">
                     <label for="heist-instance-heist-name-input">
                         Heist Name
@@ -80,20 +80,21 @@
                     <label for="heist-instance-notes-input">Notes</label>
                     <textarea id="heist-instance-notes-input" type="text"></textarea>
                 </div>
-                <button id="heist-instance-submit-button" type="button">
-                    Submit
-                </button>
             </form>
+            <button id="heist-instance-submit-button" type="button">
+                Submit
+            </button>
             <p class="heist-instance-form-message"></p>
         </div>
-        <div class="data-panel completed-heist-output-panel">
-            <h1>Completed Heist Data</h1>
-            <button id="completed-heist-get-latest">Get Latest</button>
-            <div class="completed-heist-output-table-outer" id="completed-heist-output-table-outer">
+    </div>
 
-            </div>
+    <div class="data-panel completed-heist-output-panel">
+        <h1>Completed Heist Data</h1>
+        <button id="completed-heist-get-latest">Get Latest</button>
+        <div class="completed-heist-output-table-outer" id="completed-heist-output-table-outer">
 
         </div>
+
     </div>
 <script src="js/completed-heist-form.js" type="module">
 
