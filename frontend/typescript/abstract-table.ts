@@ -127,6 +127,7 @@ export abstract class Table<R extends Object> {
                     const strValue = String(value)
                     if (isIsoDateWithMs(strValue))
                     {
+                        cell.classList.add("table-cell-datetime")
                         console.debug("In date if statement. strValue: " + strValue)
                         const date = strValue.split("T")[0]
                         const time = strValue.split("T")[1]

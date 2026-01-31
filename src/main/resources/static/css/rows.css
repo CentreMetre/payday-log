@@ -59,3 +59,11 @@ td input[type=checkbox] {
 .table-cell-number {
     text-align: right;
 }
+
+.table-cell-datetime {
+    text-align: right;
+    width: 23ch;
+    white-space: nowrap;
+    font-family: monospace;
+
+}
