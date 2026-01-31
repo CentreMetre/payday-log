@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="css/rows.css">
 </head>
 <body>
+    <h1>Heist Complete Input</h1>
     <div class="panel" id="heist-panel">
-        <h1>Heist Complete Input</h1>
-        <div class="form-panel">
+        <div class="form-panel level-1">
             <button id="heist-instance-new-heist-button" type="button">New Heist</button>
-            <form class="heist-instance-create-form">
-                <div class="form-input-group">
+            <form class="heist-instance-create-form grid-container">
+                <div class="form-input-group" style="grid-row: 1; grid-column: 1;">
                     <label for="heist-instance-heist-name-input">
                         Heist Name
                     </label>
@@ -20,7 +20,18 @@
                     <datalist id="heist-instance-heist-data-list">
                     </datalist>
                 </div>
-                <div class="form-input-group">
+                <div class="form-input-group" style="grid-row: 1; grid-column: 2;">
+                    <label for="heist-instance-xp-amount-input">
+                        XP Amount
+                    </label>
+                    <input id="heist-instance-xp-amount-input" type="number" class="no-spinner no-scientific-notation" style="width: 4ch">
+                    <!--TODO: implement not being able to put scientific notation into xp amount box.-->
+                </div>
+                <div class="form-input-group" style="grid-row: 1; grid-column: 3;">
+                    <label for="heist-instance-notes-input">Notes</label>
+                    <textarea id="heist-instance-notes-input" type="text"></textarea>
+                </div>
+                <div class="form-input-group" style="grid-row: 1; grid-column: 4;">
                     <label for="heist-instance-difficulty-select">Difficulty</label>
                     <select id="heist-instance-difficulty-select">
                         <!--Values are hard coded to the ID values in the DB-->
@@ -30,31 +41,25 @@
                         <option value="4">Overkill</option>
                     </select>
                 </div>
-                <div class="form-input-group">
-                    <label for="heist-instance-xp-amount-input">
-                        XP Amount
-                    </label>
-                    <input id="heist-instance-xp-amount-input" type="number" class="no-spinner" style="width: 4ch">
-                </div>
-                <div class="form-input-group">
+                <div class="form-input-group" style="grid-row: 1; grid-column: 5;">
                     <label for="heist-instance-accurate-xp-amount-input">
                         Accur. XP Amount?
                     </label>
                     <input id="heist-instance-accurate-xp-amount-input" type="checkbox">
                 </div>
-                <div class="form-input-group">
+                <div class="form-input-group" style="grid-row: 2; grid-column: 1;">
                     <label for="heist-instance-completed-at-input">
                         Date & Time Completed
                     </label>
                     <input id="heist-instance-completed-at-input" type="datetime-local" step="0.001" class="no-picker" style="width: 26ch">
                 </div>
-                <div class="form-input-group">
+                <div class="form-input-group" style="grid-row: 2; grid-column: 2;">
                     <label for="heist-instance-successful-input">
                         Heist Successful?
                     </label>
                     <input id="heist-instance-successful-input" type="checkbox">
                 </div>
-                <div class="form-input-group">
+                <div class="form-input-group" style="grid-row: 2; grid-column: 3;">
                     <label for="heist-instance-finish-state-select">
                         Heist Finish State
                     </label>
@@ -70,26 +75,20 @@
                     <option value="7">FBI Assault</option>
                 </select>
                 </div>
-                <div class="form-input-group">
+                <div class="form-input-group" style="grid-row: 2; grid-column: 4;">
                     <label for="heist-instance-majority-played-stealth-input">
                         Majority Played Stealth?
                     </label>
                     <input id="heist-instance-majority-played-stealth-input" type="checkbox">
                 </div>
-                <div class="form-input-group">
-                    <label for="heist-instance-notes-input">Notes</label>
-                    <textarea id="heist-instance-notes-input" type="text"></textarea>
-                </div>
+                <button id="heist-instance-submit-button" type="button" style="grid-row: 2; grid-column: 5;">Submit</button>
+                <p class="heist-instance-form-message"></p>
             </form>
-            <button id="heist-instance-submit-button" type="button">
-                Submit
-            </button>
-            <p class="heist-instance-form-message"></p>
         </div>
     </div>
 
-    <div class="data-panel completed-heist-output-panel">
-        <h1>Completed Heist Data</h1>
+    <h1>Completed Heist Data</h1>
+    <div class="panel completed-heist-output-panel level-1">
         <button id="completed-heist-get-latest">Get Latest</button>
         <div class="completed-heist-output-table-outer" id="completed-heist-output-table-outer">
 

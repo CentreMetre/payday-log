@@ -6,7 +6,6 @@ th {
     border-left: 1px solid hsl(0, 0%, 16%);
     border-bottom: 1px solid hsl(0, 0%, 16%);
     border-right: 1px solid hsl(0, 0%, 16%);
-
     padding: 5px;
 }
 
@@ -39,6 +38,14 @@ table td:first-of-type {
 table th:last-of-type,
 table td:last-of-type {
     border-right: 0;
+}
+
+table th:first-of-type { /*add border radius to top left of table*/
+    border-top-left-radius: 7px;
+}
+
+table th:last-of-type { /*add border radius to top right of table*/
+    border-top-right-radius: 7px;
 }
 
 table td {
