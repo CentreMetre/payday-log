@@ -1,3 +1,5 @@
+import {isIsoDateWithMs} from "./util.js";
+
 /**
  * @template R A type that the shape of a row should be. E.g.
  * ```
@@ -122,7 +124,19 @@ export abstract class Table<R extends Object> {
                     break;
 
                 default:
-                    cellValue = value != null ? String(value) : "";
+                    const strValue = String(value)
+                    if (isIsoDateWithMs(strValue))
+                    {
+                        console.debug("In date if statement. strValue: " + strValue)
+                        const date = strValue.split("T")[0]
+                        const time = strValue.split("T")[1]
+                        cellValue = `${date} ${time}`;
+                    }
+                    else {
+                        console.debug("In else if statement. strValue: " + strValue)
+
+                        cellValue = value != null ? String(value) : "";
+                    }
             }
             cell.textContent = cellValue;
             row.append(cell);
