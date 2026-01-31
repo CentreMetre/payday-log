@@ -128,14 +128,11 @@ export abstract class Table<R extends Object> {
                     if (isIsoDateWithMs(strValue))
                     {
                         cell.classList.add("table-cell-datetime")
-                        console.debug("In date if statement. strValue: " + strValue)
                         const date = strValue.split("T")[0]
                         const time = strValue.split("T")[1]
                         cellValue = `${date} ${time}`;
                     }
                     else {
-                        console.debug("In else if statement. strValue: " + strValue)
-
                         cellValue = value != null ? String(value) : "";
                     }
             }
