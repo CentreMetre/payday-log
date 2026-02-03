@@ -11,6 +11,7 @@ html {
 }
 
 body {
+    /*width: 50%;*/
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -22,14 +23,14 @@ body > * {
 }
 
 form {
-    background-color: hsl(0, 0%, 100%);
 }
 
 .panel {
-    /*height: 100%;*/
+    width: 50%;
 }
 
 form {
+    background-color: hsl(0, 0%, 100%);
     display: grid;
     /*border: 1px solid hsl(4, 4%, 97%);*/
     /*padding: 2.5rem;*/
@@ -137,6 +138,9 @@ button:disabled {
     gap: 10px;
 }
 
+.form-input-group {
+}
+
 #heist-instance-submit-button {
     justify-self: start;  /* left */
     align-self: center;   /* vertical centre */
@@ -147,5 +151,6 @@ button:disabled {
 }
 
 h1 {
-    margin: 2rem auto 0.5rem; /* 2rem above 0.5 rem below*/
+    text-align: center;
+    margin: 1.5rem auto 0.5rem; /* 2rem above 0.5 rem below*/
 }

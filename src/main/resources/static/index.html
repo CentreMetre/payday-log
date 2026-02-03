@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>Payday Log</title>
     <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/rows.css">
+    <link rel="stylesheet" href="css/table.css">
 </head>
 <body>
-    <h1>Heist Complete Input</h1>
-    <div class="panel" id="heist-panel">
+    <div class="panel" id="input-panel">
+        <h1>Heist Complete Input</h1>
         <div class="form-panel level-1">
             <button id="heist-instance-new-heist-button" type="button">New Heist</button>
             <form class="heist-instance-create-form grid-container">
@@ -87,13 +87,15 @@
         </div>
     </div>
 
-    <h1>Completed Heist Data</h1>
-    <div class="panel completed-heist-output-panel level-1">
-        <button id="completed-heist-get-latest">Get Latest</button>
-        <div class="completed-heist-output-table-outer" id="completed-heist-output-table-outer">
+    <div class="panel">
+        <h1>Completed Heist Data</h1>
+        <div class="completed-heist-output-panel level-1">
+            <button id="completed-heist-get-latest">Get Latest</button>
+            <div class="completed-heist-output-table-outer" id="completed-heist-output-table-outer">
+
+            </div>
 
         </div>
-
     </div>
 <script src="js/completed-heist-form.js" type="module">
 

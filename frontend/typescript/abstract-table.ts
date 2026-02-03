@@ -71,7 +71,7 @@ export abstract class Table<R extends Object> {
     loadCSS() {
         const link = document.createElement("link");
         link.rel = "stylesheet"
-        link.href = "../css/rows.css"; // Relative path from JS folder.
+        link.href = "../css/table.css"; // Relative path from JS folder.
         link.type = 'text/css';
         document.head.appendChild(link);
     }
