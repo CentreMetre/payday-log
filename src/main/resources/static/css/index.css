@@ -141,9 +141,14 @@ button:disabled {
 .form-input-group {
 }
 
-#heist-instance-submit-button {
-    justify-self: start;  /* left */
-    align-self: center;   /* vertical centre */
+#heist-instance-submit-button{
+    justify-self: start; /* Horizontal */
+    align-self: end; /* Vertical */
+}
+
+#heist-instance-force-submit-button {
+    justify-self: start;
+    align-self: start;
 }
 
 .form-input-group label {
