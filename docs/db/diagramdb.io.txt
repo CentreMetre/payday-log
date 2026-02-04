@@ -6,7 +6,7 @@ Table heists_completed {
   completed_at datetime [not null]
   heist_success boolean [not null]
   heist_finish_state int [not null] // Loud, stealth, alarm but pre assault
-  majority_state_played_stealth boolean [not null] // Whether most of the heist was loud or stealth. If null, assume heist_finish_state value
+  all_bags_secured boolean [not null]
   difficulty int [not null, ref: > difficulties.id]
   notes text
 }
