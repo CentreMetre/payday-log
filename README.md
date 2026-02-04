@@ -18,6 +18,8 @@ Current features will include heist logging and daily challenge logging.
 - [ ] Exception Handling
 ### Notes
 
+Fear & Greed no all bags bonus 
+
 @NotNull used for null validation at controller level using @Valid e.g. <br>
 ```
 @PostMapping("/users")
