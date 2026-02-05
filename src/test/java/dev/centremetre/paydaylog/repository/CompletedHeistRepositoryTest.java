@@ -44,7 +44,7 @@ public class CompletedHeistRepositoryTest
     LocalDateTime completedAt;
     boolean heistSuccess;
     HeistState heistFinishState;
-    boolean majorityStatePlayedStealth;
+    boolean allBagsSecured;
     Difficulty difficulty;
     String notes;
 
@@ -113,7 +113,7 @@ public class CompletedHeistRepositoryTest
         completedAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
         heistSuccess = true;
         heistFinishState = HeistState.FINAL_CHARGE;
-        majorityStatePlayedStealth = false;
+        allBagsSecured = false;
         notes = "Test Notes";
 
         defaultInstance = new CompletedHeist();
@@ -123,7 +123,7 @@ public class CompletedHeistRepositoryTest
         defaultInstance.setCompletedAt(completedAt);
         defaultInstance.setHeistSuccess(heistSuccess);
         defaultInstance.setHeistFinishState(heistFinishState);
-        defaultInstance.setAllBagsSecured(majorityStatePlayedStealth);
+        defaultInstance.setAllBagsSecured(allBagsSecured);
         defaultInstance.setDifficulty(difficulty);
         defaultInstance.setNotes(notes);
     }
@@ -141,7 +141,7 @@ public class CompletedHeistRepositoryTest
         newInstance.setCompletedAt(completedAt);
         newInstance.setHeistSuccess(heistSuccess);
         newInstance.setHeistFinishState(heistFinishState);
-        newInstance.setAllBagsSecured(majorityStatePlayedStealth);
+        newInstance.setAllBagsSecured(allBagsSecured);
         newInstance.setDifficulty(difficulty);
         newInstance.setNotes(notes);
 
