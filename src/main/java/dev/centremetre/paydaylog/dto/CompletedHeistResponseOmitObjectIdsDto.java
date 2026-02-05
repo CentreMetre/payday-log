@@ -22,7 +22,7 @@ public class CompletedHeistResponseOmitObjectIdsDto // TODO: switch to only send
 
     private String heistFinishStateName;
 
-    private boolean majorityStatePlayedStealth;
+    private boolean allBagsSecured;
 
     private String difficultyName;
 
@@ -98,14 +98,14 @@ public class CompletedHeistResponseOmitObjectIdsDto // TODO: switch to only send
         this.heistFinishStateName = heistFinishStateName;
     }
 
-    public boolean isMajorityStatePlayedStealth()
+    public boolean isAllBagsSecured()
     {
-        return majorityStatePlayedStealth;
+        return allBagsSecured;
     }
 
-    public void setMajorityStatePlayedStealth(boolean majorityStatePlayedStealth)
+    public void setAllBagsSecured(boolean allBagsSecured)
     {
-        this.majorityStatePlayedStealth = majorityStatePlayedStealth;
+        this.allBagsSecured = allBagsSecured;
     }
 
     public String getDifficultyName()

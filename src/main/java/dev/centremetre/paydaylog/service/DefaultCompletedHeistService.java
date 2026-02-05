@@ -43,7 +43,7 @@ public class DefaultCompletedHeistService implements CompletedHeistService
         completedHeist.setCompletedAt(completedHeistDto.getCompletedAt());
         completedHeist.setHeistSuccess(completedHeistDto.getHeistSuccess());
         completedHeist.setHeistFinishState(finishState);
-        completedHeist.setMajorityStatePlayedStealth(completedHeistDto.getIsMajorityStatePlayedStealth());
+        completedHeist.setAllBagsSecured(completedHeistDto.getIsMajorityStatePlayedStealth());
         completedHeist.setDifficulty(difficulty);
         completedHeist.setNotes(completedHeistDto.getNotes());
 
