@@ -1,7 +1,11 @@
-import type { CompletedHeist, CompletedHeistDefaultRowShape } from "./models/completed-heist.js";
-import type { Heist } from "./models/heist.js";
-import { CompletedHeistTable, completedHeistDefaultRowShapeExample, completedHeistDefaultHeaderNames } from "./completed-heist-table.js";
-import { createToolTip } from "./util.js";
+import type {CompletedHeist} from "./models/completed-heist.js";
+import type {Heist} from "./models/heist.js";
+import {
+    completedHeistDefaultHeaderNames,
+    completedHeistDefaultRowShapeExample,
+    CompletedHeistTable
+} from "./completed-heist-table.js";
+import {CreateNewDateStringForForm, createToolTip} from "./util.js";
 
 /**
  * Used to keep a relation between a heist name and its ID since HTML Datalist items can't.
@@ -268,27 +272,6 @@ function appendToFormMessage(message: string, forceable: boolean) {
     // Append the new message while keeping old content
     formMessage.appendChild(span);
     formMessage.appendChild(document.createTextNode(' ')); // add space between messages
-}
-
-function CreateNewDateStringForForm(): string {
-    const date = new Date();
-
-    const pad = (n: number, z = 2) => n.toString().padStart(z, "0");
-    return (
-        date.getFullYear() +
-        "-" +
-        pad(date.getMonth() + 1) +
-        "-" +
-        pad(date.getDate()) +
-        "T" +
-        pad(date.getHours()) +
-        ":" +
-        pad(date.getMinutes()) +
-        ":" +
-        pad(date.getSeconds()) +
-        "." +
-        pad(date.getMilliseconds(), 3)
-    );
 }
 
 /**
