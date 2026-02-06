@@ -1,6 +1,7 @@
 import type { CompletedHeist, CompletedHeistDefaultRowShape } from "./models/completed-heist.js";
 import type { Heist } from "./models/heist.js";
 import { CompletedHeistTable, completedHeistDefaultRowShapeExample, completedHeistDefaultHeaderNames } from "./completed-heist-table.js";
+import { createToolTip } from "./util.js";
 
 /**
  * Used to keep a relation between a heist name and its ID since HTML Datalist items can't.
@@ -219,22 +220,18 @@ function validateForm() {
 
     const xpAmount: number = Number(xpAmountInputEl.value);
 
-    if (xpAmountInputEl.value && xpAmount === 0) { // != "" is required for some reason.
-        appendToFormMessage("XP Amount shouldn't be 0.", true)
-        valid = false;
-    }
-
     if (xpAmount === -1) {
         appendToFormMessage("XP Amount is -1.", true)
         valid = false;
     }
 
     if (xpAmount < -1) {
-        appendToFormMessage("XP Amount is -1.", false)
+        appendToFormMessage("XP Amount cannot be lower than -1.", false)
         valid = false;
         forceable = false;
     }
 
+    formMessage.appendChild(createToolTip("Reds = not optional. Yellow = forceable but not advised"))
 
     if (valid) {
         return true;
@@ -257,7 +254,7 @@ function appendToFormMessage(message: string, forceable: boolean) {
     const span = document.createElement("span");
     span.textContent = message;
 
-    span.style.color = forceable ? "yellow" : "red"
+    span.style.color = forceable ? "hsl(50, 90%, 50%)" : "red"
     span.style.display = "inline"
 
     // Append the new message while keeping old content

@@ -14,7 +14,7 @@
             <form class="heist-instance-create-form grid-container">
                 <div class="form-input-group" style="grid-row: 1; grid-column: 1;">
                     <label for="heist-instance-heist-name-input">
-                        Heist Name
+                        Heist Name <span style="color: red;">*</span>
                     </label>
                     <input id="heist-instance-heist-name-input" list="heist-instance-heist-data-list">
                     <datalist id="heist-instance-heist-data-list">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-input-group" style="grid-row: 1; grid-column: 2;">
                     <label for="heist-instance-xp-amount-input">
-                        XP Amount
+                        XP Amount <span style="color: red;">*</span>
                     </label>
                     <input id="heist-instance-xp-amount-input" type="number" class="no-spinner no-scientific-notation" style="width: 4ch">
                     <!--TODO: implement not being able to put scientific notation into xp amount box.-->
@@ -83,8 +83,8 @@
                 </div>
                 <button id="heist-instance-submit-button" type="button" style="grid-row: 2; grid-column: 5;">Submit</button>
                 <button id="heist-instance-force-submit-button" type="button" style="grid-row: 2; grid-column: 5;" hidden>Force Submit</button>
-                <p id="heist-instance-form-message" style="grid-column: 1 / -1;/*used to span all cols*/"></p>
             </form>
+            <p id="heist-instance-form-message" style="grid-column: 1 / -1;/*used to span all cols*/"></p>
         </div>
     </div>
 

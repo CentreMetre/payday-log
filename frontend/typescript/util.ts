@@ -21,3 +21,12 @@ export function padIsoMilliseconds(value: string): string {
 
     return `${datePart}T${timeSec}.${ms}`; // keep the same format, no Z added
 }
+
+export function createToolTip(toolTipText: string, icon: string = "🛈"): HTMLSpanElement {
+    const spanEl = document.createElement('span');
+    spanEl.textContent = icon;
+    spanEl.title = toolTipText;
+    spanEl.style.cursor = "help";
+
+    return spanEl;
+}
