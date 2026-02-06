@@ -64,11 +64,11 @@ public class CompletedHeist
     private HeistState heistFinishState;
 
     /**
-     * Whether a majority of the heist was played in stealth. Upto user discretion.
+     * Whether all bags were secured in the heist. Info should be got from the completion screen. Can be true even if heist fails.
      */
-    @Column(name = "majority_state_played_stealth", nullable = false)
+    @Column(name = "all_bags_secured", nullable = false)
     @NotNull
-    private boolean isMajorityStatePlayedStealth;
+    private boolean allBagsSecured;
 
     /**
      * The difficulty the heist was played in.
@@ -154,14 +154,14 @@ public class CompletedHeist
         this.heistFinishState = heistFinishState;
     }
 
-    public boolean isMajorityStatePlayedStealth()
+    public boolean isAllBagsSecured()
     {
-        return isMajorityStatePlayedStealth;
+        return allBagsSecured;
     }
 
-    public void setMajorityStatePlayedStealth(boolean majorityStatePlayedStealth)
+    public void setAllBagsSecured(boolean allBagsSecured)
     {
-        isMajorityStatePlayedStealth = majorityStatePlayedStealth;
+        this.allBagsSecured = allBagsSecured;
     }
 
     public Difficulty getDifficulty()
