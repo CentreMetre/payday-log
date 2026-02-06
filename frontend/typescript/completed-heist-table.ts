@@ -8,12 +8,12 @@ export const completedHeistDefaultHeaderNames: Record<keyof CompletedHeistDefaul
     id: "ID",
     heistName: "Heist Name",
     xpAmount: "XP Amount",
+    completedAt: "Completed At",
+    allBagsSecured: "All Bags?",
     accurateXpAmount: "Accurate XP Amount?",
     difficultyName: "Difficulty",
-    completedAt: "Completed At",
     heistFinishStateName: "Finish State",
     heistSuccess: "Passed?",
-    allBagsSecured: "Maj. Played Stealth?",
     notes: "Notes"
 }
 
