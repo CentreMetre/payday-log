@@ -45,7 +45,7 @@ public interface CompletedHeistRepository extends JpaRepository<CompletedHeist, 
     List<CompletedHeist> findByHeistFinishState(HeistState heistFinishState);
 
     // Retrieve by majorityStatePlayedStealth
-    List<CompletedHeist> findByMajorityStatePlayedStealth(boolean majorityStatePlayedStealth);
+    List<CompletedHeist> findByAllBagsSecured(boolean allBagsSecured);
 
     // Retrieve by difficulty
     List<CompletedHeist> findByDifficulty(Difficulty difficulty);

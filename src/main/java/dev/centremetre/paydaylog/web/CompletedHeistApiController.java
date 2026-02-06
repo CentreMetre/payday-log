@@ -39,7 +39,7 @@ public class CompletedHeistApiController
         returnDto.setCompletedAt(completedHeistSaved.getCompletedAt());
         returnDto.setHeistSuccess(completedHeistSaved.isHeistSuccess());
         returnDto.setHeistFinishStateName(completedHeistSaved.getHeistFinishState().getState());
-        returnDto.setMajorityStatePlayedStealth(completedHeistSaved.isMajorityStatePlayedStealth());
+        returnDto.setAllBagsSecured(completedHeistSaved.isAllBagsSecured());
         returnDto.setDifficultyName(completedHeistSaved.getDifficulty().getDifficulty());
         returnDto.setNotes(completedHeistSaved.getNotes());
 
@@ -66,8 +66,8 @@ public class CompletedHeistApiController
         heistNoObjectIds.setCompletedAt(heist.getCompletedAt());
         heistNoObjectIds.setHeistSuccess(heist.isHeistSuccess());
         heistNoObjectIds.setHeistFinishStateName(heist.getHeistFinishState().getState());
-        heistNoObjectIds.setMajorityStatePlayedStealth(
-                heist.isMajorityStatePlayedStealth()
+        heistNoObjectIds.setAllBagsSecured(
+                heist.isAllBagsSecured()
         );
         heistNoObjectIds.setDifficultyName(heist.getDifficulty().getDifficulty());
         heistNoObjectIds.setNotes(heist.getNotes());

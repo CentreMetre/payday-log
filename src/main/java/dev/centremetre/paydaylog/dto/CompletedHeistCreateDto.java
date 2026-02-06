@@ -26,7 +26,7 @@ public class CompletedHeistCreateDto // implements Serializable // Serialisable 
      * ID used since that should be sent by client, to reduce size.
      */
     private int heistFinishStateId;
-    private boolean isMajorityStatePlayedStealth;
+    private boolean allBagsSecured;
     /**
      * ID used since that should be sent by client, to reduce size.
      */
@@ -95,12 +95,12 @@ public class CompletedHeistCreateDto // implements Serializable // Serialisable 
 
     public boolean getIsMajorityStatePlayedStealth()
     {
-        return isMajorityStatePlayedStealth;
+        return allBagsSecured;
     }
 
     public void setIsMajorityStatePlayedStealth(boolean isMajorityStatePlayedStealth)
     {
-        this.isMajorityStatePlayedStealth = isMajorityStatePlayedStealth;
+        this.allBagsSecured = isMajorityStatePlayedStealth;
     }
 
     public int getDifficultyId()

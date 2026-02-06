@@ -44,7 +44,7 @@ public class CompletedHeistRepositoryTest
     LocalDateTime completedAt;
     boolean heistSuccess;
     HeistState heistFinishState;
-    boolean majorityStatePlayedStealth;
+    boolean allBagsSecured;
     Difficulty difficulty;
     String notes;
 
@@ -113,7 +113,7 @@ public class CompletedHeistRepositoryTest
         completedAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
         heistSuccess = true;
         heistFinishState = HeistState.FINAL_CHARGE;
-        majorityStatePlayedStealth = false;
+        allBagsSecured = false;
         notes = "Test Notes";
 
         defaultInstance = new CompletedHeist();
@@ -123,7 +123,7 @@ public class CompletedHeistRepositoryTest
         defaultInstance.setCompletedAt(completedAt);
         defaultInstance.setHeistSuccess(heistSuccess);
         defaultInstance.setHeistFinishState(heistFinishState);
-        defaultInstance.setMajorityStatePlayedStealth(majorityStatePlayedStealth);
+        defaultInstance.setAllBagsSecured(allBagsSecured);
         defaultInstance.setDifficulty(difficulty);
         defaultInstance.setNotes(notes);
     }
@@ -141,7 +141,7 @@ public class CompletedHeistRepositoryTest
         newInstance.setCompletedAt(completedAt);
         newInstance.setHeistSuccess(heistSuccess);
         newInstance.setHeistFinishState(heistFinishState);
-        newInstance.setMajorityStatePlayedStealth(majorityStatePlayedStealth);
+        newInstance.setAllBagsSecured(allBagsSecured);
         newInstance.setDifficulty(difficulty);
         newInstance.setNotes(notes);
 
@@ -160,7 +160,7 @@ public class CompletedHeistRepositoryTest
         assertThat(savedRetrieved.getCompletedAt()).isEqualTo(defaultInstance.getCompletedAt());
         assertThat(savedRetrieved.isHeistSuccess()).isEqualTo(defaultInstance.isHeistSuccess());
         assertThat(savedRetrieved.getHeistFinishState()).isEqualTo(defaultInstance.getHeistFinishState());
-        assertThat(savedRetrieved.isMajorityStatePlayedStealth()).isEqualTo(defaultInstance.isMajorityStatePlayedStealth());
+        assertThat(savedRetrieved.isAllBagsSecured()).isEqualTo(defaultInstance.isAllBagsSecured());
         assertThat(savedRetrieved.getDifficulty()).isEqualTo(defaultInstance.getDifficulty());
         assertThat(savedRetrieved.getNotes()).isEqualTo(defaultInstance.getNotes());
     }
