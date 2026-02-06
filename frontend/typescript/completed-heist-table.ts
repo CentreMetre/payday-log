@@ -13,7 +13,7 @@ export const completedHeistDefaultHeaderNames: Record<keyof CompletedHeistDefaul
     completedAt: "Completed At",
     heistFinishStateName: "Finish State",
     heistSuccess: "Passed?",
-    majorityStatePlayedStealth: "Maj. Played Stealth?",
+    allBagsSecured: "Maj. Played Stealth?",
     notes: "Notes"
 }
 
@@ -25,7 +25,7 @@ export const completedHeistDefaultRowShapeExample: CompletedHeistDefaultRowShape
     heistName: "",
     heistSuccess: false,
     id: 0,
-    majorityStatePlayedStealth: false,
+    allBagsSecured: false,
     notes: "",
     xpAmount: 0
 }

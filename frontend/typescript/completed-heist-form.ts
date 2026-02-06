@@ -23,7 +23,7 @@ const formDefaults: HeistFormDefaults = {
     completedAt: CreateNewDateStringForForm,
     heistSuccess: true,
     heistFinishStateId: 6,
-    majorityStatePlayedStealth: false,
+    allBagsSecured: false,
     difficultyId: 4, //Difficulty ID
     notes: ""
 }
@@ -36,7 +36,7 @@ const devFormDefaults: HeistFormDefaults = {
     completedAt: CreateNewDateStringForForm,
     heistSuccess: true,
     heistFinishStateId: 6,
-    majorityStatePlayedStealth: false,
+    allBagsSecured: false,
     difficultyId: 4, //Difficulty ID
     notes: "Hi"
 }
@@ -67,8 +67,8 @@ const successfulInputEl: HTMLInputElement =
 const finishStateSelectEl: HTMLSelectElement =
     document.getElementById("heist-instance-finish-state-select") as HTMLSelectElement;
 
-const majorityStealthInputEl: HTMLInputElement =
-    document.getElementById("heist-instance-majority-played-stealth-input") as HTMLInputElement;
+const allBagsSecuredInputEl: HTMLInputElement =
+    document.getElementById("heist-instance-all-bags-secured-stealth-input") as HTMLInputElement;
 
 const difficultySelectEl: HTMLSelectElement =
     document.getElementById("heist-instance-difficulty-select") as HTMLSelectElement;
@@ -98,7 +98,7 @@ const heistCompleteElements: (HTMLInputElement | HTMLSelectElement | HTMLTextAre
     accurateXpInputEl,
     completedAtInputEl,
     successfulInputEl,
-    majorityStealthInputEl,
+    allBagsSecuredInputEl,
     difficultySelectEl,
     notesInputEl
 ];
@@ -129,7 +129,7 @@ function resetFormWithDefaults(defaults: HeistFormDefaults) {
     completedAtInputEl.value = defaults.completedAt();
     successfulInputEl.checked = defaults.heistSuccess;
     finishStateSelectEl.value = defaults.heistFinishStateId.toString();
-    majorityStealthInputEl.checked = defaults.majorityStatePlayedStealth;
+    allBagsSecuredInputEl.checked = defaults.allBagsSecured;
     difficultySelectEl.value = defaults.difficultyId.toString();
     notesInputEl.value = defaults.notes;
 }
@@ -183,7 +183,7 @@ function getFormData() {
         completedAt: completedAtInputEl.value,
         heistSuccess: successfulInputEl.checked,
         heistFinishStateId: parseInt(finishStateSelectEl.value),
-        majorityStatePlayedStealth: majorityStealthInputEl.checked,
+        allBagsSecured: allBagsSecuredInputEl.checked,
         difficultyId: parseInt(difficultySelectEl.value),
         notes: notesInputEl.value
     }
@@ -309,7 +309,7 @@ function formStateDisabled(isDisabled: boolean): void {
     accurateXpInputEl.disabled = isDisabled;
     completedAtInputEl.disabled = isDisabled;
     successfulInputEl.disabled = isDisabled;
-    majorityStealthInputEl.disabled = isDisabled;
+    allBagsSecuredInputEl.disabled = isDisabled;
     difficultySelectEl.disabled = isDisabled;
     notesInputEl.disabled = isDisabled;
     finishStateSelectEl.disabled = isDisabled;

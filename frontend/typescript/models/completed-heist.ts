@@ -17,7 +17,7 @@ export type CompletedHeist = {
     heistFinishStateId: number;
     heistFinishStateName: string;
 
-    majorityStatePlayedStealth: boolean;
+    allBagsSecured: boolean;
 
     // Flattened Difficulty
     difficultyId: number;
