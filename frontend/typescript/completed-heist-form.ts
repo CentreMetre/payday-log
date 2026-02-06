@@ -121,6 +121,8 @@ function clearHeistCompletedForm() {
             element.checked = element.defaultChecked;
         }
     }
+    formMessage.textContent = "";
+    forceSubmitButtonEl.hidden = true;
 }
 
 function resetFormWithDefaults(defaults: HeistFormDefaults) {
@@ -195,6 +197,8 @@ function validateForm() {
     // debugger;
     forceSubmitButtonEl.hidden = true;
     let valid = true;
+
+    // Set to false if one of the if bodies makes it false, then it cant be forced. Should be set back to true in the if bodies.
     let forceable: boolean = true;
     formMessage.textContent = ""
 
@@ -211,7 +215,6 @@ function validateForm() {
         forceable = false;
     }
 
-
     if (!xpAmountInputEl.value) {
         appendToFormMessage("XP Amount can't be empty.", false)
         valid = false;
@@ -220,18 +223,23 @@ function validateForm() {
 
     const xpAmount: number = Number(xpAmountInputEl.value);
 
-    if (xpAmount === -1) {
-        appendToFormMessage("XP Amount is -1.", true)
+    if (xpAmountInputEl.value && xpAmount === 0) {
+        appendToFormMessage("XP Amount is 0.", true)
         valid = false;
     }
 
-    if (xpAmount < -1) {
-        appendToFormMessage("XP Amount cannot be lower than -1.", false)
+    if (xpAmount > 4000) { // The highest so far is 3710 this is a safeguard against accidental inputs.
+        appendToFormMessage(`XP Amount is high at ${xpAmount}.`, true)
+        valid = false;
+    }
+
+    if (xpAmount < 0) {
+        appendToFormMessage("XP Amount cannot be lower than 0.", false)
         valid = false;
         forceable = false;
     }
 
-    formMessage.appendChild(createToolTip("Reds = not optional. Yellow = forceable but not advised"))
+    formMessage.appendChild(createToolTip("Reds = invalid. Yellow = forceable but not advised, there also has to be no reds (invalids)."))
 
     if (valid) {
         return true;
