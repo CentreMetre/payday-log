@@ -34,7 +34,7 @@ public class DefaultChallengeService implements ChallengeService
         {
             return challengeOptional.get();
         }
-        throw new EntityNotFoundException("Challenge with and ID of " + id + " doesn't exist.");
+        throw new EntityNotFoundException("Challenge with an ID of " + id + " doesn't exist.");
     }
 
     @Override

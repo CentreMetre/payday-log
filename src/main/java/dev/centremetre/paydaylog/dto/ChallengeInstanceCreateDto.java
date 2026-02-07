@@ -1,6 +1,7 @@
 package dev.centremetre.paydaylog.dto;
 
 import dev.centremetre.paydaylog.model.Challenge;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 public class ChallengeInstanceCreateDto implements Serializable
 {
     @NotNull(message = "A challenge needs to exist on a challenge instance to record what challenge is being stored.")
+    @Min(value = 1, message = "Challenge ID must be greater than 0.")
     private int challengeId; // NOTE: not challenge instance id. Is int so cant be null anyaway. TODO: change to integer
 
     private boolean isCompleted;
@@ -41,16 +43,6 @@ public class ChallengeInstanceCreateDto implements Serializable
     public void setCompleted(boolean completed)
     {
         isCompleted = completed;
-    }
-
-    public boolean getIsCompleted()
-    {
-        return isCompleted;
-    }
-
-    public void setIsCompleted(boolean isCompleted)
-    {
-        this.isCompleted = isCompleted;
     }
 
     public LocalDateTime getCompletedAt()
