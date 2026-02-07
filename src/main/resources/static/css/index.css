@@ -62,17 +62,12 @@ label {
     font-weight: bold;
 }
 
-input, select, textarea {
-    border: 1px solid black;
-    margin-bottom: 1rem;
-}
-
 input,
 textarea,
 select {
     border: 1px solid black;
-    border-radius: 5px;
     margin-bottom: 1rem;
+    border-radius: 5px;
     /*font-family: inherit;*/
 }
 
