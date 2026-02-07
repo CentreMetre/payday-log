@@ -13,4 +13,6 @@ type ChallengeInstance = {
     notes: string;
 }
 
-export type ChallengeInstanceDefaultRowShape = Omit<ChallengeInstance, "challengeId">
+export type ChallengeInstanceDefaultRowShape = Omit<ChallengeInstance, "challengeId" | "completedAt"> & {
+    completedAt: string;
+}
