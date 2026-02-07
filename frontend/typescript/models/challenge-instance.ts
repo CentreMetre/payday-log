@@ -8,11 +8,15 @@ type ChallengeInstance = {
     challengeId: number;
     challengeText: string;
 
-    completed: boolean;
+    isCompleted: boolean;
     completedAt: Date;
     notes: string;
 }
 
 export type ChallengeInstanceDefaultRowShape = Omit<ChallengeInstance, "challengeId" | "completedAt"> & {
     completedAt: string;
+}
+
+export type ChallengeInstanceSubmitShape = Omit<ChallengeInstance, "id" | "challengeText" | "completedAt"> & {
+    completedAt: string | null;
 }

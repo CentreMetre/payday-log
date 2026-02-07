@@ -1,6 +1,7 @@
 import {createNewDateStringForForm} from "./util.js";
 import type {Challenge} from "models/challenge";
 import type {CompletedHeistResponseOmitObjectIds} from "./models/completed-heist";
+import type {ChallengeInstanceSubmitShape} from "./models/challenge-instance";
 
 const challengeInstanceNewChallengeButtonEl: HTMLButtonElement =
     document.getElementById("challenge-instance-new-challenge-instance-button") as HTMLButtonElement;
@@ -18,7 +19,7 @@ challengeInstanceChallengeInputEl.addEventListener("input", () => {
 const challengesDataListEl: HTMLDataListElement =
     document.getElementById("challenge-data-list") as HTMLDataListElement;
 
-const challengeInstanceIsCompleteInputEl: HTMLInputElement =
+const challengeInstanceIsCompletedInputEl: HTMLInputElement =
     document.getElementById("challenge-instance-is-completed-input") as HTMLInputElement;
 
 const challengeInstanceNotesInputEl: HTMLInputElement =
@@ -66,16 +67,8 @@ function setCompletedAndDateCompletedTime() {
     // challengeInstanceDateTimeCompletedInputEl.value = createNewDateStringForForm();
 }
 
-function validateFormData(): boolean {
-    let valid = true;
-
-
-
-    return false;
-}
 
 async function setLatestHeistCompletedDateTime() {
-    debugger
     const response = await fetch("/api/completed-heists/latest");
 
     const body: CompletedHeistResponseOmitObjectIds = await response.json();
@@ -90,9 +83,86 @@ async function setLatestHeistCompletedDateTime() {
 }
 
 
-function submitChallengeInstance() {
-    validateFormData()
+async function submitChallengeInstance() {
+    if(!isFormValid()){
+        return;
+    }
+    challengeInstanceFormMessagePEl.textContent = "";
+
+    const challengeId: number = challengeNameToId.get(challengeInstanceChallengeInputEl.value)!;
+    const completed: boolean = challengeInstanceIsCompletedInputEl.checked;
+    const completedAt: string | null = challengeInstanceDateTimeCompletedInputEl.value ? challengeInstanceDateTimeCompletedInputEl.value : null;
+    const notes: string = challengeInstanceNotesInputEl.value;
+
+    const newChallengeInstance: ChallengeInstanceSubmitShape = {
+        challengeId: challengeId, isCompleted: completed, completedAt: completedAt, notes: notes
+    }
+
+    const response = await fetch("/api/challenge-instance/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newChallengeInstance)
+    })
+
+    const body = await response.json();
+
+    if (!response.ok) {
+        challengeInstanceFormMessagePEl.textContent = `${response.status}: ${body.message}`
+    }
 }
+
+function isFormValid(): boolean {
+    challengeInstanceFormMessagePEl.textContent = "";
+    let valid = true;
+
+    if (!challengeInstanceChallengeInputEl.value) {
+        valid = false;
+        appendToFormMessage("Challenge can't be empty.")
+    }
+
+    if (challengeInstanceChallengeInputEl.value && !challengeNameToId.get(challengeInstanceChallengeInputEl.value)) {
+        valid = false;
+        appendToFormMessage("That challenge doesn't exist, make sure its spelt correctly.")
+    }
+
+    // !! converts to a bool, it's opposite state, then back to its current state.
+    // if (challengeInstanceIsCompleteInputEl.checked !== !!challengeInstanceDateTimeCompletedInputEl.value) {
+    //     valid = false;
+    //     appendToFormMessage("'Completed' checkbox ")
+    // }
+
+    // Checked is true, datetime is falsy
+    const test = challengeInstanceDateTimeCompletedInputEl.value
+    if (challengeInstanceIsCompletedInputEl.checked && !challengeInstanceDateTimeCompletedInputEl.value)
+    {
+        valid = false;
+        appendToFormMessage("A date & time need to be entered if the challenge was completed.")
+    }
+
+    // Checked is false, datetime is truthy
+    if (!challengeInstanceIsCompletedInputEl.checked && challengeInstanceDateTimeCompletedInputEl.value)
+    {
+        valid = false;
+        appendToFormMessage("The challenge needs to be marked as completed if the date & time was entered.")
+    }
+
+    return valid;
+}
+
+function appendToFormMessage(message: string) {
+
+    message = message.at(-1) == "." ? message : `${message}.` // Add full stop if not one.
+
+    const span = document.createElement("span");
+    span.textContent = message;
+
+    // Append the new message while keeping old content
+    challengeInstanceFormMessagePEl.appendChild(span);
+    challengeInstanceFormMessagePEl.appendChild(document.createTextNode(' ')); // add space between messages
+}
+
 
 // Setup
 
