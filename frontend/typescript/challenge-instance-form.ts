@@ -63,8 +63,8 @@ const challengeNameToId: Map<string, number> = new Map();
 let formDateTimeComplete: string | undefined = undefined;
 
 function setCompletedAndDateCompletedTime() {
-    // challengeInstanceIsCompleteInputEl.checked = true;
-    // challengeInstanceDateTimeCompletedInputEl.value = createNewDateStringForForm();
+    challengeInstanceDateTimeCompletedInputEl.value = createNewDateStringForForm();
+    // TODO: store time for use if the user accidentally gets rid of, but wants to old time...? decide if this is a good idea
 }
 
 
