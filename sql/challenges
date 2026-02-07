@@ -1,4 +1,4 @@
-INSERT INTO challenges (description) VALUES
+INSERT INTO challenges (challenge) VALUES
 ('Secure a total of 30 bags on completed heists.'),
 ('Get 10 double kills with a non-OVK marksman rifle.'),
 ('Place 4 Medic Bags.'),
