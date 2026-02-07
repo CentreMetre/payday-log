@@ -97,12 +97,15 @@ export abstract class Table<R extends Object> {
      * @param data Data to append as a row.
      */
     appendRow(data: R): void {
-        debugger;
         const row = this.createPopulatedRow(data)
         this.tableBody.appendChild(row)
     }
 
     appendRows(data: R[]): void {
+        if (data.length === 0) {
+            this.setMessage("No data to append. Empty list provided.")
+            return;
+        }
         for (const element of data) {
             this.appendRow(element)
         }
@@ -179,7 +182,14 @@ export abstract class Table<R extends Object> {
      */
     setRows(data: R[]): void {
         this.clearRows()
+        if (data.length === 0) {
+            this.setMessage("No data to show. Empty list provided.")
+        }
         this.appendRows(data)
+    }
+
+    getMessageElement() {
+        return this.messageEl;
     }
 
     clearMessage() {
