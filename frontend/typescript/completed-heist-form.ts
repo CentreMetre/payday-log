@@ -165,7 +165,6 @@ async function submitForm() {
 }
 
 async function forceSubmit() {
-    debugger;
     forceSubmitButtonEl.hidden = true;
     const heistCompletedData = getFormData();
 

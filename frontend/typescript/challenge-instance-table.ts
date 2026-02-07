@@ -21,7 +21,6 @@ export const challengeInstanceDefaultRowShapeExample: ChallengeInstanceDefaultRo
 export class ChallengeInstanceTable extends Table<ChallengeInstanceDefaultRowShape> {
 
     async fetchToday(): Promise<ChallengeInstanceDefaultRowShapeList> {
-        debugger;
         const date = new Date().toISOString().split("T")[0];
         const response = await fetch(`/api/challenge-instance/date?date=${date}`)
         const body = await response.json();
