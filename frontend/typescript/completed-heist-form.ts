@@ -5,7 +5,7 @@ import {
     completedHeistDefaultRowShapeExample,
     CompletedHeistTable
 } from "./completed-heist-table.js";
-import {CreateNewDateStringForForm, createToolTip} from "./util.js";
+import {createNewDateStringForForm, createToolTip} from "./util.js";
 
 /**
  * Used to keep a relation between a heist name and its ID since HTML Datalist items can't.
@@ -25,7 +25,7 @@ const formDefaults: HeistFormDefaults = {
     xpAmount: "",
     accurateXpAmount: true,
     heistName: "",
-    completedAt: CreateNewDateStringForForm,
+    completedAt: createNewDateStringForForm,
     heistSuccess: true,
     heistFinishStateId: 6,
     allBagsSecured: false,
@@ -38,7 +38,7 @@ const devFormDefaults: HeistFormDefaults = {
     xpAmount: "",
     accurateXpAmount: true,
     heistName: "Road Rage",
-    completedAt: CreateNewDateStringForForm,
+    completedAt: createNewDateStringForForm,
     heistSuccess: true,
     heistFinishStateId: 6,
     allBagsSecured: false,

@@ -103,7 +103,7 @@
                             </datalist>
                         </div>
                         <div class="form-input-group" style="grid-row: 1; grid-column: 2;">
-                            <label for="challenge-instance-is-completed-input">Completed?</label>
+                            <label for="challenge-instance-is-completed-input">Completed? <span title="Conditionally mandatory. Only required if Date & Time Completed is populated." style="color: green;">*</span></label>
                             <input id="challenge-instance-is-completed-input" type="checkbox">
                         </div>
                         <div class="form-input-group" style="grid-row: 2; grid-column: 1;">
@@ -111,9 +111,10 @@
                             <textarea id="challenge-instance-notes-input"></textarea>
                         </div>
                         <div class="form-input-group" style="grid-row: 2; grid-column: 2;">
-                            <label for="challenge-instance-completed-at-input">Date & Time Completed</label>
+                            <label for="challenge-instance-completed-at-input">Date & Time Completed <span title="Conditionally mandatory. Only required 'Completed?' is true." style="color: green;">*</span></label>
                             <input id="challenge-instance-completed-at-input" type="datetime-local" step="0.001" class="no-picker" style="width: 26ch">
-                            <button id="challenge-instance-completed-at-insert-time-button">Insert Time</button>
+                            <button id="challenge-instance-completed-at-insert-time-button" type="button">Insert Time</button>
+                            <button id="challenge-instance-complete-at-reset-time-button" type="button">Reset Time</button>
                         </div>
                         <button id="challenge-instance-submit-button" class="submit-button" type="button" style="grid-row: 2; grid-column: 3;">Submit</button>
                     </form>
@@ -141,6 +142,9 @@
         </div>
     </div>
 <script src="js/completed-heist-form.js" type="module">
+
+</script>
+<script src="js/challenge-instance-form.js" type="module">
 
 </script>
 </body>

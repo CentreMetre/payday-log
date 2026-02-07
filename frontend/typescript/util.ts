@@ -34,7 +34,7 @@ export function createToolTip(toolTipText: string, icon: string = "🛈"): HTMLS
 /**
  * Creates a new date time for use in a datetime input with 3 milliseconds.
  */
-export function CreateNewDateStringForForm(): string {
+export function createNewDateStringForForm(): string {
     const date = new Date();
 
     const pad = (n: number, z = 2) => n.toString().padStart(z, "0");
