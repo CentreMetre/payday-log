@@ -22,13 +22,13 @@ body > * {
     /*margin-top: 2rem;*/
 }
 
-#heist-completed-input-panel, #heist-completed-output-panel {
-    width: 65%;
-}
+/*#heist-completed-input-panel, #heist-completed-output-panel {*/
+/*    width: 65%;*/
+/*}*/
 
 .panel-row {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
 }
 
 form {
@@ -146,6 +146,7 @@ button:disabled {
 }
 
 .form-input-group {
+
 }
 
 .submit-button {
@@ -158,6 +159,13 @@ button:disabled {
     align-self: start;
 }
 
+#challenge-instance-completed-at-insert-time-latest-heist-completed-button,
+#challenge-instance-complete-at-reset-time-button {
+    align-self: start;
+    justify-self: end;
+    margin-right: 10px;
+}
+
 .form-input-group label {
     font-size: 20px;
 }
@@ -165,4 +173,8 @@ button:disabled {
 h1 {
     text-align: center;
     margin: 1.5rem auto 0.5rem; /* 2rem above 0.5 rem below*/
+}
+
+.form-input-notes {
+    resize: none;
 }

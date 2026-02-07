@@ -7,6 +7,11 @@ const challengeInstanceNewChallengeButtonEl: HTMLButtonElement =
 const challengeInstanceChallengeInputEl: HTMLInputElement =
     document.getElementById("challenge-instance-challenge-input") as HTMLInputElement;
 
+challengeInstanceChallengeInputEl.addEventListener("input", () => {
+    challengeInstanceChallengeInputEl.title = challengeInstanceChallengeInputEl.value;
+})
+
+
 const challengesDataListEl: HTMLDataListElement =
     document.getElementById("challenge-data-list") as HTMLDataListElement;
 
@@ -20,7 +25,7 @@ const challengeInstanceDateTimeCompletedInputEl: HTMLInputElement =
     document.getElementById("challenge-instance-completed-at-input") as HTMLInputElement;
 
 const challengeInstanceDateTimeCompletedInsertTimeButtonEl: HTMLButtonElement =
-    document.getElementById("challenge-instance-completed-at-insert-time-button") as HTMLButtonElement;
+    document.getElementById("challenge-instance-completed-at-insert-time-latest-heist-completed-button") as HTMLButtonElement;
 
 challengeInstanceDateTimeCompletedInsertTimeButtonEl.addEventListener("click", setCompletedAndDateCompletedTime)
 
