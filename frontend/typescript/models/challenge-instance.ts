@@ -17,6 +17,8 @@ export type ChallengeInstanceDefaultRowShape = Omit<ChallengeInstance, "challeng
     completedAt: string;
 }
 
+export type ChallengeInstanceDefaultRowShapeList = ChallengeInstanceDefaultRowShape[];
+
 export type ChallengeInstanceSubmitShape = Omit<ChallengeInstance, "id" | "challengeText" | "completedAt"> & {
     completedAt: string | null;
 }
