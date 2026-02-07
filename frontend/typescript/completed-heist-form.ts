@@ -21,7 +21,7 @@ type HeistFormDefaults = Omit<CompletedHeist, 'id' | 'heistId' | 'difficultyName
     xpAmount: string; //string to allow default to be "", will be converted back to number later at submission
 }
 
-const formDefaults: HeistFormDefaults = {
+const formDefaults: HeistFormDefaults = { // TODO look into form.reset() and input.defaultValue
     xpAmount: "",
     accurateXpAmount: true,
     heistName: "",
