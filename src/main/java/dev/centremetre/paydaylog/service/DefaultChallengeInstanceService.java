@@ -29,13 +29,13 @@ public class DefaultChallengeInstanceService implements ChallengeInstanceService
     {
         // TODO: Add validation for challenge instances already added today to make sure duplicate isn't added.
         // TODO: Add validation for amount challenges instances so theres no more than 3, but with an override for
-        //  after midnight but before 1 in summer time.
+        //  after midnight but before 1 in summer time. Also special cases like betas, or challenges resetting midday.
         ChallengeInstance challengeInstance = new ChallengeInstance();
 
-        Challenge challenge = challengeService.getChallengeById(challengeInstance.getId());
+        Challenge challenge = challengeService.getChallengeById(challengeInstanceCreateDto.getChallengeId());
 
         challengeInstance.setChallenge(challenge);
-        challengeInstance.setCompleted(challengeInstanceCreateDto.getIsCompleted());
+        challengeInstance.setCompleted(challengeInstanceCreateDto.isCompleted());
         challengeInstance.setCompletedAt(challengeInstanceCreateDto.getCompletedAt());
         // TODO: change so if null or empty it gets a default string of something like "Notes intentionally empty.".
         challengeInstance.setNotes(challengeInstanceCreateDto.getNotes());

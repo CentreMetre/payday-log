@@ -24,7 +24,7 @@ public class ChallengeInstance
      * The challenge that was completed (or not).
      */
     @ManyToOne(optional = false)
-    @JoinColumn(name = "challenge", nullable = false)
+    @JoinColumn(name = "challenge_id", nullable = false)
     @NotNull
     private Challenge challenge;
 
