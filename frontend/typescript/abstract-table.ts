@@ -16,6 +16,8 @@ export abstract class Table<R extends Object> {
     tableBody: HTMLTableSectionElement;
     headers: Header<R>[];
 
+    messageEl: HTMLElement | null;
+
     /**
      * Creates a list of Header objects to be used in a table for the header cell values and column types.
      * @param exampleObject An instance of the type to be displaying. Can be an object with default values such as
@@ -23,8 +25,13 @@ export abstract class Table<R extends Object> {
      * @param displayNamesAndOrder A object with the same properties, but all string type for the header cell values.
      * Used by passing an object with the keys of R and the name preferred. E.g. for a heist:
      * ```{ id: "ID", name: "Heist Name" }```, this makes the columns appear in the order of ID then Heist Name.
+     * @param messageElement Used to display messaged related to data output. Optional.
+     * Omit (undefined) to use the class provided HTMLParagraphElement.
+     * Pass an HTMLElement tp ise a custom element.
+     * Pass null to disable automatic message output.
      */
-    constructor(exampleObject: R, displayNamesAndOrder?: Record<keyof R, string>) {
+    constructor(exampleObject: R, displayNamesAndOrder?: Record<keyof R, string>, messageElement?: HTMLElement | null | undefined) {
+
         this.table = document.createElement("table")
         this.tableBody = document.createElement("tbody");
 
@@ -34,6 +41,8 @@ export abstract class Table<R extends Object> {
         this.table.appendChild(this.tableBody);
 
         this.loadCSS()
+
+        this.messageEl = messageElement === undefined ? document.createElement("p") : messageElement;
     }
 
     createHeadersFromType(
@@ -88,6 +97,7 @@ export abstract class Table<R extends Object> {
      * @param data Data to append as a row.
      */
     appendRow(data: R): void {
+        debugger;
         const row = this.createPopulatedRow(data)
         this.tableBody.appendChild(row)
     }
@@ -172,6 +182,21 @@ export abstract class Table<R extends Object> {
         this.appendRows(data)
     }
 
+    clearMessage() {
+        if (!this.messageEl) return;
+        this.messageEl.textContent = ""
+    }
+
+    appendMessage(message: string) {
+        if (!this.messageEl) return;
+        this.messageEl.textContent = `${this.messageEl.textContent} ${message}`
+    }
+
+    setMessage(message: string) {
+        if (!this.messageEl) return;
+        this.clearMessage();
+        this.appendMessage(message);
+    }
 }
 
 type Header<R> = {
