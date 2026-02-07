@@ -1,33 +1,34 @@
-import type { CompletedHeist } from "./models/completed-heist";
-import type { Heist } from "./models/heist";
-import { setupRowDisplay, appendRowToTable } from "./completed-heist-rows.js";
+import type {CompletedHeist} from "./models/completed-heist.js";
+import type {Heist} from "./models/heist.js";
+import {
+    completedHeistDefaultHeaderNames,
+    completedHeistDefaultRowShapeExample,
+    CompletedHeistTable
+} from "./completed-heist-table.js";
+import {createNewDateStringForForm, createToolTip} from "./util.js";
 
-// type CompletedHeist = {
-//     xpAmount: string;
-//     accurateXpAmount: boolean;
-//     heistName: string;
-//     heistId: number;
-//     completedAt: Date;
-//     heistSuccess: boolean;
-//     heistFinishState: number;
-//     majorityStatePlayedStealth: boolean;
-//     difficulty: number;
-//     notes: string;
-// }
+/**
+ * Used to keep a relation between a heist name and its ID since HTML Datalist items can't.
+ */
+const heistNameToId: Map<string, number> = new Map();
+
+function prepData() {
+
+}
 
 type HeistFormDefaults = Omit<CompletedHeist, 'id' | 'heistId' | 'difficultyName' | 'completedAt' | 'xpAmount' | 'heistFinishStateName'> & {
     completedAt: () => string;
     xpAmount: string; //string to allow default to be "", will be converted back to number later at submission
 }
 
-const formDefaults: HeistFormDefaults = {
+const formDefaults: HeistFormDefaults = { // TODO look into form.reset() and input.defaultValue
     xpAmount: "",
     accurateXpAmount: true,
     heistName: "",
-    completedAt: CreateNewDateStringForForm,
+    completedAt: createNewDateStringForForm,
     heistSuccess: true,
     heistFinishStateId: 6,
-    majorityStatePlayedStealth: false,
+    allBagsSecured: false,
     difficultyId: 4, //Difficulty ID
     notes: ""
 }
@@ -37,22 +38,13 @@ const devFormDefaults: HeistFormDefaults = {
     xpAmount: "",
     accurateXpAmount: true,
     heistName: "Road Rage",
-    completedAt: CreateNewDateStringForForm,
+    completedAt: createNewDateStringForForm,
     heistSuccess: true,
     heistFinishStateId: 6,
-    majorityStatePlayedStealth: false,
+    allBagsSecured: false,
     difficultyId: 4, //Difficulty ID
     notes: "Hi"
 }
-
-// type heistDefaults = {
-//
-// }
-
-/**
- * Used to keep a relation between a heist name and its ID since HTML Datalist items can't.
- */
-const heistNameToId: Map<string, number> = new Map();
 
 const heistInstanceCreateFormEl: HTMLFormElement = document.getElementById("heist-instance-create-form") as HTMLFormElement // Have to have `as HTMLFormElement` or it won't work
 
@@ -80,8 +72,8 @@ const successfulInputEl: HTMLInputElement =
 const finishStateSelectEl: HTMLSelectElement =
     document.getElementById("heist-instance-finish-state-select") as HTMLSelectElement;
 
-const majorityStealthInputEl: HTMLInputElement =
-    document.getElementById("heist-instance-majority-played-stealth-input") as HTMLInputElement;
+const allBagsSecuredInputEl: HTMLInputElement =
+    document.getElementById("heist-instance-all-bags-secured-stealth-input") as HTMLInputElement;
 
 const difficultySelectEl: HTMLSelectElement =
     document.getElementById("heist-instance-difficulty-select") as HTMLSelectElement;
@@ -92,6 +84,9 @@ const notesInputEl: HTMLTextAreaElement =
 const submitButtonEl: HTMLButtonElement =
     document.getElementById("heist-instance-submit-button") as HTMLButtonElement;
 
+const forceSubmitButtonEl: HTMLButtonElement =
+    document.getElementById("heist-instance-force-submit-button") as HTMLButtonElement;
+
 const formMessage: HTMLParagraphElement =
     document.getElementById("heist-instance-form-message") as HTMLParagraphElement;
 
@@ -100,6 +95,7 @@ populateHeistList()
 newHeistInstanceButtonEl.addEventListener('click', () => newForm());
 
 submitButtonEl.addEventListener('click', submitForm)
+forceSubmitButtonEl.addEventListener('click', forceSubmit)
 
 const heistCompleteElements: (HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)[] = [
     heistNameInputEl,
@@ -107,7 +103,7 @@ const heistCompleteElements: (HTMLInputElement | HTMLSelectElement | HTMLTextAre
     accurateXpInputEl,
     completedAtInputEl,
     successfulInputEl,
-    majorityStealthInputEl,
+    allBagsSecuredInputEl,
     difficultySelectEl,
     notesInputEl
 ];
@@ -129,6 +125,8 @@ function clearHeistCompletedForm() {
             element.checked = element.defaultChecked;
         }
     }
+    formMessage.textContent = "";
+    forceSubmitButtonEl.hidden = true;
 }
 
 function resetFormWithDefaults(defaults: HeistFormDefaults) {
@@ -138,7 +136,7 @@ function resetFormWithDefaults(defaults: HeistFormDefaults) {
     completedAtInputEl.value = defaults.completedAt();
     successfulInputEl.checked = defaults.heistSuccess;
     finishStateSelectEl.value = defaults.heistFinishStateId.toString();
-    majorityStealthInputEl.checked = defaults.majorityStatePlayedStealth;
+    allBagsSecuredInputEl.checked = defaults.allBagsSecured;
     difficultySelectEl.value = defaults.difficultyId.toString();
     notesInputEl.value = defaults.notes;
 }
@@ -146,31 +144,11 @@ function resetFormWithDefaults(defaults: HeistFormDefaults) {
 type CompletedHeistSubmit = Omit<CompletedHeist, 'id' | 'heistName' | 'difficultyName' | 'completedAt' | 'heistFinishStateName'> & {
     completedAt: string;
 }
-// TODO: Decide whether to have IDs be strings or numbers, on frontend and in transit (should be strings in frontend probably, but in transit ???)
-async function submitForm() {
-    const heistId = heistNameToId.get(heistNameInputEl.value);
-    console.debug(heistId)
-    if (heistId === undefined)
-    {
-        formMessage.textContent = `Heist ID not found for ${heistNameInputEl.value}`
-        return;
-    }
-    const heistCompletedData: CompletedHeistSubmit = {
-        xpAmount: parseInt(xpAmountInputEl.value),
-        accurateXpAmount: accurateXpInputEl.checked,
-        heistId: heistId,
-        completedAt: completedAtInputEl.value,
-        heistSuccess: successfulInputEl.checked,
-        heistFinishStateId: parseInt(finishStateSelectEl.value),
-        majorityStatePlayedStealth: majorityStealthInputEl.checked,
-        difficultyId: parseInt(difficultySelectEl.value),
-        notes: notesInputEl.value
-    }
-    // const response = await fetch(`/api/heists/create`, {
-    //     method: 'POST',
-    // })
 
-    console.log(heistCompletedData)
+async function submitForm() {
+    if (!validateForm()) {return}
+
+    const heistCompletedData: CompletedHeistSubmit = getFormData();
 
     formStateDisabled(true);
 
@@ -184,31 +162,121 @@ async function submitForm() {
 
     const body = await response.json();
 
-    appendRowToTable(body);
-
 }
 
-function CreateNewDateStringForForm(): string {
-    const date = new Date();
+async function forceSubmit() {
+    debugger;
+    forceSubmitButtonEl.hidden = true;
+    const heistCompletedData = getFormData();
 
-    const pad = (n: number, z = 2) => n.toString().padStart(z, "0");
-    return (
-        date.getFullYear() +
-        "-" +
-        pad(date.getMonth() + 1) +
-        "-" +
-        pad(date.getDate()) +
-        "T" +
-        pad(date.getHours()) +
-        ":" +
-        pad(date.getMinutes()) +
-        ":" +
-        pad(date.getSeconds()) +
-        "." +
-        pad(date.getMilliseconds(), 3)
-    );
+    formStateDisabled(true);
+
+    const response = await fetch("/api/completed-heists/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(heistCompletedData)
+    })
+
+    const body = await response.json();
 }
 
+function getFormData() {
+    const heistCompletedData: CompletedHeistSubmit = {
+        xpAmount: parseInt(xpAmountInputEl.value),
+        accurateXpAmount: accurateXpInputEl.checked,
+        heistId: heistNameToId.get(heistNameInputEl.value)!, //OK to force since it's checked in validateForm.
+        completedAt: completedAtInputEl.value,
+        heistSuccess: successfulInputEl.checked,
+        heistFinishStateId: parseInt(finishStateSelectEl.value),
+        allBagsSecured: allBagsSecuredInputEl.checked,
+        difficultyId: parseInt(difficultySelectEl.value),
+        notes: notesInputEl.value
+    }
+    return heistCompletedData;
+}
+
+function validateForm() {
+    // debugger;
+    forceSubmitButtonEl.hidden = true;
+    let valid = true;
+
+    // Set to false if one of the if bodies makes it false, then it cant be forced. Should be set back to true in the if bodies.
+    let forceable: boolean = true;
+    formMessage.textContent = ""
+
+    if (!heistNameInputEl.value) {
+        appendToFormMessage("Heist name can't be empty.", false)
+        valid = false;
+        forceable = false;
+    }
+
+    if (heistNameInputEl.value && !heistNameToId.get(heistNameInputEl.value))
+    {
+        appendToFormMessage(`Heist ID not found for ${heistNameInputEl.value}`, false)
+        valid = false;
+        forceable = false;
+    }
+
+    if (!xpAmountInputEl.value) {
+        appendToFormMessage("XP Amount can't be empty.", false)
+        valid = false;
+        forceable = false;
+    }
+
+    const xpAmount: number = Number(xpAmountInputEl.value);
+
+    if (xpAmountInputEl.value && xpAmount === 0) {
+        appendToFormMessage("XP Amount is 0.", true)
+        valid = false;
+    }
+
+    if (xpAmount > 4000) { // The highest so far is 3710 this is a safeguard against accidental inputs.
+        appendToFormMessage(`XP Amount is high at ${xpAmount}.`, true)
+        valid = false;
+    }
+
+    if (xpAmount < 0) {
+        appendToFormMessage("XP Amount cannot be lower than 0.", false)
+        valid = false;
+        forceable = false;
+    }
+
+    formMessage.appendChild(createToolTip("Reds = invalid. Yellow = forceable but not advised, there also has to be no reds (invalids)."))
+
+    if (valid) {
+        return true;
+    }
+    if (forceable) {
+        forceSubmitButtonEl.hidden = false;
+        return false;
+    }
+}
+
+/**
+ *
+ * @param message
+ * @param forceable If the invalid data can be forced. Turns the text yellow if true, red it not.
+ */
+function appendToFormMessage(message: string, forceable: boolean) {
+
+    message = message.at(-1) == "." ? message : `${message}.` // Add full stop if not one.
+
+    const span = document.createElement("span");
+    span.textContent = message;
+
+    span.style.color = forceable ? "hsl(50, 90%, 50%)" : "red"
+    span.style.display = "inline"
+
+    // Append the new message while keeping old content
+    formMessage.appendChild(span);
+    formMessage.appendChild(document.createTextNode(' ')); // add space between messages
+}
+
+/**
+ * Populates input heist list.
+ */
 async function populateHeistList() {
     const response = await fetch("/api/heists");
     const heists: Heist[] = await response.json();
@@ -229,10 +297,26 @@ function formStateDisabled(isDisabled: boolean): void {
     accurateXpInputEl.disabled = isDisabled;
     completedAtInputEl.disabled = isDisabled;
     successfulInputEl.disabled = isDisabled;
-    majorityStealthInputEl.disabled = isDisabled;
+    allBagsSecuredInputEl.disabled = isDisabled;
     difficultySelectEl.disabled = isDisabled;
     notesInputEl.disabled = isDisabled;
-    // submitButtonEl.disabled = isDisabled;
+    finishStateSelectEl.disabled = isDisabled;
+    submitButtonEl.disabled = isDisabled;
 }
 
-setupRowDisplay(document.getElementById("completed-heist-output-table") as HTMLDivElement)
+const tableContainerDivEl: HTMLDivElement =
+    document.getElementById("completed-heist-output-table-outer") as HTMLDivElement;
+
+// const tableMaster = new CompletedHeistTable();
+// tableContainerDivEl.append(tableMaster.getTable())
+// tableMaster.setLatest()
+
+const table = new CompletedHeistTable(completedHeistDefaultRowShapeExample, completedHeistDefaultHeaderNames);
+
+tableContainerDivEl.appendChild(table.getTable());
+
+const getLatestButton: HTMLButtonElement =
+    document.getElementById("completed-heist-get-latest") as HTMLButtonElement;
+
+getLatestButton.addEventListener('click', async () => {
+    table.appendRow(await table.fetchLatestRow())});

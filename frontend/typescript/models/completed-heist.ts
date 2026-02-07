@@ -17,11 +17,21 @@ export type CompletedHeist = {
     heistFinishStateId: number;
     heistFinishStateName: string;
 
-    majorityStatePlayedStealth: boolean;
+    allBagsSecured: boolean;
 
     // Flattened Difficulty
     difficultyId: number;
     difficultyName: string;
 
     notes: string;
+}
+
+export type CompletedHeistResponseOmitObjectIds =
+    Omit<CompletedHeist, 'heistFinishStateId' | 'heistId' | 'difficultyId'>
+
+export type CompletedHeistDefaultRowShape =
+    Omit<CompletedHeist, 'heistFinishStateId' | 'heistId' | 'difficultyId' | 'completedAt'> & {
+    completedAt: string; // Since the completedAt is sent in JSON as "2026-01-23T23:17:30.183",
+    // it needs to be a string type here, not a date type.
+    // Converting it to a date would make it a human-readable Date string, but I want it as an ISO string.
 }
