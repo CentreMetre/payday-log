@@ -71,7 +71,10 @@ select {
     /*font-family: inherit;*/
 }
 
-#heist-instance-new-heist-button, #completed-heist-get-latest, #challenge-instance-new-challenge-instance-button {
+#heist-instance-new-heist-button,
+#completed-heist-get-latest,
+#challenge-instance-new-challenge-instance-button,
+#challenge-instance-get-today {
     margin-bottom: 1rem;
 }
 
