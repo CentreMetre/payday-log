@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -34,7 +33,7 @@ public interface ChallengeInstanceRepository extends JpaRepository<ChallengeInst
      * @param completed Whether or not the challenge was completed.
      * @return A list of challenge instances with their {@code isCompleted} set to the provided value.
      */
-    List<ChallengeInstance> findByCompleted(boolean completed);
+    List<ChallengeInstance> findByCompleted(boolean completed); // not findByIsCompleted because boolean and getter weirdness with Spring data jpa
 
     /**
      * Find all {@link ChallengeInstance}s completed at a specific time, down to the millisecond.
