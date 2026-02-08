@@ -13,7 +13,14 @@ import java.time.LocalDateTime;
  * an optional date and time it was completed at, and optional notes.
  */
 @Entity
-@Table(name = "challenges_instances")
+@Table(
+        name = "challenges_instances",
+        check = @CheckConstraint(constraint = "(completed = false AND completed_at IS NULL) OR (completed = true AND completed_at IS NOT NULL)",
+        name = "check_is_completed_completed_at")
+        // This constraint is so that a challenge instance can't be added if
+        // (isCompleted = false and completedAt != null) OR (isCompleted = true and completedAt = null)
+        // So: if completed there has to be a time, if not completed there cant be a time.
+)
 public class ChallengeInstance
 {
     @Id
@@ -34,7 +41,7 @@ public class ChallengeInstance
      */
     @Column(name = "completed", nullable = false)
     @NotNull
-    private boolean completed;
+    private boolean isCompleted;
 
     /**
      * The date and time the challenge was completed at.
@@ -70,12 +77,12 @@ public class ChallengeInstance
 
     public boolean isCompleted()
     {
-        return completed;
+        return isCompleted;
     }
 
     public void setCompleted(boolean completed)
     {
-        this.completed = completed;
+        this.isCompleted = completed;
     }
 
     public LocalDateTime getCompletedAt()
@@ -101,6 +108,14 @@ public class ChallengeInstance
     // Constraint to make it so completedAt cannot be null if isCompleted is true.
     @AssertTrue(message = "completedAt must be set when challenge is completed")
     private boolean isCompletedAtValid() {
-        return !completed || completedAt != null;
+        if (!isCompleted && completedAt != null)
+        {
+            return false;
+        }
+        if (isCompleted && completedAt == null)
+        {
+            return false;
+        }
+        return true;
     }
 }

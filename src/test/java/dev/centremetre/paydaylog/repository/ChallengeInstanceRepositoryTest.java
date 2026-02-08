@@ -317,4 +317,6 @@ public class ChallengeInstanceRepositoryTest
                 .isEqualTo(4);
     }
 
+    //TODO implement testing check_is_completed_completed_at constraint
+
 }

@@ -1,6 +1,6 @@
 package dev.centremetre.paydaylog.dto;
 
-import dev.centremetre.paydaylog.model.Challenge;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,6 +16,7 @@ public class ChallengeInstanceCreateDto implements Serializable
     @Min(value = 1, message = "Challenge ID must be greater than 0.")
     private int challengeId; // NOTE: not challenge instance id. Is int so cant be null anyaway. TODO: change to integer
 
+    @JsonProperty("isCompleted")
     private boolean isCompleted;
 
     /**
@@ -35,11 +36,13 @@ public class ChallengeInstanceCreateDto implements Serializable
         this.challengeId = challengeId;
     }
 
+    @JsonProperty("isCompleted")
     public boolean isCompleted()
     {
         return isCompleted;
     }
 
+    @JsonProperty("isCompleted")
     public void setCompleted(boolean completed)
     {
         isCompleted = completed;
