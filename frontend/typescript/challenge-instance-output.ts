@@ -20,5 +20,5 @@ const getTodayButton: HTMLButtonElement = document.getElementById("challenge-ins
 
 getTodayButton.addEventListener("click", async () => {
     const data = await table.fetchToday();
-    data.length === 0 ? table.setMessage("No date received from today.") : table.appendRows(data)
+    data.length === 0 ? table.setMessage("No data received from today's challenge instances.") : table.appendRows(data)
 });
