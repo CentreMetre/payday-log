@@ -4,14 +4,14 @@ import type {CompletedHeistDefaultRowShape} from "./models/completed-heist";
 
 export const challengeInstanceDefaultHeaderNames: Record<keyof ChallengeInstanceDefaultRowShape, string> = {
     id: "ID",
-    challengeText: "Challenge",
+    challenge: "Challenge",
     isCompleted: "Completed?",
-    completedAt: "Date & Time Completed",
+    completedAt: "Completed At",
     notes: "Notes"
 }
 
 export const challengeInstanceDefaultRowShapeExample: ChallengeInstanceDefaultRowShape = {
-    challengeText: "",
+    challenge: "",
     isCompleted: false,
     completedAt: "",
     id: 0,

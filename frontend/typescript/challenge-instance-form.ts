@@ -157,6 +157,7 @@ function appendToFormMessage(message: string) {
 
     const span = document.createElement("span");
     span.textContent = message;
+    span.style.color = "red";
 
     // Append the new message while keeping old content
     challengeInstanceFormMessagePEl.appendChild(span);
