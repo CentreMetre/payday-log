@@ -2,10 +2,12 @@ package dev.centremetre.paydaylog.repository;
 
 import dev.centremetre.paydaylog.model.Challenge;
 import dev.centremetre.paydaylog.model.ChallengeInstance;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 public class ChallengeInstanceRepositoryTest
@@ -91,6 +94,30 @@ public class ChallengeInstanceRepositoryTest
         }
     }
 
+
+    @Test
+    void testSavingAndViolatingAssertTrue_IsCompletedAtValid_IsCompletedTrueCompletedAtNullFails()
+    {
+        newInstance.setCompleted(true);
+        newInstance.setCompletedAt(null);
+
+        assertThrows(ConstraintViolationException
+                .class, () -> {
+            instanceRepository.saveAndFlush(newInstance);
+        });
+    }
+
+    @Test
+    void testSavingAndViolatingAssertTrue_IsCompletedAtValid_IsCompletedFalseCompletedAtNotNullFails()
+    {
+        newInstance.setCompleted(false);
+
+        assertThrows(ConstraintViolationException
+                .class, () -> {
+            instanceRepository.saveAndFlush(newInstance);
+        });
+    }
+
     @Test
     void testSavingAndFindByChallenge_IdZeroExists()
     {
@@ -125,26 +152,28 @@ public class ChallengeInstanceRepositoryTest
     }
 
     @Test
-    void testSavingAndFindByCompletedTrueTwoExist()
+    void testSavingAndFindByIsCompletedTrueTwoExist()
     {
         instanceRepository.save(newInstance);
 
         ChallengeInstance newInstance2 = createFilledOutInstance();
         newInstance2.setCompleted(false);
+        newInstance2.setCompletedAt(null);
         instanceRepository.save(newInstance2);
 
         ChallengeInstance newInstance3 = createFilledOutInstance();
         instanceRepository.save(newInstance3);
 
-        List<ChallengeInstance> instances = instanceRepository.findByCompleted(true);
+        List<ChallengeInstance> instances = instanceRepository.findByIsCompleted(true);
 
         assertThat(instances.size()).isEqualTo(2);
     }
 
     @Test
-    void testSavingAndFindByCompletedFalseTwoExist()
+    void testSavingAndFindByIsCompletedFalseTwoExist()
     {
         newInstance.setCompleted(false);
+        newInstance.setCompletedAt(null);
         instanceRepository.save(newInstance);
 
         ChallengeInstance newInstance2 = createFilledOutInstance();
@@ -152,35 +181,38 @@ public class ChallengeInstanceRepositoryTest
 
         ChallengeInstance newInstance3 = createFilledOutInstance();
         newInstance3.setCompleted(false);
+        newInstance3.setCompletedAt(null);
         instanceRepository.save(newInstance3);
 
-        List<ChallengeInstance> instances = instanceRepository.findByCompleted(false);
+        List<ChallengeInstance> instances = instanceRepository.findByIsCompleted(false);
 
         assertThat(instances.size()).isEqualTo(2);
     }
 
     @Test
-    void testSavingAndFindByCompletedTrueZeroExist()
+    void testSavingAndFindByIsCompletedTrueZeroExist()
     {
         newInstance.setCompleted(false);
+        newInstance.setCompletedAt(null);
         instanceRepository.save(newInstance);
 
         ChallengeInstance newInstance3 = createFilledOutInstance();
         newInstance3.setCompleted(false);
+        newInstance3.setCompletedAt(null);
         instanceRepository.save(newInstance3);
 
-        List<ChallengeInstance> instances = instanceRepository.findByCompleted(true);
+        List<ChallengeInstance> instances = instanceRepository.findByIsCompleted(true);
 
         assertThat(instances.size()).isEqualTo(0);
     }
 
     @Test
-    void testSavingAndFindByCompletedFalseZeroExist()
+    void testSavingAndFindByIsCompletedFalseZeroExist()
     {
         ChallengeInstance newInstance = createFilledOutInstance();
         instanceRepository.save(newInstance);
 
-        List<ChallengeInstance> instances = instanceRepository.findByCompleted(false);
+        List<ChallengeInstance> instances = instanceRepository.findByIsCompleted(false);
 
         assertThat(instances.size()).isEqualTo(0);
     }
@@ -316,7 +348,85 @@ public class ChallengeInstanceRepositoryTest
                 LocalTime.of(11, 0), LocalTime.of(17,0)).size())
                 .isEqualTo(4);
     }
+}
 
-    //TODO implement testing check_is_completed_completed_at constraint
+// Separate class needed to test for DB constraints without app level checks getting in the way
+@DataJpaTest(properties = {"spring.jpa.properties.jakarta.persistence.validation.mode=none"})
+class ChallengeInstanceDbConstraintTest {
 
+    @Autowired
+    ChallengeInstanceRepository instanceRepository;
+
+    @Autowired
+    ChallengeRepository challengeRepository;
+
+    private Challenge challenge;
+
+    ChallengeInstance newInstance;
+
+    String challengeName;
+
+    // ChallengeInstance Data:
+    boolean isCompleted;
+    LocalDateTime completedAt;
+    String notes;
+
+    @BeforeEach
+    void setup()
+    {
+        challengeName = "Test challenge";
+        challenge = new Challenge();
+        challenge.setChallenge(challengeName);
+        challengeRepository.save(challenge);
+
+        // Challenge Instance default data. Not saved to DB so it can be edited for a test.
+        isCompleted = true;
+        // .truncatedTo(ChronoUnit.MILLIS); Needed to remove nanoseconds for findByCompletedAt tests because it compares
+        // the LocalDateTime object with nanoseconds to the column value with only ms.
+        // Database only stores upto ms anyway so this is fine.
+        completedAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        notes = "Test notes";
+        newInstance = new ChallengeInstance();
+        newInstance.setChallenge(challenge);
+        newInstance.setCompleted(isCompleted);
+        newInstance.setCompletedAt(completedAt);
+        newInstance.setNotes(notes);
+    }
+
+    /**
+     * Util method to quickly create a new challenge instance.
+     * @return A challenge instance object with all fields (except ID) filled to the data in the class fields.
+     */
+    ChallengeInstance createFilledOutInstance()
+    {
+        ChallengeInstance newInstance = new ChallengeInstance();
+        newInstance.setChallenge(challenge);
+        newInstance.setCompleted(isCompleted);
+        newInstance.setCompletedAt(completedAt);
+        newInstance.setNotes(notes);
+
+        return newInstance;
+    }
+
+    @Test
+    void testSavingAndViolatingcheck_is_completed_completed_atConstraintIsCompletedTrueCompletedAtNull()
+    {
+        newInstance.setCompleted(true);
+        newInstance.setCompletedAt(null);
+
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            instanceRepository.saveAndFlush(newInstance);
+        });
+    }
+
+
+    @Test
+    void testSavingAndViolatingcheck_is_completed_completed_atConstraintIsCompletedFalseCompletedAtNotNull()
+    {
+        newInstance.setCompleted(false);
+
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            instanceRepository.saveAndFlush(newInstance);
+        });
+    }
 }
