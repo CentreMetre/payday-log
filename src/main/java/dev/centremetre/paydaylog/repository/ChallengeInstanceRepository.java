@@ -33,7 +33,7 @@ public interface ChallengeInstanceRepository extends JpaRepository<ChallengeInst
      * @param completed Whether or not the challenge was completed.
      * @return A list of challenge instances with their {@code isCompleted} set to the provided value.
      */
-    List<ChallengeInstance> findByCompleted(boolean completed); // not findByIsCompleted because boolean and getter weirdness with Spring data jpa
+    List<ChallengeInstance> findByIsCompleted(boolean completed); // not findByCompleted because boolean and getter weirdness with Spring data jpa
 
     /**
      * Find all {@link ChallengeInstance}s completed at a specific time, down to the millisecond.
@@ -41,6 +41,10 @@ public interface ChallengeInstanceRepository extends JpaRepository<ChallengeInst
      * @return A list of all challenge instances with the given date time.
      */
     List<ChallengeInstance> findByCompletedAt(LocalDateTime completedAt);
+    // Spring Data JPA derives query methods from property names.
+    // Since the field is named 'isCompleted', the method must be 'findByIsCompleted'
+    // even though the getter is 'isCompleted()'.
+    // Using 'findByCompleted' would not work with this field name. (AI gen, but read through, seems to be correct.)
 
     /**
      *
