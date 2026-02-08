@@ -1,6 +1,7 @@
 package dev.centremetre.paydaylog.web;
 
 import dev.centremetre.paydaylog.dto.ChallengeInstanceCreateDto;
+import dev.centremetre.paydaylog.dto.ChallengeInstanceResponseOmitObjectIdsDto;
 import dev.centremetre.paydaylog.model.ChallengeInstance;
 import dev.centremetre.paydaylog.service.ChallengeInstanceService;
 import jakarta.validation.Valid;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import dev.centremetre.paydaylog.mapper.ChallengeInstanceMapper;
 
 @RestController
 @RequestMapping("/api/challenge-instance")
@@ -22,34 +25,59 @@ public class ChallengeInstanceApiController
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ChallengeInstance> createNewChallengeInstance(
+    public ResponseEntity<ChallengeInstanceResponseOmitObjectIdsDto> createNewChallengeInstance(
             @Valid @RequestBody ChallengeInstanceCreateDto challengeInstanceCreateDto)
     {
-        return ResponseEntity.ok(challengeInstanceService.createChallengeInstance(challengeInstanceCreateDto));
+        ChallengeInstance saved = challengeInstanceService.createChallengeInstance(challengeInstanceCreateDto);
+
+        ChallengeInstanceResponseOmitObjectIdsDto response =
+                ChallengeInstanceMapper.modelToChallengeInstanceResponseOmitObjectIdsDto(saved);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/date/today")
-    public ResponseEntity<List<ChallengeInstance>> getChallengesInstancesOfToday()
+    public ResponseEntity<List<ChallengeInstanceResponseOmitObjectIdsDto>> getChallengesInstancesOfToday()
     {
-        return ResponseEntity.ok(challengeInstanceService.getChallengesCompletedOn(LocalDate.now()));
+        List<ChallengeInstance> saved = challengeInstanceService.getChallengesCompletedOn(LocalDate.now());
+
+        List<ChallengeInstanceResponseOmitObjectIdsDto> response =
+                ChallengeInstanceMapper.modelListToChallengeInstanceResponseOmitObjectIdsDto(saved);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/date")
-    public ResponseEntity<List<ChallengeInstance>> getChallengeInstancesOfDate(@RequestParam LocalDate date)
+    public ResponseEntity<List<ChallengeInstanceResponseOmitObjectIdsDto>> getChallengeInstancesOfDate(@RequestParam LocalDate date)
     {
-        return ResponseEntity.ok(challengeInstanceService.getChallengesCompletedOn(date));
+        List<ChallengeInstance> saved = challengeInstanceService.getChallengesCompletedOn(date);
+
+        List<ChallengeInstanceResponseOmitObjectIdsDto> response =
+                ChallengeInstanceMapper.modelListToChallengeInstanceResponseOmitObjectIdsDto(saved);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/date-range")
-    public ResponseEntity<List<ChallengeInstance>> getChallengeInstancesOfDateRange(@RequestParam LocalDate startDate,
+    public ResponseEntity<List<ChallengeInstanceResponseOmitObjectIdsDto>> getChallengeInstancesOfDateRange(@RequestParam LocalDate startDate,
                                                                                     @RequestParam LocalDate endDate)
     {
-        return ResponseEntity.ok(challengeInstanceService.getChallengesCompletedBetweenDates(startDate, endDate));
+        List<ChallengeInstance> saved = challengeInstanceService.getChallengesCompletedBetweenDates(startDate, endDate);
+
+        List<ChallengeInstanceResponseOmitObjectIdsDto> response =
+                ChallengeInstanceMapper.modelListToChallengeInstanceResponseOmitObjectIdsDto(saved);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/id")
-    public ResponseEntity<List<ChallengeInstance>> getChallengeInstancesOfChallengeId(@RequestParam int challengeId)
+    public ResponseEntity<List<ChallengeInstanceResponseOmitObjectIdsDto>> getChallengeInstancesOfChallengeId(@RequestParam int challengeId)
     {
-        return ResponseEntity.ok(challengeInstanceService.getByChallengeId(challengeId));
+        List<ChallengeInstance> saved = challengeInstanceService.getByChallengeId(challengeId);
+
+        List<ChallengeInstanceResponseOmitObjectIdsDto> response =
+                ChallengeInstanceMapper.modelListToChallengeInstanceResponseOmitObjectIdsDto(saved);
+
+        return ResponseEntity.ok(response);
     }
 }
