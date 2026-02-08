@@ -37,7 +37,7 @@ public class CompletedHeist
      * The heist that was played.
      */
     @ManyToOne(optional = false)
-    @JoinColumn(name = "heist", nullable = false, columnDefinition = "TINYINT")
+    @JoinColumn(name = "heist", nullable = false, columnDefinition = "SMALLINT")
     @NotNull
     private Heist heist;
 
@@ -60,7 +60,7 @@ public class CompletedHeist
      * TODO: See if xp gain is different for pre assault negotiation, assault incoming, and between-assault negotiation
      * Converter functionality provided by  {@link HeistStateConverter}, with autoApply set to true.
      */
-    @Column(name = "heist_finish_state", nullable = false, columnDefinition = "TINYINT") // TINYINT to save space.
+    @Column(name = "heist_finish_state", nullable = false, columnDefinition = "SMALLINT") // SMALLINT to save space.
     private HeistState heistFinishState;
 
     /**
@@ -74,7 +74,7 @@ public class CompletedHeist
      * The difficulty the heist was played in.
      */
     @ManyToOne(optional = false)
-    @JoinColumn(name = "difficulty", nullable = false, columnDefinition = "TINYINT") // TINYINT to save space.
+    @JoinColumn(name = "difficulty", nullable = false, columnDefinition = "SMALLINT") // SMALLINT to save space.
     @NotNull
     private Difficulty difficulty;
 
