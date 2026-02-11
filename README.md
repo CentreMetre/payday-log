@@ -1,3 +1,7 @@
+# prep-old-data branch
+this branch is used for preparing old data recorded before creating this new db.
+SHOULD NOT be merged into another branch.
+
 # Payday Log
 This is an app used to record activities in payday (Specific Payday 3, at least for now).
 Current features will include heist logging and daily challenge logging.
