@@ -34,6 +34,7 @@ export class CompletedHeistTable extends Table<CompletedHeistDefaultRowShape> {
 
     async fetchLatestRow(): Promise<CompletedHeistDefaultRowShape> {
         const response = await fetch("/api/completed-heists/latest")
+        if (response.status != 200) {this.setMessage(`Error. Status: ${response.status}. Text: ${response.statusText}`)}
         return await response.json()
     }
 

@@ -312,6 +312,7 @@ const tableContainerDivEl: HTMLDivElement =
 
 const table = new CompletedHeistTable(completedHeistDefaultRowShapeExample, completedHeistDefaultHeaderNames);
 
+tableContainerDivEl.appendChild(table.getMessageElement()!);
 tableContainerDivEl.appendChild(table.getTable());
 
 const getLatestButton: HTMLButtonElement =
