@@ -3,6 +3,8 @@ package dev.centremetre.paydaylog.web;
 import dev.centremetre.paydaylog.dto.ChallengeInstanceCreateDto;
 import dev.centremetre.paydaylog.dto.ChallengeInstanceResponseOmitObjectIdsDto;
 import dev.centremetre.paydaylog.model.ChallengeInstance;
+import dev.centremetre.paydaylog.model.OldChallenge;
+import dev.centremetre.paydaylog.repository.OldChallengeRepository;
 import dev.centremetre.paydaylog.service.ChallengeInstanceService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +21,12 @@ public class ChallengeInstanceApiController
 {
     private final ChallengeInstanceService challengeInstanceService;
 
-    public ChallengeInstanceApiController(ChallengeInstanceService challengeInstanceService)
+    private final OldChallengeRepository oldChallengeRepository;
+
+    public ChallengeInstanceApiController(ChallengeInstanceService challengeInstanceService, OldChallengeRepository oldChallengeRepository)
     {
         this.challengeInstanceService = challengeInstanceService;
+        this.oldChallengeRepository = oldChallengeRepository;
     }
 
     @PostMapping("/create")
@@ -79,5 +84,15 @@ public class ChallengeInstanceApiController
                 ChallengeInstanceMapper.modelListToChallengeInstanceResponseOmitObjectIdsDto(saved);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/old/all")
+    public ResponseEntity<List<OldChallenge>> getAllOldChallenges()
+    {
+        List<OldChallenge> oldChallenges = oldChallengeRepository.findAll();
+
+        System.out.println(oldChallenges.getFirst());
+
+        return ResponseEntity.ok(oldChallenges);
     }
 }
