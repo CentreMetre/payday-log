@@ -4,6 +4,7 @@
 
 import {Table} from "../abstract-table.js";
 import type {OldChallenge} from "./OldChallenge";
+import {generateOldChallengeInstancesSqlInsertStatement} from "./sql-util.js";
 
 
 
@@ -38,6 +39,18 @@ await getOldChallenges()
 function test() {
     const firstChallenge = oldChallenges[0]
     console.log(firstChallenge)
+    generateOldChallengeInstancesSqlInsertStatement([{
+        id: 1, challenge: "c", completed_at: "ca", is_completed: "ic", notes: "n"
+    },
+        {
+        id: 2, challenge: "c", completed_at: "ca", is_completed: "ic", notes: "n"
+    },
+        {
+        id: 3, challenge: "c", completed_at: "ca", is_completed: "ic", notes: "n"
+    },
+        {
+        id: 3, challenge: "hello's", completed_at: "by'es", is_completed: "''", notes: "''''"
+    }])
 }
 
 test();
