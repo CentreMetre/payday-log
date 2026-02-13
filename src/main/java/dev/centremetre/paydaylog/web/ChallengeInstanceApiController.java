@@ -91,8 +91,6 @@ public class ChallengeInstanceApiController
     {
         List<OldChallenge> oldChallenges = oldChallengeRepository.findAll();
 
-        System.out.println(oldChallenges.getFirst());
-
         return ResponseEntity.ok(oldChallenges);
     }
 }
