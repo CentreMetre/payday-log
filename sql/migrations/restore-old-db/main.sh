@@ -4,6 +4,9 @@ echo $PWD
 
 DATABASE=paydaylog_old
 
+# Generate new backup
+"$HOME/Backup/psql/backup"
+
 # Drop all objects in the db.
 echo "Dropping tables"
 docker exec -i payday-log-dev psql -U postgres -d "$DATABASE" -t -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
