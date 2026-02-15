@@ -125,33 +125,36 @@ export abstract class Table<R extends Object> {
 
             let cellValue = "";
 
-            switch (header.type) {
-                case "boolean":
-                    cell.classList.add("table-cell-boolean");
-                    cellValue = value ? "✔" : "✖";
-                    cell.classList.add(value ? "table-cell-boolean-true" : "table-cell-boolean-false");
-                    break;
+            if (Array.isArray(value)) { // Hack for adding action buttons.
+                cell.append(...value as HTMLButtonElement[]);
+            } else {
 
-                case "number":
-                    cellValue = String(value);
-                    cell.classList.add("table-cell-number");
-                    break;
+                switch (header.type) {
+                    case "boolean":
+                        cell.classList.add("table-cell-boolean");
+                        cellValue = value ? "✔" : "✖";
+                        cell.classList.add(value ? "table-cell-boolean-true" : "table-cell-boolean-false");
+                        break;
 
-                default:
-                    const strValue = String(value)
-                    if (isIsoDateWithMs(strValue))
-                    {
-                        const strValueDateTime = padIsoMilliseconds(strValue);
-                        cell.classList.add("table-cell-datetime")
-                        const date = strValueDateTime.split("T")[0]
-                        const time = strValueDateTime.split("T")[1]
-                        cellValue = `${date} ${time}`;
-                    }
-                    else {
-                        cellValue = value != null ? String(value) : "";
-                    }
+                    case "number":
+                        cellValue = String(value);
+                        cell.classList.add("table-cell-number");
+                        break;
+
+                    default:
+                        const strValue = String(value)
+                        if (isIsoDateWithMs(strValue)) {
+                            const strValueDateTime = padIsoMilliseconds(strValue);
+                            cell.classList.add("table-cell-datetime")
+                            const date = strValueDateTime.split("T")[0]
+                            const time = strValueDateTime.split("T")[1]
+                            cellValue = `${date} ${time}`;
+                        } else {
+                            cellValue = value != null ? String(value) : "";
+                        }
+                }
+                cell.textContent = cellValue;
             }
-            cell.textContent = cellValue;
             row.append(cell);
         }
 
