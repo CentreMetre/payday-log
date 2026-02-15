@@ -8,7 +8,7 @@
 
 import type {OldChallenge} from "./OldChallenge";
 
-import {levenshtein} from "./levenshtein.js"
+import {levenshtein, levenshteinClosest} from "./levenshtein.js"
 import {Table} from "../abstract-table.js";
 
 const oldChallengesTableContainerDivEl: HTMLDivElement =
@@ -40,11 +40,14 @@ const oldToNewChallenges: Map<string, string | undefined> = new Map();
 const typosMap: Map<string, number> = new Map();
 
 async function setOldChallengeInstances() {
+    debugger;
     const response = await fetch("/api/challenge-instance/old/all");
 
     const body: OldChallenge[] = await response.json();
 
-    body.forEach(el => oldChallengeInstances.push(el))
+    let firstFifty = body.slice(0, 50);
+
+    firstFifty.forEach(el => oldChallengeInstances.push(el))
 }
 
 function removeDuplicates<T>(array: T[]): T[] {
@@ -52,12 +55,16 @@ function removeDuplicates<T>(array: T[]): T[] {
 }
 
 async function init() {
-    debugger
+    const prepMessage = document.createElement("p")
+    prepMessage.textContent = "Preparing data"
+    oldChallengesTableContainerDivEl.appendChild(prepMessage)
+
     await setOldChallengeInstances();
     oldChallengeInstances.forEach(el => oldChallenges.push(el.challenge));
     removeDuplicates(oldChallenges).forEach(el => oldChallengesUnique.push(el));
     await setWikiChallenges();
     wikiChallenges.forEach(el => approvedChallenges.push(el));
+    oldChallengesTableContainerDivEl.textContent = ""
     setTable()
 }
 
@@ -75,7 +82,8 @@ type OldChallengesTableRowShape = {
     challenge: string;
     notes: string;
     levenshteinDistance: number;
-    actions: string;
+    levenshteinNearest: string;
+    actions: HTMLButtonElement[];
 }
 
 class OldChallengesTable extends Table<OldChallengesTableRowShape> {
@@ -96,7 +104,6 @@ class OldChallengesTable extends Table<OldChallengesTableRowShape> {
      * @param data Data to append as a row.
      */
     override appendRow(data: OldChallengesTableRowShape): void {
-        debugger;
         let backgroundColour = ""
         const classList: string[] = []
         if (approvedChallenges.includes(data.challenge)) {
@@ -105,9 +112,26 @@ class OldChallengesTable extends Table<OldChallengesTableRowShape> {
             // classList.push("")
         }
         else {
-            // data.levenshteinDistance = levenshtein(data.challenge) // should be 0
+
+            // Levenshtein
+            const distances = levenshteinClosest(data.challenge, approvedChallenges)
+            const distanceKeys = [...distances.keys()]
+            data.levenshteinNearest = distanceKeys.join("\n\n")
+            data.levenshteinNearest = `Amount: ${distanceKeys.length}\n\n${data.levenshteinNearest}`
+            const firstValue = distances.values().next().value;
+            const distance = firstValue !== undefined ? firstValue : -1;
+            data.levenshteinDistance = distance;
+
+            // Action buttons
+            const setHighlightedAsNew: HTMLButtonElement = document.createElement("button");
+            setHighlightedAsNew.addEventListener("click", () => {
+                const highlighted = getHighlightedText();
+                console.log(highlighted);
+            })
+            setHighlightedAsNew.textContent = "Set Highlighted As New"
+            data.actions.push(setHighlightedAsNew)
+
             backgroundColour = data.levenshteinDistance < 5 ? "yellow" : "red";
-            // row.classList.add()
         }
         const row = this.createPopulatedRow(data)
         row.style.background = backgroundColour;
@@ -115,7 +139,8 @@ class OldChallengesTable extends Table<OldChallengesTableRowShape> {
     } // Do something like auto removing notes/anything after first full stop. Then a colour like purple for edited. Yellow for typos, red for no where near but no notes?
 }
 
-const oldChallengesTable = new OldChallengesTable({id: 0, challenge: "", notes: "", levenshteinDistance: 0, actions: ""}, {id: "ID", challenge: "Challenge", notes: "Notes", levenshteinDistance: "Levenshtein Dist.", actions: "Actions"})
+const oldChallengesTable = new OldChallengesTable({id: 0, challenge: "", notes: "", levenshteinDistance: 0, levenshteinNearest: "", actions: []},
+    {id: "ID", challenge: "Challenge", notes: "Notes", levenshteinDistance: "Levenshtein Dist.", levenshteinNearest: "Nearest", actions: "Actions"})
 
 // class NewChallengesInstancesTable extends Table<any>
 
@@ -127,11 +152,16 @@ function setTable() {
         id: el.id,
         challenge: el.challenge,
         notes: el.notes,
-        actions: "",
-        levenshteinDistance: -1
+        actions: [],
+        levenshteinDistance: -1,
+        levenshteinNearest: ""
     }))
 }
 
-init();
+function getHighlightedText(): string {
+    const selection = window.getSelection();
+    return selection ? selection.toString() : '';
+}
 
+init();
 

@@ -1,5 +1,4 @@
 export function levenshtein(a: string, b: string): number {
-    debugger;
     const m = a.length;
     const n = b.length;
     const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
@@ -19,4 +18,25 @@ export function levenshtein(a: string, b: string): number {
     }
 
     return dp[m]![n]!;
+}
+
+export function levenshteinClosest(a: string, stringArray: string[]): Map<string, number> {
+    let lowestScore = Infinity;
+
+    const lowestScoringValues: Map<string, number> = new Map();
+
+    for (const string of stringArray)
+    {
+        const score = levenshtein(a, string)
+        if (score < lowestScore) {
+            lowestScore = score;
+            lowestScoringValues.clear();
+            lowestScoringValues.set(string, score);
+        }
+        if (score === lowestScore) {
+            lowestScoringValues.set(string, score);
+        }
+    }
+
+    return lowestScoringValues
 }
