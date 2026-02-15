@@ -55,6 +55,11 @@ table td {
     border-left: 1px solid darkgrey;
 }
 
+td {
+    border-bottom: 1px solid black;
+    white-space: pre-line;
+}
+
 td input[type=checkbox] {
     color: #0c2d4a;
 }
