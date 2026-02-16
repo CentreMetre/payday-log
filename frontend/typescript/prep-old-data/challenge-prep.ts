@@ -40,14 +40,14 @@ const oldToNewChallenges: Map<string, string | undefined> = new Map();
 const typosMap: Map<string, number> = new Map();
 
 async function setOldChallengeInstances() {
-    debugger;
     const response = await fetch("/api/challenge-instance/old/all");
 
     const body: OldChallenge[] = await response.json();
 
     let firstFifty = body.slice(0, 50);
 
-    firstFifty.forEach(el => oldChallengeInstances.push(el))
+    // firstFifty.forEach(el => oldChallengeInstances.push(el))
+    body.forEach(el => oldChallengeInstances.push(el))
 }
 
 function removeDuplicates<T>(array: T[]): T[] {
@@ -69,7 +69,7 @@ async function init() {
 }
 
 async function setWikiChallenges() {
-    const response = await fetch("wiki-daily-challenges.json")
+    const response = await fetch("wiki-daily-challenges-typos-fixed.json")
     const body = await response.json();
     for (const challenge of body) {
         wikiChallenges.push(challenge)
@@ -104,6 +104,7 @@ class OldChallengesTable extends Table<OldChallengesTableRowShape> {
      * @param data Data to append as a row.
      */
     override appendRow(data: OldChallengesTableRowShape): void {
+        debugger;
         let backgroundColour = ""
         const classList: string[] = []
         if (approvedChallenges.includes(data.challenge)) {
@@ -122,19 +123,35 @@ class OldChallengesTable extends Table<OldChallengesTableRowShape> {
             const distance = firstValue !== undefined ? firstValue : -1;
             data.levenshteinDistance = distance;
 
+            const oneToFiveOutput = document.getElementById("one-to-five-distance-count")!;
+            const sixPlusOutput = document.getElementById("six-and-above-distance-count")!;
+
+            if (distance > 5) {
+                let currentCount = Number(oneToFiveOutput!.textContent)
+                oneToFiveOutput.textContent = String(++currentCount)
+            }
+            else {
+                let currentCount = Number(sixPlusOutput!.textContent)
+                sixPlusOutput.textContent = String(++currentCount)
+            }
+
             // Action buttons
-            const setHighlightedAsNew: HTMLButtonElement = document.createElement("button");
-            setHighlightedAsNew.addEventListener("click", () => {
+            const setHighlightedAsNewButtonEl: HTMLButtonElement = document.createElement("button");
+            setHighlightedAsNewButtonEl.addEventListener("click", () => {
                 const highlighted = getHighlightedText();
                 console.log(highlighted);
             })
-            setHighlightedAsNew.textContent = "Set Highlighted As New"
-            data.actions.push(setHighlightedAsNew)
+            setHighlightedAsNewButtonEl.textContent = "Set Highlighted As New"
+            data.actions.push(setHighlightedAsNewButtonEl)
+
+            const approveButtonEl: HTMLButtonElement = document.createElement("button");
+
 
             backgroundColour = data.levenshteinDistance < 5 ? "yellow" : "red";
         }
         const row = this.createPopulatedRow(data)
         row.style.background = backgroundColour;
+        row.dataset.id = data.id.toString();
         this.tableBody.appendChild(row)
     } // Do something like auto removing notes/anything after first full stop. Then a colour like purple for edited. Yellow for typos, red for no where near but no notes?
 }
