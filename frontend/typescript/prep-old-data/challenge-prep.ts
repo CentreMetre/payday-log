@@ -145,7 +145,15 @@ class OldChallengesTable extends Table<OldChallengesTableRowShape> {
             data.actions.push(setHighlightedAsNewButtonEl)
 
             const approveButtonEl: HTMLButtonElement = document.createElement("button");
+            approveButtonEl.addEventListener("click", () => {});
+            approveButtonEl.textContent = "Approve This Challenge";
+            data.actions.push(approveButtonEl);
 
+            const undoButtonEl: HTMLButtonElement = document.createElement("button");
+            undoButtonEl.addEventListener("click", () => {data.actions.forEach(el => el.disabled = true)})
+            undoButtonEl.textContent = "Undo";
+            undoButtonEl.disabled = true
+            data.actions.push(undoButtonEl)
 
             backgroundColour = data.levenshteinDistance < 5 ? "yellow" : "red";
         }
