@@ -46,8 +46,8 @@ async function setOldChallengeInstances() {
 
     let firstFifty = body.slice(0, 50);
 
-    // firstFifty.forEach(el => oldChallengeInstances.push(el))
-    body.forEach(el => oldChallengeInstances.push(el))
+    firstFifty.forEach(el => oldChallengeInstances.push(el))
+    // body.forEach(el => oldChallengeInstances.push(el))
 }
 
 function removeDuplicates<T>(array: T[]): T[] {
@@ -151,6 +151,13 @@ class OldChallengesTable extends Table<OldChallengesTableRowShape> {
             approveButtonEl.addEventListener("click", () => {});
             approveButtonEl.textContent = "Approve This Challenge";
             data.actions.push(approveButtonEl);
+
+            if (distanceKeys.length === 1) {
+                const setAsClosestButtonEl: HTMLButtonElement = document.createElement("button");
+                setAsClosestButtonEl.addEventListener("click", () => {})
+                setAsClosestButtonEl.textContent = "Set As Closest"
+                data.actions.push(setAsClosestButtonEl)
+            }
 
             const undoButtonEl: HTMLButtonElement = document.createElement("button");
             undoButtonEl.addEventListener("click", () => {data.actions.forEach(el => el.disabled = true)})
