@@ -6,12 +6,11 @@
  * Then they will be mapped to new challenges that can then be saved.
  */
 
-import type {OldChallenge} from "./OldChallenge";
 import type {ChallengeInstanceDefaultRowShape} from "../models/challenge-instance"
 
 import {levenshtein, levenshteinClosest} from "./levenshtein.js"
 import {Table} from "../abstract-table.js";
-import type {CompletedHeistDefaultRowShape} from "../models/completed-heist";
+export type OldChallenge = ChallengeInstanceDefaultRowShape
 
 const oldChallengesTableContainerDivEl: HTMLDivElement =
     document.getElementById("old-challenge-table-container") as HTMLDivElement;
@@ -109,8 +108,9 @@ class OldChallengesTable extends Table<OldChallengesTableRowShape> {
      * @param data Data to append as a row.
      */
     override appendRow(data: OldChallengesTableRowShape): void {
+        // debugger;
         let backgroundColour = ""
-        const classList: string[] = []
+        const oldChallenge: OldChallenge = oldChallengeInstances.find(item => item.id === data.id)!
         if (approvedChallenges.includes(data.challenge)) {
             // debugger;
             data.levenshteinDistance = levenshtein(data.challenge, approvedChallenges[approvedChallenges.indexOf(data.challenge)]!) // should be 0
@@ -119,6 +119,12 @@ class OldChallengesTable extends Table<OldChallengesTableRowShape> {
             let currentCount = Number(zeroDistanceOutput!.textContent)
             zeroDistanceOutput.textContent = String(++currentCount)
             // classList.push("")
+
+            const newIntermediateChallenge: IntermediateChallenge = oldChallenge;
+            newIntermediateChallenge.isCompleted = oldChallenge.isCompleted;
+            intermediateChallengeTable.appendRow(newIntermediateChallenge);
+            // console.log(newIntermediateChallenge)
+            // console.log(oldChallenge)
         }
         else {
 
@@ -165,7 +171,8 @@ class OldChallengesTable extends Table<OldChallengesTableRowShape> {
             }
 
             const undoButtonEl: HTMLButtonElement = document.createElement("button");
-            undoButtonEl.addEventListener("click", () => {data.actions.forEach(el => el.disabled = true)})
+            undoButtonEl.addEventListener("click", () => {
+                data.actions.forEach(el => el.disabled = true)})
             undoButtonEl.textContent = "Undo";
             undoButtonEl.disabled = true
             data.actions.push(undoButtonEl)
@@ -197,8 +204,8 @@ function setTables() {
         levenshteinNearest: ""
     }))
 
-    intermediateChallengeInstancesTableContainerDivEl.appendChild(intermediateChallengesTable.getMessageElement()!);
-    intermediateChallengeInstancesTableContainerDivEl.appendChild(intermediateChallengesTable.getTable());
+    intermediateChallengeInstancesTableContainerDivEl.appendChild(intermediateChallengeTable.getMessageElement()!);
+    intermediateChallengeInstancesTableContainerDivEl.appendChild(intermediateChallengeTable.getTable());
 }
 
 function getHighlightedText(): string {
@@ -219,12 +226,9 @@ const intermediateChallengeExample: IntermediateChallenge = {
 // }
 
 class IntermediateChallengeTable extends Table<IntermediateChallenge> {
-    appendRow(data: IntermediateChallenge) {
-
-    }
 }
 
-const intermediateChallengesTable = new IntermediateChallengeTable(intermediateChallengeExample)
+const intermediateChallengeTable = new IntermediateChallengeTable(intermediateChallengeExample)
 
 init();
 
