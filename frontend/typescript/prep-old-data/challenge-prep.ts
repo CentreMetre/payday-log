@@ -7,12 +7,17 @@
  */
 
 import type {OldChallenge} from "./OldChallenge";
+import type {ChallengeInstanceDefaultRowShape} from "../models/challenge-instance"
 
 import {levenshtein, levenshteinClosest} from "./levenshtein.js"
 import {Table} from "../abstract-table.js";
+import type {CompletedHeistDefaultRowShape} from "../models/completed-heist";
 
 const oldChallengesTableContainerDivEl: HTMLDivElement =
     document.getElementById("old-challenge-table-container") as HTMLDivElement;
+
+const intermediateChallengeInstancesTableContainerDivEl: HTMLDivElement =
+    document.getElementById("intermediate-challenge-instance-table-container") as HTMLDivElement;
 
 const wikiChallenges: string[] = []
 
@@ -65,7 +70,7 @@ async function init() {
     await setWikiChallenges();
     wikiChallenges.forEach(el => approvedChallenges.push(el));
     oldChallengesTableContainerDivEl.textContent = ""
-    setTable()
+    setTables()
 }
 
 async function setWikiChallenges() {
@@ -179,7 +184,7 @@ const oldChallengesTable = new OldChallengesTable({id: 0, challenge: "", notes: 
 
 // class NewChallengesInstancesTable extends Table<any>
 
-function setTable() {
+function setTables() {
     oldChallengesTableContainerDivEl.appendChild(oldChallengesTable.getMessageElement()!)
     oldChallengesTableContainerDivEl.appendChild(oldChallengesTable.getTable())
     oldChallengeInstances.sort((a,b) => a.id - b.id)
@@ -191,12 +196,35 @@ function setTable() {
         levenshteinDistance: -1,
         levenshteinNearest: ""
     }))
+
+    intermediateChallengeInstancesTableContainerDivEl.appendChild(intermediateChallengesTable.getMessageElement()!);
+    intermediateChallengeInstancesTableContainerDivEl.appendChild(intermediateChallengesTable.getTable());
 }
 
 function getHighlightedText(): string {
     const selection = window.getSelection();
     return selection ? selection.toString() : '';
 }
+
+type IntermediateChallenge = ChallengeInstanceDefaultRowShape;
+const intermediateChallengeExample: IntermediateChallenge = {
+    id: 0,
+    challenge: "",
+    notes: "",
+    completedAt: "",
+    isCompleted: false
+}
+// const intermediateChallengeHeaders: Record<keyof IntermediateChallenge, string> = {
+//     challenge: "", completedAt: "", id: "", isCompleted: "", notes: ""
+// }
+
+class IntermediateChallengeTable extends Table<IntermediateChallenge> {
+    appendRow(data: IntermediateChallenge) {
+
+    }
+}
+
+const intermediateChallengesTable = new IntermediateChallengeTable(intermediateChallengeExample)
 
 init();
 
