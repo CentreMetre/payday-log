@@ -21,7 +21,7 @@ public class OldChallenge
     LocalDateTime completedAt;
 
     @Column(name = "is_completed")
-    boolean completed;
+    boolean isCompleted;
 
     @Column(name = "notes")
     String notes;
@@ -56,14 +56,14 @@ public class OldChallenge
         this.completedAt = completedAt;
     }
 
-    public boolean isCompleted()
+    public boolean isIsCompleted()
     {
-        return completed;
+        return isCompleted;
     }
 
-    public void setCompleted(boolean completed)
+    public void setIsCompleted(boolean completed)
     {
-        this.completed = completed;
+        this.isCompleted = completed;
     }
 
     public String getNotes()
