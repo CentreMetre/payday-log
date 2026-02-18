@@ -108,11 +108,9 @@ class OldChallengesTable extends Table<OldChallengesTableRowShape> {
      * @param data Data to append as a row.
      */
     override appendRow(data: OldChallengesTableRowShape): void {
-        // debugger;
         let backgroundColour = ""
         const oldChallenge: OldChallenge = oldChallengeInstances.find(item => item.id === data.id)!
         if (approvedChallenges.includes(data.challenge)) {
-            // debugger;
             data.levenshteinDistance = levenshtein(data.challenge, approvedChallenges[approvedChallenges.indexOf(data.challenge)]!) // should be 0
             backgroundColour = "green"
             const zeroDistanceOutput = document.getElementById("no-distance-count")!;
