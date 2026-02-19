@@ -23,6 +23,10 @@ public class Challenge
     @NotNull
     private String challenge;
 
+    @OneToOne
+    @JoinColumn(name = "renamed_to")
+    private Challenge renamedTo;
+
     public int getId()
     {
         return id;
