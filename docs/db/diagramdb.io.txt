@@ -31,5 +31,6 @@ Table challenges_completed {
 
 Table challenges {
   id int pk
-  challange text [not null]
+  challenge text [not null]
+  renamed_to int [ref: - challenges.id]
 }
